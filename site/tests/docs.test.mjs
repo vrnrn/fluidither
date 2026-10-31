@@ -161,6 +161,8 @@ for (const theme of ['dark', 'light']) {
     if (theme === 'light') {
       await page.click('#dark');
       await page.waitForFunction(() => document.documentElement.dataset.theme === 'light');
+      // Colors transition after the flip, and axe must read where they land.
+      await page.waitForTimeout(500);
     }
     await page.evaluate(axeSource);
     const { violations } = await page.evaluate(() => window.axe.run(document, { resultTypes: ['violations'] }));
