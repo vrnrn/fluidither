@@ -1,5 +1,6 @@
 {
   "name": "fluidither",
+  "account_id": "d98c4feb6853c79f017e0c36303126ee",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./site-dist",
