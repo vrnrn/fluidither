@@ -1,0 +1,45 @@
+fd-chart {
+  display: block;
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) 12px / 16px var(--fd-font-sans);
+}
+
+.fd-chart-plot {
+  height: var(--fd-chart-height, 160px);
+  overflow: hidden;
+}
+
+.fd-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 8px;
+  color: var(--fd-ink-soft);
+}
+
+.fd-chart-legend:empty {
+  display: none;
+}
+
+.fd-chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.fd-chart-legend span::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background-color: var(--_key);
+}
+
+/* The same numbers for screen readers. */
+.fd-chart-data {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

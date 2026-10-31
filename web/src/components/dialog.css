@@ -1,0 +1,73 @@
+/* .fd-dialog goes on a real <dialog>. Open it with showModal(), which brings the
+   focus trap, Escape and the inert page from the browser. No JavaScript of ours. */
+.fd-dialog {
+  box-sizing: border-box;
+  width: min(440px, calc(100vw - 32px));
+  max-height: calc(100vh - 64px);
+  padding: 20px;
+  border: 0;
+  border-radius: calc(var(--fd-radius-control) + 4px);
+  background-color: var(--fd-surface-3);
+  box-shadow: var(--fd-shadow-3);
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+  opacity: 0;
+  translate: 0 6px;
+  transition:
+    opacity var(--fd-spring-glide),
+    translate var(--fd-spring-settle),
+    display var(--fd-spring-glide) allow-discrete,
+    overlay var(--fd-spring-glide) allow-discrete;
+}
+
+.fd-dialog[open] {
+  opacity: 1;
+  translate: 0;
+}
+
+@starting-style {
+  .fd-dialog[open] {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+
+/* The page behind is screened by a dither, not a flat tint. */
+.fd-dialog::backdrop {
+  background-image: repeating-conic-gradient(var(--fd-screen) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
+  opacity: 0;
+  transition:
+    opacity var(--fd-spring-glide),
+    display var(--fd-spring-glide) allow-discrete,
+    overlay var(--fd-spring-glide) allow-discrete;
+}
+
+.fd-dialog[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .fd-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.fd-dialog-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: var(--fd-weight-strong);
+  line-height: 20px;
+}
+
+.fd-dialog-text {
+  margin: 0;
+  color: var(--fd-ink-soft);
+}
+
+.fd-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--fd-gap);
+  margin-top: 16px;
+}

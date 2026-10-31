@@ -1,0 +1,15 @@
+fd-command {
+  display: contents;
+}
+
+.fd-command {
+  padding: var(--fd-inset);
+}
+
+.fd-command fd-list {
+  max-height: 280px;
+  margin-top: var(--fd-inset);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}

@@ -1,0 +1,11 @@
+fd-sparkline {
+  display: block;
+  height: 32px;
+  overflow: hidden;
+  color: var(--fd-ink);
+}
+
+fd-sparkline > canvas {
+  display: block;
+  image-rendering: pixelated;
+}

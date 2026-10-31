@@ -1,0 +1,201 @@
+{
+ "cases": [
+  {
+   "name": "linear-down",
+   "matrix": "bayer4",
+   "width": 64,
+   "height": 40,
+   "t": 0,
+   "colors": 2,
+   "gradient": {
+    "mode": 0,
+    "angle": 180,
+    "centerX": 0.5,
+    "centerY": 0.5,
+    "radius": 1,
+    "from": 0,
+    "to": 1,
+    "warp": 0
+   },
+   "hash": 1854558149,
+   "inked": 1280
+  },
+  {
+   "name": "linear-bayer2",
+   "matrix": "bayer2",
+   "width": 33,
+   "height": 17,
+   "t": 0,
+   "colors": 2,
+   "gradient": {
+    "mode": 0,
+    "angle": 90,
+    "centerX": 0.5,
+    "centerY": 0.5,
+    "radius": 1,
+    "from": 0,
+    "to": 1,
+    "warp": 0
+   },
+   "hash": 3690957712,
+   "inked": 285
+  },
+  {
+   "name": "linear-diagonal",
+   "matrix": "bayer8",
+   "width": 80,
+   "height": 30,
+   "t": 0,
+   "colors": 2,
+   "gradient": {
+    "mode": 0,
+    "angle": 135,
+    "centerX": 0.5,
+    "centerY": 0.5,
+    "radius": 1,
+    "from": 0.1,
+    "to": 0.9,
+    "warp": 0
+   },
+   "hash": 72852717,
+   "inked": 1210
+  },
+  {
+   "name": "radial",
+   "matrix": "bayer8",
+   "width": 50,
+   "height": 50,
+   "t": 0,
+   "colors": 2,
+   "gradient": {
+    "mode": 1,
+    "angle": 180,
+    "centerX": 0.3,
+    "centerY": 0.6,
+    "radius": 0.8,
+    "from": 0,
+    "to": 1,
+    "warp": 0
+   },
+   "hash": 2921093361,
+   "inked": 1440
+  },
+  {
+   "name": "conic",
+   "matrix": "blue-noise",
+   "width": 70,
+   "height": 70,
+   "t": 0,
+   "colors": 2,
+   "gradient": {
+    "mode": 2,
+    "angle": 45,
+    "centerX": 0.5,
+    "centerY": 0.5,
+    "radius": 1,
+    "from": 0,
+    "to": 1,
+    "warp": 0
+   },
+   "hash": 276872699,
+   "inked": 2424
+  },
+  {
+   "name": "noise-still",
+   "matrix": "bayer4",
+   "width": 120,
+   "height": 40,
+   "t": 0,
+   "colors": 2,
+   "gradient": {
+    "mode": 0,
+    "angle": 90,
+    "centerX": 0.5,
+    "centerY": 0.5,
+    "radius": 1,
+    "from": 0,
+    "to": 0.75,
+    "warp": 0.12
+   },
+   "hash": 3281104870,
+   "inked": 1785
+  },
+  {
+   "name": "noise-later",
+   "matrix": "bayer4",
+   "width": 120,
+   "height": 40,
+   "t": 12.5,
+   "colors": 2,
+   "gradient": {
+    "mode": 0,
+    "angle": 90,
+    "centerX": 0.5,
+    "centerY": 0.5,
+    "radius": 1,
+    "from": 0,
+    "to": 0.75,
+    "warp": 0.12
+   },
+   "hash": 2639467997,
+   "inked": 1778
+  },
+  {
+   "name": "three-colors",
+   "matrix": "bayer4",
+   "width": 60,
+   "height": 20,
+   "t": 0,
+   "colors": 3,
+   "gradient": {
+    "mode": 0,
+    "angle": 90,
+    "centerX": 0.5,
+    "centerY": 0.5,
+    "radius": 1,
+    "from": 0,
+    "to": 1,
+    "warp": 0
+   },
+   "hash": 1227558349,
+   "inked": 890
+  }
+ ],
+ "noise": [
+  {
+   "x": 0,
+   "y": 0,
+   "value": 0.29222684850295383
+  },
+  {
+   "x": 0.5,
+   "y": 0.25,
+   "value": 0.5002523198234804
+  },
+  {
+   "x": -3.75,
+   "y": 2.125,
+   "value": 0.3604815227314613
+  },
+  {
+   "x": 1000.5,
+   "y": -2000.25,
+   "value": 0.3890844240005844
+  }
+ ],
+ "sparkline": {
+  "width": 48,
+  "height": 16,
+  "fade": 0.6,
+  "matrix": "bayer4",
+  "values": [
+   0.1,
+   0.8,
+   0.35,
+   1,
+   0,
+   0.55
+  ],
+  "hash": 1920592652
+ }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "fluidither-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Dithered, spring-driven UI components for the plain web and GPUI",
+  "license": "MIT",
+  "author": "vrnrn",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vrnrn/fluidither.git"
+  },
+  "homepage": "https://github.com/vrnrn/fluidither#readme",
+  "bugs": {
+    "url": "https://github.com/vrnrn/fluidither/issues"
+  },
+  "keywords": [
+    "dither",
+    "ui",
+    "components",
+    "web-components",
+    "no-framework",
+    "strict-csp",
+    "springs"
+  ],
+  "scripts": {
+    "tokens": "node scripts/gen-tokens.mjs",
+    "fixtures": "node scripts/gen-fixtures.mjs",
+    "demo": "node web/demo/serve.mjs",
+    "test": "npm run test:web && npm run test:gpui",
+    "test:web": "node --test web/tests/*.test.mjs",
+    "test:browser": "node --test web/tests/browser/*.test.mjs",
+    "test:gpui": "cargo test --manifest-path gpui/Cargo.toml",
+    "blue-noise": "node scripts/gen-blue-noise.mjs",
+    "check:centering": "cargo run --release --manifest-path gpui/Cargo.toml --example center_check",
+    "size": "node scripts/size.mjs",
+    "cost": "node scripts/web-cost.mjs",
+    "images": "node scripts/readme-images.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "esbuild": "0.25.12",
+    "playwright-core": "1.64.1"
+  }
+}

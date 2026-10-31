@@ -1,0 +1,26 @@
+/* .fd-card goes on any block. It needs no JavaScript. */
+.fd-card {
+  box-sizing: border-box;
+  padding: 16px;
+  border-radius: calc(var(--fd-radius-control) + 2px);
+  background-color: var(--fd-surface-1);
+  box-shadow: var(--fd-shadow-1);
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+}
+
+.fd-card[data-raised] {
+  background-color: var(--fd-surface-3);
+  box-shadow: var(--fd-shadow-2);
+}
+
+.fd-card-title {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: var(--fd-weight-strong);
+}
+
+.fd-card-text {
+  margin: 0;
+  color: var(--fd-ink-soft);
+}

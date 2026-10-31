@@ -1,0 +1,95 @@
+/* .fd-check goes on a real checkbox and .fd-radio on a real radio. Wrap either with
+   its text in a <label class="fd-choice">. They need no JavaScript. */
+.fd-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fd-gap);
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+  cursor: pointer;
+}
+
+.fd-choice:has(:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.fd-check,
+.fd-radio {
+  --_box: calc(var(--fd-icon) + 1px);
+  --_dots: color-mix(in srgb, currentColor var(--fd-dither-hover-ink), transparent);
+  appearance: none;
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  width: var(--_box);
+  height: var(--_box);
+  margin: 0;
+  background-color: var(--fd-surface-1);
+  box-shadow: inset 0 0 0 1px var(--fd-edge);
+  color: var(--fd-ink);
+  cursor: inherit;
+  transition:
+    background-color var(--fd-spring-quick),
+    box-shadow var(--fd-spring-quick);
+}
+
+.fd-check {
+  border-radius: 3px;
+}
+
+.fd-radio {
+  border-radius: 50%;
+}
+
+.fd-check:hover:not(:checked, :indeterminate, :disabled),
+.fd-radio:hover:not(:checked, :disabled) {
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: calc(var(--fd-dither-hover-cell) * 2) calc(var(--fd-dither-hover-cell) * 2);
+}
+
+.fd-check:focus-visible,
+.fd-radio:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 2px;
+}
+
+.fd-check:checked,
+.fd-check:indeterminate,
+.fd-radio:checked {
+  background-color: var(--fd-ink);
+  box-shadow: inset 0 0 0 1px var(--fd-ink);
+  color: var(--fd-on-solid);
+}
+
+/* One 2px cell, with the mark drawn as shadows of it. */
+.fd-check:checked::before,
+.fd-check:indeterminate::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 2px;
+}
+
+.fd-check:checked::before {
+  left: calc((var(--_box) - var(--fd-glyph-tick-width)) / 2);
+  top: calc((var(--_box) - var(--fd-glyph-tick-height)) / 2);
+  box-shadow: var(--fd-glyph-tick);
+}
+
+.fd-check:indeterminate::before {
+  left: calc((var(--_box) - var(--fd-glyph-dash-width)) / 2);
+  top: calc((var(--_box) - var(--fd-glyph-dash-height)) / 2);
+  box-shadow: var(--fd-glyph-dash);
+}
+
+.fd-radio:checked::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background-color: currentColor;
+}

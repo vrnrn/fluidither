@@ -1,0 +1,124 @@
+/* Loader, skeleton, progress and divider. All CSS, all on real elements. */
+
+/* <span class="fd-loader" role="status" aria-label="Loading"></span>: three cells
+   counting up. */
+.fd-loader {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  margin-inline: 6px;
+  color: var(--fd-ink);
+  animation: fd-loader-count 900ms steps(1) infinite;
+}
+
+@keyframes fd-loader-count {
+  0% {
+    box-shadow: -6px 0 currentColor;
+  }
+  33% {
+    background-color: currentColor;
+    box-shadow: -6px 0 currentColor;
+  }
+  66% {
+    background-color: currentColor;
+    box-shadow: -6px 0 currentColor, 6px 0 currentColor;
+  }
+}
+
+/* A placeholder while content loads. The dither pattern drifts one cell at a time. */
+.fd-skeleton {
+  --_dots: color-mix(in srgb, var(--fd-ink) 16%, transparent);
+  display: block;
+  min-height: var(--fd-line-height);
+  border-radius: var(--fd-radius-pill);
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
+  animation: fd-skeleton-drift 800ms steps(2) infinite;
+}
+
+@keyframes fd-skeleton-drift {
+  to {
+    background-position: 4px 0;
+  }
+}
+
+/* .fd-progress goes on a real <progress>. Solid where done, dithered ahead. */
+.fd-progress {
+  --_dots: color-mix(in srgb, var(--fd-ink) 45%, transparent);
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 6px;
+  border: 0;
+  border-radius: 1px;
+  background-color: transparent;
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
+}
+
+.fd-progress::-webkit-progress-bar {
+  background: transparent;
+}
+
+.fd-progress::-webkit-progress-value {
+  border-radius: 1px;
+  background-color: var(--fd-ink);
+  transition: inline-size var(--fd-spring-glide);
+}
+
+.fd-progress::-moz-progress-bar {
+  border-radius: 1px;
+  background-color: var(--fd-ink);
+}
+
+.fd-progress:indeterminate {
+  animation: fd-skeleton-drift 800ms steps(2) infinite;
+}
+
+/* <hr class="fd-divider">: a dithered rule that fades out at both ends. */
+.fd-divider {
+  --_dots: color-mix(in srgb, var(--fd-ink) 60%, transparent);
+  height: 2px;
+  margin: 12px 0;
+  border: 0;
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: 2px 2px;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-loader {
+    animation: none;
+    background-color: currentColor;
+    box-shadow: -6px 0 currentColor, 6px 0 currentColor;
+  }
+
+  .fd-skeleton,
+  .fd-progress:indeterminate {
+    animation: none;
+  }
+}
+
+/* A number with its label, and room for a change and a sparkline. */
+.fd-stat {
+  display: grid;
+  gap: 2px;
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+}
+
+.fd-stat-label {
+  color: var(--fd-ink-soft);
+}
+
+.fd-stat-value {
+  font-size: 24px;
+  font-weight: var(--fd-weight-strong);
+  line-height: 30px;
+  font-variant-numeric: tabular-nums;
+}
+
+.fd-stat-change {
+  color: var(--fd-ink-soft);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,25 @@
+fd-tooltip {
+  display: inline-flex;
+}
+
+.fd-tooltip {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  max-width: 260px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: var(--fd-radius-pill);
+  background-color: var(--fd-ink);
+  color: var(--fd-on-solid);
+  font: var(--fd-weight-regular) 12px / 16px var(--fd-font-sans);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity var(--fd-spring-quick);
+}
+
+@starting-style {
+  .fd-tooltip:popover-open {
+    opacity: 0;
+  }
+}

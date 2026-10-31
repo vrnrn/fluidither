@@ -1,0 +1,63 @@
+/* .fd-accordion goes on real <details>. Give several the same `name` and the browser
+   keeps one open at a time. It needs no JavaScript. Where the browser can animate
+   to auto heights, sections glide open. Elsewhere they open at once. */
+.fd-accordion {
+  border-bottom: 1px solid var(--fd-line);
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+  interpolate-size: allow-keywords;
+}
+
+.fd-accordion::details-content {
+  height: 0;
+  overflow: clip;
+  transition:
+    height var(--fd-spring-settle),
+    content-visibility var(--fd-spring-settle) allow-discrete;
+}
+
+.fd-accordion[open]::details-content {
+  height: auto;
+}
+
+.fd-accordion > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fd-gap);
+  min-height: var(--fd-control);
+  font-weight: var(--fd-weight-strong);
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.fd-accordion > summary::-webkit-details-marker {
+  display: none;
+}
+
+.fd-accordion > summary:focus-visible {
+  border-radius: var(--fd-radius-pill);
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 2px;
+}
+
+.fd-accordion > summary::after {
+  content: '';
+  flex: none;
+  width: 2px;
+  height: 2px;
+  margin-inline-end: calc(var(--fd-glyph-arrow-width) - 2px);
+  color: var(--fd-ink-soft);
+  box-shadow: var(--fd-glyph-arrow);
+  translate: 0 calc(var(--fd-glyph-arrow-height) / -2);
+}
+
+.fd-accordion[open] > summary::after {
+  box-shadow: var(--fd-glyph-arrow-up);
+}
+
+.fd-accordion-body {
+  padding-bottom: 12px;
+  color: var(--fd-ink-soft);
+}

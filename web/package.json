@@ -1,0 +1,30 @@
+{
+  "name": "fluidither",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Dithered, spring-driven web components with no runtime dependencies",
+  "license": "MIT",
+  "author": "vrnrn",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vrnrn/fluidither.git",
+    "directory": "web"
+  },
+  "homepage": "https://github.com/vrnrn/fluidither#readme",
+  "bugs": {
+    "url": "https://github.com/vrnrn/fluidither/issues"
+  },
+  "keywords": [
+    "dither",
+    "ui",
+    "components",
+    "web-components",
+    "no-framework",
+    "strict-csp",
+    "springs"
+  ],
+  "files": [
+    "src"
+  ]
+}

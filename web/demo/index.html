@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>fluidither</title>
+    <link rel="stylesheet" href="/src/tokens.css" />
+    <link rel="stylesheet" href="/src/components/button.css" />
+    <link rel="stylesheet" href="/src/components/tabs.css" />
+    <link rel="stylesheet" href="/src/components/dither-gradient.css" />
+    <link rel="stylesheet" href="/src/components/input.css" />
+    <link rel="stylesheet" href="/src/components/check.css" />
+    <link rel="stylesheet" href="/src/components/switch.css" />
+    <link rel="stylesheet" href="/src/components/slider.css" />
+    <link rel="stylesheet" href="/src/components/list.css" />
+    <link rel="stylesheet" href="/src/components/tooltip.css" />
+    <link rel="stylesheet" href="/src/components/select.css" />
+    <link rel="stylesheet" href="/src/components/combobox.css" />
+    <link rel="stylesheet" href="/src/components/dialog.css" />
+    <link rel="stylesheet" href="/src/components/command.css" />
+    <link rel="stylesheet" href="/src/components/card.css" />
+    <link rel="stylesheet" href="/src/components/badge.css" />
+    <link rel="stylesheet" href="/src/components/banner.css" />
+    <link rel="stylesheet" href="/src/components/accordion.css" />
+    <link rel="stylesheet" href="/src/components/table.css" />
+    <link rel="stylesheet" href="/src/components/nav.css" />
+    <link rel="stylesheet" href="/src/components/scroll.css" />
+    <link rel="stylesheet" href="/src/components/feedback.css" />
+    <link rel="stylesheet" href="/src/components/sparkline.css" />
+    <link rel="stylesheet" href="/src/components/field.css" />
+    <link rel="stylesheet" href="/src/components/chart.css" />
+    <link rel="stylesheet" href="/src/components/text-effects.css" />
+    <link rel="stylesheet" href="/src/components/calendar.css" />
+    <link rel="stylesheet" href="/src/components/misc.css" />
+    <link rel="stylesheet" href="/src/components/extras.css" />
+    <link rel="stylesheet" href="/demo/demo.css" />
+    <script type="module" src="/src/components/tabs.js"></script>
+    <script type="module" src="/src/components/dither-gradient.js"></script>
+    <script type="module" src="/src/components/slider.js"></script>
+    <script type="module" src="/src/components/tooltip.js"></script>
+    <script type="module" src="/src/components/menu.js"></script>
+    <script type="module" src="/src/components/select.js"></script>
+    <script type="module" src="/src/components/combobox.js"></script>
+    <script type="module" src="/src/components/command.js"></script>
+    <script type="module" src="/src/components/nav.js"></script>
+    <script type="module" src="/src/components/sparkline.js"></script>
+    <script type="module" src="/src/components/field.js"></script>
+    <script type="module" src="/src/components/chart.js"></script>
+    <script type="module" src="/src/components/dither-image.js"></script>
+    <script type="module" src="/src/components/text-effects.js"></script>
+    <script type="module" src="/src/components/calendar.js"></script>
+    <script type="module" src="/src/components/date-picker.js"></script>
+    <script type="module" src="/src/components/swatches.js"></script>
+    <script type="module" src="/src/components/copy.js"></script>
+    <script type="module" src="/src/components/world.js"></script>
+    <script type="module" src="/src/components/sidebar.js"></script>
+    <script type="module" src="/src/components/compare.js"></script>
+    <script type="module" src="/src/components/marquee.js"></script>
+    <script type="module" src="/demo/demo.js"></script>
+  </head>
+  <body>
+    <main>
+    <header class="demo-head">
+      <h1>fluidither</h1>
+      <button id="theme" class="fd-button" data-look="outline" data-density="compact" type="button">Switch theme</button>
+    </header>
+
+    <fd-dither-gradient class="demo-band" id="band" angle="90" from="0" to="0.75" speed="0.4"></fd-dither-gradient>
+
+    <section>
+      <h2>Button</h2>
+      <p>A real button with a class. No JavaScript.</p>
+      <div class="demo-row">
+        <button class="fd-button" type="button">Solid</button>
+        <button class="fd-button" data-look="soft" type="button">Soft</button>
+        <button class="fd-button" data-look="outline" type="button">Outline</button>
+        <button class="fd-button" data-look="ghost" type="button">Ghost</button>
+        <button class="fd-button" type="button" disabled>Disabled</button>
+        <button class="fd-button" type="button" aria-busy="true" disabled>Loading</button>
+        <a class="fd-button" data-look="soft" href="#tabs">Link</a>
+        <button class="fd-button" data-look="outline" type="button">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 3h10v2H3zM3 7h10v2H3zM3 11h6v2H3z" /></svg>
+          With icon
+        </button>
+      </div>
+      <div class="demo-row" data-density="compact">
+        <button class="fd-button" type="button">Solid</button>
+        <button class="fd-button" data-look="soft" type="button">Soft</button>
+        <button class="fd-button" data-look="outline" type="button">Outline</button>
+        <button class="fd-button" data-look="ghost" type="button">Ghost</button>
+      </div>
+    </section>
+
+    <section id="tabs">
+      <h2>Tabs</h2>
+      <p>Hover to see a dithered peek at the next tab. Arrow keys, Home and End move the selection.</p>
+      <fd-tabs value="week" id="range">
+        <fd-tab-list aria-label="Date range">
+          <fd-tab value="day">Day</fd-tab>
+          <fd-tab value="week">Week</fd-tab>
+          <fd-tab value="month">Month</fd-tab>
+          <fd-tab value="year" disabled>Year</fd-tab>
+          <fd-tab value="all">All time</fd-tab>
+        </fd-tab-list>
+        <fd-tab-panel value="day" hidden>Today's numbers.</fd-tab-panel>
+        <fd-tab-panel value="week">This week's numbers.</fd-tab-panel>
+        <fd-tab-panel value="month" hidden>This month's numbers.</fd-tab-panel>
+        <fd-tab-panel value="year" hidden>This year's numbers.</fd-tab-panel>
+        <fd-tab-panel value="all" hidden>Everything so far.</fd-tab-panel>
+      </fd-tabs>
+      <div data-density="compact" class="demo-spaced">
+        <fd-tabs value="list" peek="flat">
+          <fd-tab-list aria-label="View">
+            <fd-tab value="list"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 3h12v2H2zM2 7h12v2H2zM2 11h12v2H2z" /></svg>List</fd-tab>
+            <fd-tab value="grid">Grid</fd-tab>
+          </fd-tab-list>
+        </fd-tabs>
+      </div>
+    </section>
+
+    <section id="forms">
+      <h2>Form controls</h2>
+      <p>Real inputs with a class, so keyboard and forms work as usual.</p>
+      <div class="demo-form">
+        <label class="fd-field">
+          Name
+          <input class="fd-input" type="text" placeholder="Your name" />
+          <span class="fd-field-hint">As it should appear on the invoice.</span>
+        </label>
+        <label class="fd-field">
+          Email
+          <input class="fd-input" type="email" value="not an email" aria-invalid="true" />
+          <span class="fd-field-hint">That doesn't look like an address.</span>
+        </label>
+      </div>
+      <div class="demo-row">
+        <label class="fd-choice"><input class="fd-check" type="checkbox" checked /> Checked</label>
+        <label class="fd-choice"><input class="fd-check" type="checkbox" /> Unchecked</label>
+        <label class="fd-choice"><input class="fd-check" id="mixed" type="checkbox" /> Mixed</label>
+        <label class="fd-choice"><input class="fd-check" type="checkbox" disabled /> Disabled</label>
+      </div>
+      <fieldset class="demo-row demo-plain">
+        <legend class="demo-legend">Plan</legend>
+        <label class="fd-choice"><input class="fd-radio" type="radio" name="plan" checked /> Monthly</label>
+        <label class="fd-choice"><input class="fd-radio" type="radio" name="plan" /> Yearly</label>
+        <label class="fd-choice"><input class="fd-radio" type="radio" name="plan" disabled /> Lifetime</label>
+      </fieldset>
+      <div class="demo-row">
+        <label class="fd-choice"><input class="fd-switch" type="checkbox" role="switch" checked /> Sync</label>
+        <label class="fd-choice"><input class="fd-switch" type="checkbox" role="switch" /> Alerts</label>
+      </div>
+      <fd-slider class="demo-slider"><input type="range" min="0" max="100" value="40" aria-label="Volume" /></fd-slider>
+    </section>
+
+    <section id="overlays">
+      <h2>Overlays</h2>
+      <p>Tooltip, menu, select, combobox, dialog and a command menu.</p>
+      <div class="demo-row">
+        <fd-tooltip text="Saves a copy"><button class="fd-button" data-look="soft" type="button">Hover me</button></fd-tooltip>
+        <fd-menu id="actions">
+          <button class="fd-button" data-look="outline" type="button">Actions</button>
+          <fd-list>
+            <fd-item value="rename">Rename</fd-item>
+            <fd-item value="duplicate">Duplicate</fd-item>
+            <fd-item value="archive" disabled>Archive</fd-item>
+            <fd-item value="delete">Delete</fd-item>
+          </fd-list>
+        </fd-menu>
+        <fd-select id="fruit" name="fruit" value="pear" aria-label="Fruit" placeholder="Choose a fruit">
+          <fd-list>
+            <fd-item value="apple">Apple</fd-item>
+            <fd-item value="banana">Banana</fd-item>
+            <fd-item value="cherry" disabled>Cherry</fd-item>
+            <fd-item value="pear">Pear</fd-item>
+            <fd-item value="plum">Plum</fd-item>
+          </fd-list>
+        </fd-select>
+        <fd-combobox id="city" name="city" aria-label="City" placeholder="Search cities">
+          <fd-list>
+            <fd-item value="lis">Lisbon</fd-item>
+            <fd-item value="lon">London</fd-item>
+            <fd-item value="osl">Oslo</fd-item>
+            <fd-item value="tok">Tokyo</fd-item>
+          </fd-list>
+        </fd-combobox>
+      </div>
+      <div class="demo-row">
+        <button class="fd-button" id="open-dialog" type="button">Open dialog</button>
+        <button class="fd-button" data-look="soft" id="open-command" type="button">Command menu</button>
+      </div>
+      <dialog class="fd-dialog" id="confirm" aria-labelledby="confirm-title">
+        <h3 class="fd-dialog-title" id="confirm-title">Delete this report?</h3>
+        <p class="fd-dialog-text">This can't be undone.</p>
+        <form class="fd-dialog-actions" method="dialog">
+          <button class="fd-button" data-look="soft" value="cancel">Cancel</button>
+          <button class="fd-button" value="delete">Delete</button>
+        </form>
+      </dialog>
+      <fd-command id="commands" aria-label="Commands" placeholder="Type a command">
+        <fd-list>
+          <fd-item value="new">New report</fd-item>
+          <fd-item value="open">Open recent</fd-item>
+          <fd-item value="theme">Switch theme</fd-item>
+          <fd-item value="help">Help</fd-item>
+        </fd-list>
+      </fd-command>
+    </section>
+
+    <section id="structure">
+      <h2>Structure</h2>
+      <p>Cards, badges, banners, an accordion, a table, navigation and a scroll area.</p>
+      <div class="demo-row">
+        <span class="fd-badge">Draft</span>
+        <span class="fd-badge" data-tone="green">Live</span>
+        <span class="fd-badge" data-tone="orange">Review</span>
+        <span class="fd-badge" data-tone="red">Failed</span>
+        <span class="fd-badge" data-tone="blue">Info</span>
+        <span class="fd-badge" data-tone="violet">Beta</span>
+        <span class="fd-badge" data-tone="pink">New</span>
+      </div>
+      <div class="fd-banner" data-tone="orange" role="status">
+        <span>Your trial ends in three days.</span>
+        <button class="fd-button" data-look="soft" data-density="compact" type="button">Upgrade</button>
+      </div>
+      <div class="demo-columns">
+        <article class="fd-card">
+          <h3 class="fd-card-title">Quiet card</h3>
+          <p class="fd-card-text">Sits on the page with a thin ring.</p>
+        </article>
+        <article class="fd-card" data-raised>
+          <h3 class="fd-card-title">Raised card</h3>
+          <p class="fd-card-text">Lifts off the page for what matters.</p>
+        </article>
+      </div>
+      <div class="demo-columns">
+        <fd-nav id="side" in-page aria-label="Sections" class="fd-card">
+          <a href="#overview" aria-current="page">Overview</a>
+          <a href="#activity">Activity</a>
+          <a href="#billing">Billing</a>
+          <a href="#settings">Settings</a>
+        </fd-nav>
+        <div>
+          <details class="fd-accordion" name="faq" open>
+            <summary>What is dithering?</summary>
+            <div class="fd-accordion-body">Mixing two colors in a fine pattern so they read as a tone.</div>
+          </details>
+          <details class="fd-accordion" name="faq">
+            <summary>Why a spring?</summary>
+            <div class="fd-accordion-body">It keeps its speed when the target moves, so motion never jerks.</div>
+          </details>
+          <details class="fd-accordion" name="faq">
+            <summary>Does it need a framework?</summary>
+            <div class="fd-accordion-body">No. These are real elements with a little CSS.</div>
+          </details>
+        </div>
+      </div>
+      <table class="fd-table demo-spaced">
+        <caption class="demo-caption">Recent invoices</caption>
+        <thead>
+          <tr><th scope="col">Invoice</th><th scope="col">Client</th><th scope="col" data-number>Amount</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>INV-1021</td><td>Harbour Coffee</td><td data-number>$1,204.00</td></tr>
+          <tr><td>INV-1022</td><td>Atlas Print</td><td data-number>$98.50</td></tr>
+          <tr><td>INV-1023</td><td>North Mill</td><td data-number>$3,410.75</td></tr>
+        </tbody>
+      </table>
+      <div class="fd-scroll demo-scroller" tabindex="0" role="region" aria-label="Release notes">
+        <p>Scroll this box. The bar stays slim and takes its colors from the theme.</p>
+        <p>Version 0.4 added overlays.</p>
+        <p>Version 0.3 added form controls.</p>
+        <p>Version 0.2 added tabs.</p>
+        <p>Version 0.1 added the button.</p>
+        <p>Before that there was only a dither.</p>
+      </div>
+    </section>
+
+    <section id="feedback">
+      <h2>Feedback and numbers</h2>
+      <p>A loader, skeletons, progress, a divider, and a stat with a sparkline.</p>
+      <div class="demo-columns">
+        <div class="fd-card">
+          <div class="fd-stat">
+            <span class="fd-stat-label">Revenue</span>
+            <span class="fd-stat-value">$48,210</span>
+            <span class="fd-stat-change">Up 12% this month</span>
+          </div>
+          <fd-sparkline class="demo-spaced" values="4 6 5 8 7 11 9 13 12 16" aria-label="Revenue rose over the last ten months"></fd-sparkline>
+        </div>
+        <div class="fd-card">
+          <p class="fd-card-text"><span class="fd-loader" role="status" aria-label="Loading"></span> Loading reports</p>
+          <hr class="fd-divider" />
+          <span class="fd-skeleton" aria-hidden="true"></span>
+          <span class="fd-skeleton demo-short" aria-hidden="true"></span>
+          <hr class="fd-divider" />
+          <progress class="fd-progress" value="62" max="100" aria-label="Upload"></progress>
+        </div>
+      </div>
+    </section>
+
+    <section id="charts">
+      <h2>Charts</h2>
+      <p>Seven kinds from one engine. Each carries a hidden table of its numbers.</p>
+      <div class="demo-charts">
+        <fd-chart id="chart-bar" kind="bar" series="3 7 2 9 5; 5 1 6 4 7" names="Sales; Costs" labels="Mon Tue Wed Thu Fri" aria-label="Sales and costs by day"></fd-chart>
+        <fd-chart kind="area" series="2 6 3 8 5 9; 1 2 2 4 3 5" names="Visits; Signups" labels="Jan Feb Mar Apr May Jun" aria-label="Visits and signups by month"></fd-chart>
+        <fd-chart kind="line" series="2 6 3 8 5; 7 1 6 2 4" names="This year; Last year" labels="Q1 Q2 Q3 Q4 Q5" aria-label="This year against last year"></fd-chart>
+        <fd-chart kind="donut" series="5 3 2 1" labels="Search Direct Social Email" aria-label="Traffic by source"></fd-chart>
+        <fd-chart kind="radar" series="5 8 3 7 6; 3 4 6 2 5" names="Plan; Actual" labels="Speed Cost Reach Trust Scale" aria-label="Plan against actual"></fd-chart>
+        <fd-chart kind="heatmap" series="1 4 2 6; 7 3 9 2; 2 8 5 4" aria-label="Activity by hour and day"></fd-chart>
+        <fd-chart kind="gauge" series="62 100" names="Used" aria-label="62 percent of quota used"></fd-chart>
+      </div>
+    </section>
+
+    <section id="fields">
+      <h2>Dither fields</h2>
+      <p>Animated backgrounds computed on the CPU, the same cells on both targets.</p>
+      <div class="demo-fields">
+        <figure><fd-field class="demo-field" kind="noise"></fd-field><figcaption>Noise</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="waves"></fd-field><figcaption>Waves</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="plasma"></fd-field><figcaption>Plasma</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="ripples"></fd-field><figcaption>Ripples</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="tunnel"></fd-field><figcaption>Tunnel</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="metaballs"></fd-field><figcaption>Metaballs</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="orb"></fd-field><figcaption>Orb</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="stars"></fd-field><figcaption>Stars</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="aurora"></fd-field><figcaption>Aurora</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="contours"></fd-field><figcaption>Contours</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="beams"></fd-field><figcaption>Beams</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="eclipse"></fd-field><figcaption>Eclipse</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="horizon"></fd-field><figcaption>Horizon</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="mesh"></fd-field><figcaption>Mesh</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="grid"></fd-field><figcaption>Grid</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="ridges"></fd-field><figcaption>Ridges</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="silk"></fd-field><figcaption>Silk</figcaption></figure>
+        <figure><fd-field class="demo-field" kind="smoke"></fd-field><figcaption>Smoke</figcaption></figure>
+      </div>
+    </section>
+
+    <section id="effects">
+      <h2>Text and image</h2>
+      <p>Text that arrives with some character, and a picture redrawn in dots.</p>
+      <p class="demo-effects"><fd-scramble>Scrambled into place</fd-scramble></p>
+      <p class="demo-effects"><fd-dissolve>Dissolved into view</fd-dissolve></p>
+      <p class="demo-effects"><fd-count id="count" value="1204"></fd-count> reports</p>
+      <fd-dither-image class="demo-picture" src="/demo/portrait.svg" alt="A soft circle on a gradient"></fd-dither-image>
+    </section>
+
+    <section id="special">
+      <h2>Specialised</h2>
+      <p>Dates, color, a drawer, chat parts and smaller pieces.</p>
+      <div class="demo-columns">
+        <fd-calendar id="calendar" value="2026-10-14" aria-label="Pick a day"></fd-calendar>
+        <div class="demo-stack">
+          <fd-date-picker id="due" name="due" value="2026-10-30" aria-label="Due date"></fd-date-picker>
+          <div class="demo-row">
+            <fd-swatches id="accent" colors="#BC4945 #B25900 #1F8A5B #007DC2 #7C5AC2" value="#007DC2" aria-label="Accent color"></fd-swatches>
+            <input class="fd-color" type="color" value="#007dc2" aria-label="Custom color" />
+          </div>
+          <fd-copy value="npm install fluidither" label="Install command"></fd-copy>
+          <div class="demo-row">
+            <span class="fd-avatar" role="img" aria-label="Ada Lovelace">AL</span>
+            <button class="fd-button" data-look="outline" id="open-drawer" type="button">Open drawer</button>
+            <nav class="fd-dots" aria-label="Slides">
+              <button type="button" aria-label="Slide 1"></button>
+              <button type="button" aria-label="Slide 2" aria-current="true"></button>
+              <button type="button" aria-label="Slide 3"></button>
+            </nav>
+          </div>
+          <div class="fd-uptime" role="img" aria-label="Up for 13 of 14 days, partly down on one">
+            <i></i><i></i><i></i><i></i><i data-state="partial"></i><i></i><i></i><i></i><i data-state="down"></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+      </div>
+      <div class="demo-stack demo-spaced">
+        <p class="fd-message">Can you draft the report?</p>
+        <p class="fd-message" data-from="me">Sure, starting now.</p>
+        <span class="fd-thinking"><span class="fd-loader" role="status" aria-label="Thinking"></span> Thinking</span>
+        <form class="fd-composer">
+          <textarea class="fd-input" rows="1" aria-label="Message" placeholder="Write a message"></textarea>
+          <button class="fd-button" type="button">Send</button>
+        </form>
+      </div>
+      <div class="fd-empty">
+        <h3 class="fd-empty-title">No reports yet</h3>
+        <p>New reports will appear here.</p>
+      </div>
+      <dialog class="fd-dialog fd-drawer" id="drawer" aria-labelledby="drawer-title">
+        <h3 class="fd-dialog-title" id="drawer-title">Filters</h3>
+        <p class="fd-dialog-text">A panel that slides in from the edge.</p>
+        <form class="fd-dialog-actions" method="dialog"><button class="fd-button" data-look="soft">Close</button></form>
+      </dialog>
+    </section>
+
+    <section id="extras">
+      <h2>World, media and more</h2>
+      <p>A dotted map, a globe, comparisons, a marquee, and the last few parts.</p>
+      <div class="demo-columns">
+        <fd-world id="map" class="demo-map" kind="map" aria-label="A dotted map of the world"></fd-world>
+        <fd-world id="globe" class="demo-map" kind="globe" aria-label="A turning globe"></fd-world>
+      </div>
+      <fd-marquee class="demo-spaced" aria-label="Our customers">
+        <span>Harbour Coffee</span><span>Atlas Print</span><span>North Mill</span><span>Fieldwork</span><span>Lantern</span>
+      </fd-marquee>
+      <fd-tabs class="demo-spaced" look="underline" value="all">
+        <fd-tab-list aria-label="Filter">
+          <fd-tab value="all">All</fd-tab>
+          <fd-tab value="open">Open</fd-tab>
+          <fd-tab value="closed">Closed</fd-tab>
+        </fd-tab-list>
+      </fd-tabs>
+      <div class="demo-columns">
+        <fd-sidebar id="side-menu" class="fd-card demo-sidebar" label="menu">
+          <fd-nav aria-label="Menu" in-page><a href="#one" aria-current="page">Inbox</a><a href="#two">Sent</a><a href="#three">Archive</a></fd-nav>
+        </fd-sidebar>
+        <ol class="fd-steps">
+          <li data-state="done">Read the brief</li>
+          <li data-state="done">Gather sources</li>
+          <li data-state="active">Write the draft</li>
+          <li>Review</li>
+        </ol>
+        <fieldset class="fd-question">
+          <legend>Which format should this take?</legend>
+          <label class="fd-choice"><input class="fd-radio" type="radio" name="format" checked /> A short report</label>
+          <label class="fd-choice"><input class="fd-radio" type="radio" name="format" /> Slides</label>
+          <button class="fd-button" data-density="compact" type="button">Answer</button>
+        </fieldset>
+      </div>
+      <div class="demo-columns">
+        <fd-compare id="compare" class="demo-picture" aria-label="Solid against dithered">
+          <fd-field kind="silk" speed="0" matrix="bayer2"></fd-field>
+          <fd-field kind="silk" speed="0" matrix="blue-noise"></fd-field>
+        </fd-compare>
+        <div class="demo-stack">
+          <p class="demo-effects"><fd-dissolve id="held" hold="0.05 0.85"><strong>Held dither text</strong></fd-dissolve></p>
+          <p class="demo-effects"><span class="fd-bloom" data-tone="orange"><span class="fd-badge" data-tone="orange">Glowing</span></span></p>
+          <span class="fd-file"><span class="fd-file-type">pdf</span><span>Report.pdf <span class="fd-file-size">2.4 MB</span></span></span>
+          <button class="fd-button" data-look="soft" id="save-map" type="button">Save map as PNG</button>
+        </div>
+      </div>
+      <div class="fd-not-found">
+        <p class="fd-not-found-code"><fd-dissolve hold="0.1 0.7">404</fd-dissolve></p>
+        <p>This page has gone missing.</p>
+        <a class="fd-button" data-look="soft" href="#extras">Go home</a>
+      </div>
+      <div class="demo-tall"></div>
+      <p class="demo-effects"><fd-dissolve id="late" on-view>Revealed on scroll</fd-dissolve></p>
+    </section>
+
+    <section>
+      <h2>Dither gradient</h2>
+      <p>Canvas cells computed in plain JavaScript. Linear, radial and conic, with each matrix.</p>
+      <div class="demo-grid">
+        <figure>
+          <fd-dither-gradient class="demo-tile" angle="180" warp="0"></fd-dither-gradient>
+          <figcaption>Linear, Bayer 4</figcaption>
+        </figure>
+        <figure>
+          <fd-dither-gradient class="demo-tile" mode="radial" matrix="bayer8" warp="0.1"></fd-dither-gradient>
+          <figcaption>Radial, Bayer 8</figcaption>
+        </figure>
+        <figure>
+          <fd-dither-gradient class="demo-tile" mode="conic" matrix="blue-noise" warp="0.1"></fd-dither-gradient>
+          <figcaption>Conic, blue noise</figcaption>
+        </figure>
+        <figure>
+          <fd-dither-gradient class="demo-tile demo-tile-accent" angle="135" from="0.1" to="0.9" speed="1"></fd-dither-gradient>
+          <figcaption>Animated, your own color</figcaption>
+        </figure>
+      </div>
+    </section>
+    </main>
+  </body>
+</html>

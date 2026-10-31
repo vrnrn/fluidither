@@ -1,0 +1,11 @@
+/* .fd-scroll keeps a box scrollable with a slim scrollbar in the theme's colors. */
+.fd-scroll {
+  overflow: auto;
+  scrollbar-color: var(--fd-edge) transparent;
+  scrollbar-width: thin;
+}
+
+.fd-scroll:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 2px;
+}

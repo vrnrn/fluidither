@@ -1,0 +1,73 @@
+/* <fd-slider> wraps a real <input type="range">. Without JavaScript it still
+   works as a slider and only the filled part is missing. */
+fd-slider {
+  display: block;
+  color: var(--fd-ink);
+}
+
+fd-slider input {
+  --_dots: color-mix(in srgb, currentColor 45%, transparent);
+  --_track: linear-gradient(to right, currentColor var(--_fill, 0%), transparent 0),
+    repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%) 0 0 / 4px 4px;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: var(--fd-segment);
+  margin: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+fd-slider input::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 1px;
+  background: var(--_track);
+}
+
+fd-slider input::-moz-range-track {
+  height: 6px;
+  border-radius: 1px;
+  background: var(--_track);
+}
+
+fd-slider input::-webkit-slider-thumb {
+  appearance: none;
+  box-sizing: border-box;
+  width: 14px;
+  height: 18px;
+  margin-top: -6px;
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--fd-ink);
+  box-shadow: 0 0 0 2px var(--fd-paper);
+}
+
+fd-slider input::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 14px;
+  height: 18px;
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--fd-ink);
+  box-shadow: 0 0 0 2px var(--fd-paper);
+}
+
+fd-slider input:focus-visible {
+  outline: none;
+}
+
+fd-slider input:focus-visible::-webkit-slider-thumb {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 3px;
+}
+
+fd-slider input:focus-visible::-moz-range-thumb {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 3px;
+}
+
+fd-slider input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

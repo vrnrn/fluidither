@@ -1,0 +1,263 @@
+/* <fd-world>, sidebar, compare, marquee, steps, question, not found, file card, bloom. */
+
+fd-world {
+  display: block;
+  overflow: hidden;
+  color: var(--fd-ink);
+}
+
+fd-world > canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+fd-sidebar {
+  position: relative;
+  display: block;
+  width: 200px;
+  overflow: hidden;
+  transition: width var(--fd-spring-settle);
+}
+
+fd-sidebar[collapsed] {
+  width: 34px;
+}
+
+fd-sidebar[collapsed] > :not(.fd-sidebar-toggle) {
+  visibility: hidden;
+}
+
+.fd-sidebar-toggle {
+  display: block;
+  width: 26px;
+  height: 26px;
+  margin: 4px 4px 4px auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--fd-radius-pill);
+  background-color: var(--fd-soft);
+  color: var(--fd-ink);
+  font: var(--fd-weight-strong) 12px / 1 var(--fd-font-sans);
+  cursor: pointer;
+}
+
+.fd-sidebar-toggle:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 1px;
+}
+
+fd-compare {
+  --_split: 50%;
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+fd-compare > :not(input) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+fd-compare > :nth-child(2) {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 var(--_split));
+}
+
+fd-compare > input {
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: none;
+  cursor: ew-resize;
+}
+
+fd-compare > input::-webkit-slider-thumb {
+  appearance: none;
+  width: 2px;
+  height: 100vh;
+  background-color: var(--fd-focus);
+}
+
+fd-compare > input::-moz-range-thumb {
+  width: 2px;
+  height: 100vh;
+  border: 0;
+  background-color: var(--fd-focus);
+}
+
+fd-compare > input:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: -1px;
+}
+
+fd-marquee {
+  display: flex;
+  overflow: hidden;
+  color: var(--fd-ink-soft);
+  font: var(--fd-weight-strong) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+}
+
+.fd-marquee-track {
+  display: flex;
+  flex: none;
+  gap: 32px;
+  padding-inline-end: 32px;
+  animation: fd-marquee-slide 24s linear infinite;
+}
+
+fd-marquee:hover .fd-marquee-track,
+fd-marquee:focus-within .fd-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes fd-marquee-slide {
+  to {
+    translate: -100%;
+  }
+}
+
+/* <ol class="fd-steps"> with <li data-state="done|active">. Without one a step waits. */
+.fd-steps {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  color: var(--fd-ink-soft);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+  list-style: none;
+}
+
+.fd-steps li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fd-steps li::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  box-shadow: inset 0 0 0 1px var(--fd-edge);
+}
+
+.fd-steps li[data-state='done'] {
+  color: var(--fd-ink);
+}
+
+.fd-steps li[data-state='done']::before {
+  background-color: var(--fd-ink);
+  box-shadow: none;
+}
+
+.fd-steps li[data-state='active'] {
+  color: var(--fd-ink);
+  font-weight: var(--fd-weight-strong);
+}
+
+.fd-steps li[data-state='active']::before {
+  background-image: repeating-conic-gradient(var(--fd-ink) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
+}
+
+/* A <fieldset class="fd-question"> asks one thing, with choices and actions inside. */
+.fd-question {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 14px;
+  border: 0;
+  border-radius: calc(var(--fd-radius-control) + 2px);
+  background-color: var(--fd-surface-1);
+  box-shadow: var(--fd-shadow-1);
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+}
+
+.fd-question legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 4px;
+  padding: 0;
+  font-weight: var(--fd-weight-strong);
+}
+
+.fd-question > :not(legend) {
+  clear: both;
+}
+
+.fd-not-found {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 40px 16px;
+  color: var(--fd-ink-soft);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+  text-align: center;
+}
+
+.fd-not-found-code {
+  margin: 0;
+  color: var(--fd-ink);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.fd-not-found p {
+  margin: 0;
+}
+
+.fd-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px 8px 8px;
+  border-radius: var(--fd-radius-control);
+  background-color: var(--fd-surface-1);
+  box-shadow: var(--fd-shadow-1);
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+}
+
+.fd-file-type {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--fd-radius-pill);
+  background-color: var(--fd-soft);
+  font-size: 10px;
+  font-weight: var(--fd-weight-strong);
+  text-transform: uppercase;
+}
+
+.fd-file-size {
+  display: block;
+  color: var(--fd-ink-soft);
+  font-size: 12px;
+}
+
+/* .fd-bloom gives any element a soft glow in its data-tone color. */
+.fd-bloom {
+  --_glow: var(--fd-ink-soft);
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--_glow) 60%, transparent)) drop-shadow(0 0 14px color-mix(in srgb, var(--_glow) 45%, transparent));
+}
+
+.fd-bloom[data-tone='red'] { --_glow: var(--fd-red); }
+.fd-bloom[data-tone='orange'] { --_glow: var(--fd-orange); }
+.fd-bloom[data-tone='green'] { --_glow: var(--fd-green); }
+.fd-bloom[data-tone='blue'] { --_glow: var(--fd-blue); }
+.fd-bloom[data-tone='violet'] { --_glow: var(--fd-violet); }
+.fd-bloom[data-tone='pink'] { --_glow: var(--fd-pink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-marquee-track {
+    animation: none;
+  }
+}

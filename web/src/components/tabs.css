@@ -1,0 +1,139 @@
+fd-tabs {
+  display: block;
+  color: var(--fd-ink);
+  font-family: var(--fd-font-sans);
+  font-size: var(--fd-font-size);
+  line-height: var(--fd-line-height);
+}
+
+/* The thumb (::before) marks the selection and the peek (::after) previews a
+   hovered tab. Both are parts of the list, moved through custom properties. */
+fd-tab-list {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  max-width: 100%;
+  padding: var(--fd-inset);
+  border-radius: calc(var(--fd-radius-pill) + var(--fd-inset));
+  background-color: var(--fd-wash);
+  user-select: none;
+}
+
+fd-tab-list::before,
+fd-tab-list::after {
+  content: '';
+  position: absolute;
+  inset-block: var(--fd-inset);
+  left: 0;
+  z-index: -1;
+  border-radius: var(--fd-radius-pill);
+  pointer-events: none;
+}
+
+fd-tab-list::before {
+  width: var(--_thumb-width, 0);
+  translate: var(--_thumb-x, 0);
+  background-color: var(--fd-surface-2);
+  box-shadow: var(--fd-shadow-1);
+}
+
+fd-tab-list::after {
+  --_dots: color-mix(in srgb, currentColor var(--fd-dither-hover-ink), transparent);
+  width: var(--_peek-width, 0);
+  translate: var(--_peek-x, 0);
+  opacity: var(--_peek-opacity, 0);
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: calc(var(--fd-dither-hover-cell) * 2) calc(var(--fd-dither-hover-cell) * 2);
+}
+
+fd-tabs[peek='flat'] fd-tab-list::after {
+  background-image: none;
+  background-color: var(--fd-soft);
+}
+
+/* look="underline": a lighter form for many tabs. The thumb becomes a line. */
+fd-tabs[look='underline'] fd-tab-list {
+  padding: 0;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: inset 0 -1px 0 var(--fd-line);
+}
+
+fd-tabs[look='underline'] fd-tab-list::before {
+  inset-block: auto 0;
+  height: 2px;
+  border-radius: 0;
+  background-color: var(--fd-ink);
+  box-shadow: none;
+}
+
+fd-tab {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fd-gap);
+  height: var(--fd-segment);
+  padding: 0 var(--fd-tab-pad);
+  border-radius: var(--fd-radius-pill);
+  color: var(--fd-ink-soft);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--fd-spring-quick);
+}
+
+fd-tab:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 1px;
+}
+
+fd-tab:hover,
+fd-tab[aria-selected='true'] {
+  color: var(--fd-ink);
+}
+
+fd-tab[aria-selected='true'] {
+  font-weight: var(--fd-weight-strong);
+}
+
+fd-tab[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+fd-tab > svg {
+  flex: none;
+  width: var(--fd-icon);
+  height: var(--fd-icon);
+}
+
+/* A zero-height strong copy holds the width, so changing weight moves nothing
+   and the label stays centered at either weight. */
+.fd-tab-text {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fd-tab-text::after {
+  content: attr(data-text);
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: var(--fd-weight-strong);
+}
+
+fd-tab-panel {
+  display: block;
+  padding-top: 12px;
+}
+
+fd-tab-panel[hidden] {
+  display: none;
+}
+
+fd-tab-panel:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 2px;
+}

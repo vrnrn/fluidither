@@ -1,0 +1,29 @@
+[package]
+name = "fluidither"
+version = "0.1.0"
+edition = "2021"
+authors = ["vrnrn"]
+license = "MIT"
+description = "Dithered, spring-driven UI components for GPUI"
+repository = "https://github.com/vrnrn/fluidither"
+homepage = "https://github.com/vrnrn/fluidither"
+readme = "../README.md"
+keywords = ["gpui", "ui", "components", "dither", "spring"]
+categories = ["gui"]
+publish = false
+
+[dependencies]
+# Shaders compile at app start, so building needs no Metal toolchain.
+gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
+image = "0.25"
+unicode-segmentation = "1"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc = "0.2"
+
+[dev-dependencies]
+gpui = { version = "=0.2.2", features = ["runtime_shaders", "test-support"] }
+serde_json = "1"
+
+[lib]
+path = "src/lib.rs"

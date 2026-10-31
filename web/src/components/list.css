@@ -1,0 +1,88 @@
+/* The floating panel for menus, selects and comboboxes. */
+fd-list {
+  --_dots: color-mix(in srgb, currentColor var(--fd-dither-hover-ink), transparent);
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: block;
+  min-width: 160px;
+  max-height: min(320px, 60vh);
+  overflow-y: auto;
+  padding: var(--fd-inset);
+  border: 0;
+  border-radius: calc(var(--fd-radius-pill) + var(--fd-inset));
+  background-color: var(--fd-surface-3);
+  box-shadow: var(--fd-shadow-2);
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+  outline: none;
+}
+
+/* Lists in the top layer are placed by JavaScript. The display rule above would
+   otherwise keep a closed popover on screen. */
+fd-list[popover] {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+}
+
+fd-list[popover]:not(:popover-open) {
+  display: none;
+}
+
+fd-list::before {
+  content: '';
+  position: absolute;
+  inset-inline: var(--fd-inset);
+  top: 0;
+  z-index: -1;
+  height: var(--_mark-height, 0);
+  translate: 0 var(--_mark-y, 0);
+  opacity: var(--_mark-opacity, 0);
+  border-radius: var(--fd-radius-pill);
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: calc(var(--fd-dither-hover-cell) * 2) calc(var(--fd-dither-hover-cell) * 2);
+  pointer-events: none;
+}
+
+fd-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--fd-gap);
+  min-height: var(--fd-segment);
+  padding: 0 var(--fd-tab-pad);
+  border-radius: var(--fd-radius-pill);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+
+fd-item[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+fd-item[hidden] {
+  display: none;
+}
+
+fd-item[aria-selected='true'] {
+  font-weight: var(--fd-weight-strong);
+}
+
+fd-item[aria-selected='true']::after {
+  content: '';
+  width: 2px;
+  height: 2px;
+  margin-inline-start: auto;
+  margin-inline-end: var(--fd-glyph-tick-width);
+  box-shadow: var(--fd-glyph-tick);
+  translate: 0 calc(var(--fd-glyph-tick-height) / -2);
+}
+
+fd-list-empty {
+  display: block;
+  padding: 6px var(--fd-tab-pad);
+  color: var(--fd-ink-soft);
+}

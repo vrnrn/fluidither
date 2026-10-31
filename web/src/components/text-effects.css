@@ -1,0 +1,26 @@
+fd-scramble {
+  font-variant-numeric: tabular-nums;
+}
+
+fd-dissolve {
+  position: relative;
+  display: inline-block;
+}
+
+/* The veil takes the color of what sits behind the text, so set --fd-dissolve-paper on
+   a surface that is not the page. */
+.fd-dissolve-veil {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: var(--fd-dissolve-paper, var(--fd-paper));
+}
+
+.fd-dissolve-veil > canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+fd-count {
+  font-variant-numeric: tabular-nums;
+}

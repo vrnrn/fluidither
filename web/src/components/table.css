@@ -1,0 +1,35 @@
+/* .fd-table goes on a real <table>. Rows answer the pointer with a fine dither. */
+.fd-table {
+  --_dots: color-mix(in srgb, currentColor var(--fd-dither-hover-ink), transparent);
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+.fd-table th,
+.fd-table td {
+  height: var(--fd-control);
+  padding: 0 var(--fd-tab-pad);
+  border-bottom: 1px solid var(--fd-line);
+  text-align: start;
+}
+
+.fd-table th {
+  color: var(--fd-ink-soft);
+  font-weight: var(--fd-weight-strong);
+}
+
+.fd-table [data-number] {
+  text-align: end;
+}
+
+.fd-table tbody tr:hover {
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: calc(var(--fd-dither-hover-cell) * 2) calc(var(--fd-dither-hover-cell) * 2);
+}
+
+.fd-table tbody tr:last-child td {
+  border-bottom: 0;
+}

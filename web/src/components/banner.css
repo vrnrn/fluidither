@@ -1,0 +1,38 @@
+/* .fd-banner is a message across its container. Use role="status" for news and
+   role="alert" for what needs attention now. data-tone works as on a badge. */
+.fd-banner {
+  --_tone: var(--fd-ink-soft);
+  --_dots: color-mix(in srgb, var(--_tone) 55%, transparent);
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: var(--fd-control);
+  padding: 8px 12px 8px 28px;
+  overflow: hidden;
+  border-radius: var(--fd-radius-control);
+  background-color: var(--fd-surface-1);
+  box-shadow: inset 0 0 0 1px var(--fd-line);
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+}
+
+/* A dithered strip, kept clear of the text so it stays easy to read. */
+.fd-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 16px;
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
+  box-shadow: inset 3px 0 var(--_tone);
+}
+
+.fd-banner[data-tone='red'] { --_tone: var(--fd-red); }
+.fd-banner[data-tone='orange'] { --_tone: var(--fd-orange); }
+.fd-banner[data-tone='green'] { --_tone: var(--fd-green); }
+.fd-banner[data-tone='blue'] { --_tone: var(--fd-blue); }
+.fd-banner[data-tone='violet'] { --_tone: var(--fd-violet); }
+.fd-banner[data-tone='pink'] { --_tone: var(--fd-pink); }

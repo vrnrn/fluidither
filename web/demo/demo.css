@@ -1,0 +1,175 @@
+body {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+  background-color: var(--fd-paper);
+  color: var(--fd-ink);
+  font-family: var(--fd-font-sans);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.demo-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+h2 {
+  margin: 40px 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+p {
+  margin: 0 0 16px;
+  color: var(--fd-ink-soft);
+}
+
+.demo-band {
+  height: 120px;
+  margin-top: 24px;
+  border-radius: calc(var(--fd-radius-control) + 2px);
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.demo-spaced {
+  margin-top: 16px;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+}
+
+figure {
+  margin: 0;
+}
+
+figcaption {
+  margin-top: 6px;
+  color: var(--fd-ink-soft);
+  font-size: 12px;
+}
+
+.demo-tile {
+  height: 150px;
+  border-radius: var(--fd-radius-control);
+}
+
+.demo-tile-accent {
+  color: var(--fd-orange);
+}
+
+.demo-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.demo-plain {
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+}
+
+.demo-legend {
+  padding: 0 8px 0 0;
+  float: left;
+  color: var(--fd-ink-soft);
+}
+
+.demo-slider {
+  max-width: 320px;
+}
+
+.demo-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.demo-caption {
+  padding: 0 0 4px;
+  caption-side: top;
+  color: var(--fd-ink-soft);
+  text-align: start;
+}
+
+.demo-scroller {
+  max-height: 110px;
+  margin-top: 16px;
+}
+
+.demo-short {
+  width: 60%;
+  margin-top: 8px;
+}
+
+.demo-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.demo-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.demo-field {
+  height: 100px;
+  border-radius: var(--fd-radius-control);
+}
+
+.demo-effects {
+  color: var(--fd-ink);
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.demo-picture {
+  width: 240px;
+  height: 160px;
+}
+
+.demo-stack {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.demo-stack > p {
+  margin: 0;
+}
+
+.demo-map {
+  height: 170px;
+}
+
+.demo-sidebar {
+  padding: 0;
+  min-height: 150px;
+}
+
+.demo-tall {
+  height: 400px;
+}

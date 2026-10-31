@@ -1,0 +1,491 @@
+{
+ "fields": [
+  {
+   "kind": "noise",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 3372176594
+  },
+  {
+   "kind": "noise",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 935839585
+  },
+  {
+   "kind": "waves",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 4197563599
+  },
+  {
+   "kind": "waves",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 2239209659
+  },
+  {
+   "kind": "plasma",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 3385250438
+  },
+  {
+   "kind": "plasma",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 2185618224
+  },
+  {
+   "kind": "ripples",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 261592536
+  },
+  {
+   "kind": "ripples",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 2060754603
+  },
+  {
+   "kind": "tunnel",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 2640412102
+  },
+  {
+   "kind": "tunnel",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 216147593
+  },
+  {
+   "kind": "metaballs",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 534028111
+  },
+  {
+   "kind": "metaballs",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 3609754745
+  },
+  {
+   "kind": "orb",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 1339663085
+  },
+  {
+   "kind": "orb",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 2554432065
+  },
+  {
+   "kind": "stars",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 1207141463
+  },
+  {
+   "kind": "stars",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 3990466027
+  },
+  {
+   "kind": "aurora",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 4076028360
+  },
+  {
+   "kind": "aurora",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 1928493078
+  },
+  {
+   "kind": "contours",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 364408499
+  },
+  {
+   "kind": "contours",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 2505088578
+  },
+  {
+   "kind": "beams",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 2813693244
+  },
+  {
+   "kind": "beams",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 3114609112
+  },
+  {
+   "kind": "eclipse",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 3624686578
+  },
+  {
+   "kind": "eclipse",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 2508429752
+  },
+  {
+   "kind": "horizon",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 2891167493
+  },
+  {
+   "kind": "horizon",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 1004795269
+  },
+  {
+   "kind": "mesh",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 438229541
+  },
+  {
+   "kind": "mesh",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 2305667571
+  },
+  {
+   "kind": "grid",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 1672068598
+  },
+  {
+   "kind": "grid",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 244468834
+  },
+  {
+   "kind": "ridges",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 2685266327
+  },
+  {
+   "kind": "ridges",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 2147324465
+  },
+  {
+   "kind": "silk",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 1794412072
+  },
+  {
+   "kind": "silk",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 4148745280
+  },
+  {
+   "kind": "smoke",
+   "t": 0,
+   "width": 64,
+   "height": 40,
+   "hash": 117080667
+  },
+  {
+   "kind": "smoke",
+   "t": 7.25,
+   "width": 64,
+   "height": 40,
+   "hash": 192909038
+  }
+ ],
+ "charts": [
+  {
+   "kind": "bar",
+   "series": [
+    [
+     3,
+     7,
+     2,
+     9
+    ],
+    [
+     5,
+     1,
+     6,
+     4
+    ]
+   ],
+   "width": 60,
+   "height": 40,
+   "hash": 1614897428,
+   "inked": 728
+  },
+  {
+   "kind": "area",
+   "series": [
+    [
+     2,
+     6,
+     3,
+     8,
+     5
+    ],
+    [
+     1,
+     2,
+     2,
+     4,
+     3
+    ]
+   ],
+   "width": 60,
+   "height": 40,
+   "hash": 585508961,
+   "inked": 699
+  },
+  {
+   "kind": "line",
+   "series": [
+    [
+     2,
+     6,
+     3,
+     8,
+     5
+    ],
+    [
+     7,
+     1,
+     6,
+     2,
+     4
+    ]
+   ],
+   "width": 60,
+   "height": 40,
+   "hash": 3458838159,
+   "inked": 374
+  },
+  {
+   "kind": "donut",
+   "series": [
+    [
+     5,
+     3,
+     2,
+     1
+    ]
+   ],
+   "width": 60,
+   "height": 40,
+   "hash": 2106753095,
+   "inked": 556
+  },
+  {
+   "kind": "radar",
+   "series": [
+    [
+     5,
+     8,
+     3,
+     7,
+     6
+    ],
+    [
+     3,
+     4,
+     6,
+     2,
+     5
+    ]
+   ],
+   "width": 60,
+   "height": 40,
+   "hash": 1979254656,
+   "inked": 300
+  },
+  {
+   "kind": "heatmap",
+   "series": [
+    [
+     1,
+     4,
+     2
+    ],
+    [
+     7,
+     3,
+     9
+    ],
+    [
+     2,
+     8,
+     5
+    ]
+   ],
+   "width": 60,
+   "height": 40,
+   "hash": 550743570,
+   "inked": 1095
+  },
+  {
+   "kind": "gauge",
+   "series": [
+    [
+     62,
+     100
+    ]
+   ],
+   "width": 60,
+   "height": 40,
+   "hash": 3308030148,
+   "inked": 463
+  }
+ ],
+ "world": [
+  {
+   "kind": "map",
+   "turn": 0,
+   "width": 80,
+   "height": 40,
+   "hash": 2145695436,
+   "inked": 85
+  },
+  {
+   "kind": "map",
+   "turn": 1.7,
+   "width": 80,
+   "height": 40,
+   "hash": 2066249302,
+   "inked": 83
+  },
+  {
+   "kind": "globe",
+   "turn": 0,
+   "width": 80,
+   "height": 40,
+   "hash": 1150738352,
+   "inked": 313
+  },
+  {
+   "kind": "globe",
+   "turn": 1.7,
+   "width": 80,
+   "height": 40,
+   "hash": 3136635310,
+   "inked": 321
+  }
+ ],
+ "scramble": [
+  {
+   "progress": 0,
+   "seed": 1,
+   "text": ">&/#+ &/#+>& #+>&/"
+  },
+  {
+   "progress": 0.25,
+   "seed": 4,
+   "text": "Hell< %>=&?/ #<+%>"
+  },
+  {
+   "progress": 0.5,
+   "seed": 9,
+   "text": "Hello the&+/ #&+/>"
+  },
+  {
+   "progress": 0.9,
+   "seed": 2,
+   "text": "Hello there, wor=#"
+  },
+  {
+   "progress": 1,
+   "seed": 3,
+   "text": "Hello there, world"
+  }
+ ],
+ "waves": [
+  {
+   "t": 0,
+   "value": 0
+  },
+  {
+   "t": 0.1,
+   "value": 0.6400000000000001
+  },
+  {
+   "t": 0.33,
+   "value": 0.8976
+  },
+  {
+   "t": 0.5,
+   "value": 0
+  },
+  {
+   "t": 0.77,
+   "value": -0.9936
+  },
+  {
+   "t": 1.25,
+   "value": 1
+  },
+  {
+   "t": -0.4,
+   "value": -0.6399999999999999
+  }
+ ]
+}

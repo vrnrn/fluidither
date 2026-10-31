@@ -1,0 +1,53 @@
+/* .fd-switch goes on a real checkbox with role="switch". It needs no JavaScript. */
+.fd-switch {
+  --_height: calc(var(--fd-icon) + 3px);
+  --_thumb: calc(var(--_height) - 6px);
+  --_travel: calc(var(--_height) * 0.75);
+  appearance: none;
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  width: calc(var(--_height) + var(--_travel));
+  height: var(--_height);
+  margin: 0;
+  border-radius: var(--fd-radius-pill);
+  background-color: var(--fd-wash);
+  box-shadow: inset 0 0 0 1px var(--fd-edge);
+  cursor: inherit;
+  transition:
+    background-color var(--fd-spring-quick),
+    box-shadow var(--fd-spring-quick);
+}
+
+.fd-switch::before {
+  content: '';
+  position: absolute;
+  inset: 3px auto auto 3px;
+  width: var(--_thumb);
+  height: var(--_thumb);
+  border-radius: 3px;
+  background-color: var(--fd-ink-soft);
+  transition:
+    translate var(--fd-spring-settle),
+    background-color var(--fd-spring-quick);
+}
+
+.fd-switch:checked {
+  background-color: var(--fd-ink);
+  box-shadow: inset 0 0 0 1px var(--fd-ink);
+}
+
+.fd-switch:checked::before {
+  translate: var(--_travel);
+  background-color: var(--fd-on-solid);
+}
+
+.fd-switch:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 2px;
+}
+
+.fd-switch:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>fluidither showcase</title>
+    <link rel="stylesheet" href="/src/tokens.css" />
+    <link rel="stylesheet" href="/src/components/button.css" />
+    <link rel="stylesheet" href="/src/components/tabs.css" />
+    <link rel="stylesheet" href="/src/components/input.css" />
+    <link rel="stylesheet" href="/src/components/check.css" />
+    <link rel="stylesheet" href="/src/components/switch.css" />
+    <link rel="stylesheet" href="/src/components/slider.css" />
+    <link rel="stylesheet" href="/src/components/card.css" />
+    <link rel="stylesheet" href="/src/components/badge.css" />
+    <link rel="stylesheet" href="/src/components/feedback.css" />
+    <link rel="stylesheet" href="/src/components/sparkline.css" />
+    <link rel="stylesheet" href="/src/components/field.css" />
+    <link rel="stylesheet" href="/src/components/chart.css" />
+    <link rel="stylesheet" href="/src/components/calendar.css" />
+    <link rel="stylesheet" href="/src/components/misc.css" />
+    <link rel="stylesheet" href="/src/components/extras.css" />
+    <link rel="stylesheet" href="/demo/showcase.css" />
+    <script type="module" src="/src/components/tabs.js"></script>
+    <script type="module" src="/src/components/slider.js"></script>
+    <script type="module" src="/src/components/sparkline.js"></script>
+    <script type="module" src="/src/components/field.js"></script>
+    <script type="module" src="/src/components/chart.js"></script>
+    <script type="module" src="/src/components/calendar.js"></script>
+    <script type="module" src="/src/components/world.js"></script>
+  </head>
+  <body>
+    <main class="showcase">
+      <article class="fd-card tile tile-wide">
+        <div class="tile-row">
+          <div class="fd-stat">
+            <span class="fd-stat-label">Revenue</span>
+            <span class="fd-stat-value">$48,210</span>
+            <span class="fd-stat-change">Up 12% this month</span>
+          </div>
+          <span class="fd-badge" data-tone="green">Live</span>
+        </div>
+        <fd-chart kind="area" series="2 6 3 8 5 9 7 11; 1 2 2 4 3 5 4 6" names="Visits; Signups" labels="Jan Feb Mar Apr May Jun Jul Aug" aria-label="Visits and signups rising from January to August"></fd-chart>
+      </article>
+
+      <article class="fd-card tile tile-field">
+        <fd-field kind="aurora" speed="0"></fd-field>
+      </article>
+
+      <article class="fd-card tile">
+        <label class="fd-field">Name <input class="fd-input" value="Ada Lovelace" /></label>
+        <label class="fd-choice"><input class="fd-switch" type="checkbox" role="switch" checked /> Sync</label>
+        <label class="fd-choice"><input class="fd-check" type="checkbox" checked /> Send a weekly summary</label>
+        <fd-slider><input type="range" min="0" max="100" value="62" aria-label="Volume" /></fd-slider>
+        <div class="tile-row tile-end">
+          <button class="fd-button" data-look="soft" type="button">Cancel</button>
+          <button class="fd-button" type="button">Save</button>
+        </div>
+      </article>
+
+      <article class="fd-card tile">
+        <fd-calendar value="2026-10-14" aria-label="Pick a day"></fd-calendar>
+      </article>
+
+      <article class="fd-card tile">
+        <fd-tabs value="week">
+          <fd-tab-list aria-label="Range">
+            <fd-tab value="day">Day</fd-tab>
+            <fd-tab value="week">Week</fd-tab>
+            <fd-tab value="month">Month</fd-tab>
+          </fd-tab-list>
+        </fd-tabs>
+        <fd-chart kind="bar" series="3 7 2 9 5; 5 1 6 4 7" names="Sales; Costs" labels="Mon Tue Wed Thu Fri" aria-label="Sales and costs across the week"></fd-chart>
+      </article>
+
+      <article class="fd-card tile tile-globe">
+        <fd-world kind="globe" speed="0" aria-label="A dithered globe"></fd-world>
+      </article>
+
+      <article class="fd-card tile tile-wide">
+        <p class="fd-message">Can you draft the report?</p>
+        <p class="fd-message" data-from="me">Sure, starting now.</p>
+        <span class="fd-thinking"><span class="fd-loader" role="status" aria-label="Thinking"></span> Thinking</span>
+        <form class="fd-composer">
+          <textarea class="fd-input" rows="1" aria-label="Message" placeholder="Write a message"></textarea>
+          <button class="fd-button" type="button">Send</button>
+        </form>
+      </article>
+    </main>
+  </body>
+</html>

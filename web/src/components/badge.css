@@ -1,0 +1,32 @@
+/* .fd-badge goes on any inline element. data-tone: red, orange, green, blue, violet,
+   pink. Without one it is neutral. A colored cell carries the tone, so the text
+   stays at full contrast. */
+.fd-badge {
+  --_tone: var(--fd-ink-soft);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 4px;
+  background-color: var(--fd-soft);
+  color: var(--fd-ink);
+  font: var(--fd-weight-strong) 11px / 14px var(--fd-font-sans);
+  white-space: nowrap;
+}
+
+.fd-badge::before {
+  content: '';
+  flex: none;
+  width: 6px;
+  height: 6px;
+  background-color: var(--_tone);
+}
+
+.fd-badge[data-tone='red'] { --_tone: var(--fd-red); }
+.fd-badge[data-tone='orange'] { --_tone: var(--fd-orange); }
+.fd-badge[data-tone='green'] { --_tone: var(--fd-green); }
+.fd-badge[data-tone='blue'] { --_tone: var(--fd-blue); }
+.fd-badge[data-tone='violet'] { --_tone: var(--fd-violet); }
+.fd-badge[data-tone='pink'] { --_tone: var(--fd-pink); }

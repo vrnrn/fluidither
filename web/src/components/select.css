@@ -1,0 +1,50 @@
+fd-select {
+  display: inline-block;
+  min-width: 180px;
+}
+
+.fd-select-trigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fd-gap);
+  width: 100%;
+  height: var(--fd-control);
+  padding: 0 var(--fd-tab-pad);
+  border: 0;
+  border-radius: var(--fd-radius-control);
+  background-color: var(--fd-surface-1);
+  box-shadow: inset 0 0 0 1px var(--fd-edge);
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+  text-align: start;
+  cursor: pointer;
+  transition: box-shadow var(--fd-spring-quick);
+}
+
+.fd-select-trigger[data-placeholder] {
+  color: var(--fd-ink-soft);
+}
+
+.fd-select-trigger:hover {
+  box-shadow: inset 0 0 0 1px var(--fd-ink-soft);
+}
+
+.fd-select-trigger:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 0;
+  box-shadow: inset 0 0 0 1px var(--fd-focus);
+}
+
+/* A small stepped arrow, drawn in cells. */
+.fd-select-trigger::after {
+  content: '';
+  flex: none;
+  width: 2px;
+  height: 2px;
+  margin-inline-end: calc(var(--fd-glyph-arrow-width) - 2px);
+  translate: 0 calc(var(--fd-glyph-arrow-height) / -2);
+  color: var(--fd-ink-soft);
+  box-shadow: var(--fd-glyph-arrow);
+}

@@ -1,0 +1,11 @@
+fd-dither-gradient {
+  display: block;
+  overflow: hidden;
+  color: var(--fd-ink);
+  background-color: var(--fd-paper);
+}
+
+fd-dither-gradient > canvas {
+  display: block;
+  image-rendering: pixelated;
+}

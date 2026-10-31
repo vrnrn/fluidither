@@ -1,0 +1,65 @@
+/* <fd-nav> wraps links, usually in a sidebar. Mark the current one aria-current="page".
+   The thumb and the hover peek are parts of the element, moved by nav.js. Without
+   JavaScript the current link is still shown in bold. */
+fd-nav {
+  --_dots: color-mix(in srgb, currentColor var(--fd-dither-hover-ink), transparent);
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: var(--fd-inset);
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+}
+
+fd-nav::before,
+fd-nav::after {
+  content: '';
+  position: absolute;
+  inset-inline: var(--fd-inset);
+  top: 0;
+  z-index: -1;
+  border-radius: var(--fd-radius-pill);
+  pointer-events: none;
+}
+
+fd-nav::before {
+  height: var(--_thumb-height, 0);
+  translate: 0 var(--_thumb-y, 0);
+  background-color: var(--fd-soft);
+}
+
+fd-nav::after {
+  height: var(--_peek-height, 0);
+  translate: 0 var(--_peek-y, 0);
+  opacity: var(--_peek-opacity, 0);
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: calc(var(--fd-dither-hover-cell) * 2) calc(var(--fd-dither-hover-cell) * 2);
+}
+
+fd-nav a {
+  display: flex;
+  align-items: center;
+  gap: var(--fd-gap);
+  min-height: var(--fd-segment);
+  padding: 0 var(--fd-tab-pad);
+  border-radius: var(--fd-radius-pill);
+  color: var(--fd-ink-soft);
+  text-decoration: none;
+  transition: color var(--fd-spring-quick);
+}
+
+fd-nav a:hover,
+fd-nav a[aria-current] {
+  color: var(--fd-ink);
+}
+
+fd-nav a[aria-current] {
+  font-weight: var(--fd-weight-strong);
+}
+
+fd-nav a:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: -1px;
+}

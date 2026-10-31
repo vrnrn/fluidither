@@ -1,0 +1,142 @@
+/* .fd-button goes on a real <button> or <a>. It needs no JavaScript.
+   data-look: solid (default), soft, outline, ghost. */
+.fd-button {
+  --_ground: var(--fd-ink);
+  --_ground-hover: var(--fd-solid-hover);
+  --_ground-press: var(--fd-solid-press);
+  --_edge: transparent;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fd-gap);
+  height: var(--fd-control);
+  padding: 0 var(--fd-pad);
+  border: 0;
+  border-radius: var(--fd-radius-control);
+  background-color: var(--_ground);
+  box-shadow: inset 0 0 0 1px var(--_edge);
+  color: var(--fd-on-solid);
+  font: var(--fd-weight-strong) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--fd-spring-quick),
+    color var(--fd-spring-quick),
+    translate var(--fd-spring-glide);
+}
+
+.fd-button:hover {
+  background-color: var(--_ground-hover);
+}
+
+/* Pressing nudges the button down a pixel, so it reads the same at any width. */
+.fd-button:active {
+  background-color: var(--_ground-press);
+  translate: 0 1px;
+  transition-duration: 60ms;
+}
+
+.fd-button:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 2px;
+}
+
+.fd-button > svg {
+  flex: none;
+  width: var(--fd-icon);
+  height: var(--fd-icon);
+}
+
+.fd-button[data-icon-only] {
+  width: var(--fd-control);
+  padding: 0;
+}
+
+.fd-button[data-look='soft'] {
+  --_ground: var(--fd-soft);
+  --_ground-hover: var(--fd-soft-hover);
+  --_ground-press: var(--fd-press);
+  color: var(--fd-ink);
+}
+
+.fd-button[data-look='outline'] {
+  --_ground: transparent;
+  --_ground-hover: transparent;
+  --_ground-press: var(--fd-press);
+  --_edge: var(--fd-line);
+  color: var(--fd-ink);
+}
+
+.fd-button[data-look='ghost'] {
+  --_ground: transparent;
+  --_ground-hover: transparent;
+  --_ground-press: var(--fd-press);
+  color: var(--fd-ink-soft);
+}
+
+.fd-button[data-look='ghost']:hover {
+  color: var(--fd-ink);
+}
+
+/* Quiet buttons answer the pointer with a fine dither rather than a tint. */
+.fd-button[data-look='outline']:hover,
+.fd-button[data-look='ghost']:hover {
+  --_dots: color-mix(in srgb, currentColor var(--fd-dither-hover-ink), transparent);
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: calc(var(--fd-dither-hover-cell) * 2) calc(var(--fd-dither-hover-cell) * 2);
+}
+
+.fd-button:disabled,
+.fd-button[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Busy: the label keeps the width while three cells count up over it. */
+.fd-button[aria-busy='true'] {
+  position: relative;
+  color: transparent;
+  opacity: 1;
+}
+
+.fd-button[aria-busy='true']::after {
+  --_cell: var(--fd-on-solid);
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 3px;
+  height: 3px;
+  margin: -1.5px;
+  animation: fd-count-cells 900ms steps(1) infinite;
+}
+
+.fd-button[aria-busy='true']:is([data-look='soft'], [data-look='outline'], [data-look='ghost'])::after {
+  --_cell: var(--fd-ink);
+}
+
+@keyframes fd-count-cells {
+  0% {
+    box-shadow: -6px 0 var(--_cell);
+  }
+  33% {
+    background-color: var(--_cell);
+    box-shadow: -6px 0 var(--_cell);
+  }
+  66% {
+    background-color: var(--_cell);
+    box-shadow: -6px 0 var(--_cell), 6px 0 var(--_cell);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fd-button[aria-busy='true']::after {
+    animation: none;
+    background-color: var(--_cell);
+    box-shadow: -6px 0 var(--_cell), 6px 0 var(--_cell);
+  }
+}

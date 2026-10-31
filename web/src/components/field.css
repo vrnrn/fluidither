@@ -1,0 +1,14 @@
+/* Shared by <fd-field>, <fd-chart> and <fd-dither-image>. Give them a size. */
+fd-field,
+fd-dither-image {
+  display: block;
+  overflow: hidden;
+  color: var(--fd-ink);
+}
+
+fd-field > canvas,
+fd-dither-image > canvas,
+.fd-chart-plot > canvas {
+  display: block;
+  image-rendering: pixelated;
+}
