@@ -14,15 +14,20 @@
   opacity: 0;
   translate: 0 6px;
   transition:
-    opacity var(--fd-spring-glide),
-    translate var(--fd-spring-settle),
-    display var(--fd-spring-glide) allow-discrete,
-    overlay var(--fd-spring-glide) allow-discrete;
+    opacity var(--fd-spring-glide-out),
+    translate var(--fd-spring-settle-out),
+    display var(--fd-spring-glide-out) allow-discrete,
+    overlay var(--fd-spring-glide-out) allow-discrete;
 }
 
 .fd-dialog[open] {
   opacity: 1;
   translate: 0;
+  transition:
+    opacity var(--fd-spring-glide),
+    translate var(--fd-spring-settle),
+    display var(--fd-spring-glide) allow-discrete,
+    overlay var(--fd-spring-glide) allow-discrete;
 }
 
 @starting-style {

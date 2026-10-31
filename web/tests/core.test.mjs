@@ -114,3 +114,23 @@ test('a single value still draws', () => {
   fillSparkline(tones, 4, 4, [1], 0.6);
   assert.ok(tones.every(Number.isFinite));
 });
+
+test('colors convert both ways, the same as GPUI', async () => {
+  const { fromHex, hsvToRgb, rgbToHsv, toHex } = await import('../src/core/color.js');
+  assert.deepEqual(hsvToRgb(0, 1, 1), [1, 0, 0]);
+  assert.deepEqual(hsvToRgb(120, 1, 1), [0, 1, 0]);
+  assert.deepEqual(hsvToRgb(360, 1, 1), [1, 0, 0]);
+  assert.equal(toHex(hsvToRgb(...rgbToHsv(...fromHex('#fc9e47')))), '#fc9e47');
+  assert.equal(fromHex('nope'), null);
+});
+
+test('the nearest box wins, along the chosen axis', async () => {
+  globalThis.HTMLElement ??= class {};
+  globalThis.customElements ??= { define() {} };
+  const { nearestIndex } = await import('../src/components/hover.js');
+  const boxes = [{ left: 0, top: 0, right: 10, bottom: 10 }, { left: 0, top: 20, right: 10, bottom: 30 }];
+  assert.equal(nearestIndex(boxes, 5, 14), 0);
+  assert.equal(nearestIndex(boxes, 5, 17), 1);
+  assert.equal(nearestIndex(boxes, 500, 17, 'y'), 1);
+  assert.equal(nearestIndex([], 0, 0), -1);
+});

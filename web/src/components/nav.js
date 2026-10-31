@@ -61,7 +61,7 @@ export class Nav extends HTMLElement {
     const wasHidden = this.#peeking === null;
     this.#peeking = shown;
     if (!shown) {
-      this.#peek.to({ opacity: 0 });
+      this.#peek.to({ opacity: 0 }, springs.quickOut);
       return;
     }
     const place = { y: shown.offsetTop, height: shown.offsetHeight };

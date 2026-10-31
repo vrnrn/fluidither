@@ -1,0 +1,21 @@
+fd-hover {
+  --_dots: color-mix(in srgb, currentColor var(--fd-dither-hover-ink), transparent);
+  position: relative;
+  isolation: isolate;
+  display: block;
+}
+
+.fd-hover-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: var(--_mark-width, 0);
+  height: var(--_mark-height, 0);
+  translate: var(--_mark-x, 0) var(--_mark-y, 0);
+  opacity: var(--_mark-opacity, 0);
+  border-radius: var(--fd-radius-pill);
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: calc(var(--fd-dither-hover-cell) * 2) calc(var(--fd-dither-hover-cell) * 2);
+  pointer-events: none;
+}

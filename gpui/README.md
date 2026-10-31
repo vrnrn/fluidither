@@ -12,7 +12,7 @@ targets to the same cells.
 
 ```toml
 [dependencies]
-fluidither = "0.1"
+fluidither = "0.2"
 gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
 ```
 

@@ -3,7 +3,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ditherTones, fillGradient, fillSparkline, grain, thresholdMap } from '../web/src/core/dither.js';
+import { ditherTones, fillGradient, fillSparkline, grain, thresholdMap, fillShimmer } from '../web/src/core/dither.js';
 import { chartCells, CHARTS } from '../web/src/core/charts.js';
 import { FIELDS, fillField, wave } from '../web/src/core/fields.js';
 import { addMonths, fromDays, iso, monthGrid, toDays, weekday } from '../web/src/core/dates.js';
@@ -98,6 +98,16 @@ const worldCases = [];
   }
 }
 
+const shimmerCases = [];
+for (const t of [0, 0.4, 1.1, 2.75]) {
+  const [width, height] = [48, 10];
+  const tones = new Float64Array(width * height);
+  const out = new Uint32Array(width * height);
+  fillShimmer(tones, width, height, t);
+  ditherTones(tones, width, height, await thresholdMap('bayer4'), Uint32Array.of(0, 1), out);
+  shimmerCases.push({ t, width, height, hash: hashCells(out) });
+}
+
 const noise = [
   [0, 0],
   [0.5, 0.25],
@@ -140,6 +150,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     )}\n`,
   );
   writeFileSync(join(root, 'fixtures/fields.json'), `${JSON.stringify({ fields: fieldCases, charts: chartCases, world: worldCases, scramble: [[0, 1], [0.25, 4], [0.5, 9], [0.9, 2], [1, 3]].map(([progress, seed]) => ({ progress, seed, text: scrambled('Hello there, world', progress, seed) })), waves: [0, 0.1, 0.33, 0.5, 0.77, 1.25, -0.4].map((t) => ({ t, value: wave(t) })) }, null, 1)}\n`);
+  writeFileSync(join(root, 'fixtures/shimmer.json'), `${JSON.stringify({ cases: shimmerCases }, null, 1)}\n`);
   writeFileSync(join(root, 'fixtures/spring.json'), `${JSON.stringify({ springs: spring }, null, 1)}\n`);
   console.log(`fixtures: ${dither.length} dither cases, ${spring.length} springs`);
 }

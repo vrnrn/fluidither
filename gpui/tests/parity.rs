@@ -5,8 +5,8 @@ use fluidither::dates::{month_grid, Date};
 use fluidither::text_effects::scrambled;
 use fluidither::world::{fill_globe, fill_map};
 use fluidither::fields::{fill_field, wave, Field};
-use fluidither::dither::{dither_tones, fill_gradient, fill_sparkline, grain, Gradient, Matrix, Shape};
-use fluidither::generated::{SpringConfig, GLIDE, QUICK, SETTLE};
+use fluidither::dither::{dither_tones, fill_gradient, fill_shimmer, fill_sparkline, grain, Gradient, Matrix, Shape};
+use fluidither::generated::{SpringConfig, GLIDE, GLIDE_OUT, QUICK, QUICK_OUT, SETTLE, SETTLE_OUT};
 use fluidither::spring::{step_spring, Spring};
 use serde_json::Value;
 
@@ -104,11 +104,27 @@ fn noise_matches_javascript_to_the_bit() {
     }
 }
 
+#[test]
+fn shimmer_makes_the_same_cells_as_javascript() {
+    for case in fixture("shimmer.json")["cases"].as_array().unwrap() {
+        let width = case["width"].as_u64().unwrap() as usize;
+        let height = case["height"].as_u64().unwrap() as usize;
+        let mut tones = vec![0.0; width * height];
+        let mut cells = vec![0u32; width * height];
+        fill_shimmer(&mut tones, width, height, case["t"].as_f64().unwrap());
+        dither_tones(&tones, width, height, Matrix::Bayer4.map(), &[0u32, 1], &mut cells);
+        assert_eq!(hash_cells(&cells), case["hash"].as_u64().unwrap(), "shimmer at {}", case["t"]);
+    }
+}
+
 fn config(name: &str) -> SpringConfig {
     match name {
         "quick" => QUICK,
         "glide" => GLIDE,
         "settle" => SETTLE,
+        "quickOut" => QUICK_OUT,
+        "glideOut" => GLIDE_OUT,
+        "settleOut" => SETTLE_OUT,
         other => panic!("unknown spring {other}"),
     }
 }

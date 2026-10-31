@@ -1,12 +1,12 @@
 [package]
 name = "fluidither"
-version = "0.1.2"
+version = "0.2.0"
 edition = "2021"
 authors = ["vrnrn"]
 license = "MIT"
 description = "Dithered, spring-driven UI components for GPUI"
 repository = "https://github.com/vrnrn/fluidither"
-homepage = "https://github.com/vrnrn/fluidither"
+homepage = "https://fluidither.vrnrn.com"
 readme = "README.md"
 keywords = ["gpui", "ui", "components", "dither", "spring"]
 categories = ["gui"]

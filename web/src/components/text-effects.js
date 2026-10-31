@@ -5,16 +5,21 @@
 // it scrolls into view. With hold="0.1 0.8" it never clears and keeps a dither across
 // the text, from 0.1 at the start to 0.8 at the end, for dithered headings and logos.
 // <fd-count value="1204">: a number that springs to its value.
+// <fd-shimmer words="Thinking; Reading">: a clear band sweeps through a dither over the text,
+// moving on to the next word each few sweeps.
 
 import { CellCanvas } from '../core/cells.js';
-import { ditherTones, fillGradient, thresholdMap } from '../core/dither.js';
-import { prefersReducedMotion } from '../core/motion.js';
+import { ditherTones, fillGradient, fillShimmer, thresholdMap } from '../core/dither.js';
+import { animate, prefersReducedMotion } from '../core/motion.js';
 import { Glide, springs } from '../core/spring.js';
 import { scrambled } from '../core/text.js';
+import { dither } from '../core/tokens.js';
 
 const SCRAMBLE_MS = 700;
 const SCRAMBLE_STEP_MS = 40;
 const DISSOLVE_MS = 500;
+const SHIMMER_CELL = 2;
+const SHIMMER_WORD_SECONDS = 3.2;
 
 export class Scramble extends HTMLElement {
   #timer = 0;
@@ -150,6 +155,66 @@ export class Count extends HTMLElement {
   }
 }
 
+export class Shimmer extends HTMLElement {
+  #label = null;
+  #overlay = null;
+  #cells = null;
+  #map = null;
+  #stop = null;
+  #sizes = null;
+
+  get #words() {
+    const words = (this.getAttribute('words') ?? '').split(';').map((word) => word.trim()).filter(Boolean);
+    return words.length > 0 ? words : [this.textContent.trim()];
+  }
+
+  async connectedCallback() {
+    if (!this.#label) {
+      const words = this.#words;
+      this.setAttribute('role', 'status');
+      this.setAttribute('aria-label', words[0]);
+      this.#label = document.createElement('span');
+      this.#label.setAttribute('aria-hidden', 'true');
+      this.#label.textContent = words[0];
+      this.#overlay = document.createElement('span');
+      this.#overlay.className = 'fd-dissolve-veil';
+      this.#overlay.setAttribute('aria-hidden', 'true');
+      this.replaceChildren(this.#label, this.#overlay);
+      this.#cells = new CellCanvas(this.#overlay);
+    }
+    this.#map = await thresholdMap('bayer4');
+    if (!this.isConnected) return;
+    this.#sizes = new ResizeObserver(() => this.#draw(0));
+    this.#sizes.observe(this);
+    this.#stop = animate(this, (seconds) => this.#draw(seconds), dither.fps);
+    this.#draw(0);
+  }
+
+  disconnectedCallback() {
+    this.#stop?.();
+    this.#sizes?.disconnect();
+  }
+
+  #draw(seconds) {
+    const words = this.#words;
+    this.#label.textContent = words[Math.floor(seconds / SHIMMER_WORD_SECONDS) % words.length];
+    const cells = this.#cells;
+    if (!cells.fit(SHIMMER_CELL)) return;
+    const { columns, rows } = cells;
+    const tones = new Float64Array(columns * rows);
+    const marks = new Uint8Array(columns * rows);
+    // Under reduced motion the text simply stays clear.
+    if (!prefersReducedMotion()) fillShimmer(tones, columns, rows, seconds);
+    ditherTones(tones, columns, rows, this.#map, Uint8Array.of(0, 1), marks);
+    const styles = getComputedStyle(this);
+    const paper = styles.getPropertyValue('--fd-dissolve-paper').trim() || styles.getPropertyValue('--fd-paper').trim();
+    this.#overlay.style.backgroundColor = 'transparent';
+    cells.painter.clearRect(0, 0, columns, rows);
+    cells.layer(marks, paper, (mark) => mark === 1, true);
+  }
+}
+
+customElements.define('fd-shimmer', Shimmer);
 customElements.define('fd-scramble', Scramble);
 customElements.define('fd-dissolve', Dissolve);
 customElements.define('fd-count', Count);

@@ -47,7 +47,9 @@ GPUI also has no multi-line text and no link-style Button.
 
 | Part | Web | GPUI |
 | --- | --- | --- |
-| Color | The browser's color input, plus swatches | ColorPicker, a saturation field over a hue slider, plus swatches |
+| Color | ColorPicker, the browser's color input, plus swatches | ColorPicker, a saturation field over a hue slider, plus swatches |
+| Gliding hover | `<fd-hover>` wraps any list, with `nearest` and `axis` | `HoverList`, rows of one height |
+| Input group | Rows split by hairlines | Labeled rows of separate fields |
 | Saving a PNG | `savePng` saves any drawn element | `save_png` takes cells you made yourself |
 | Chart axis labels | `labels` | Not available |
 | Map and globe | `<fd-world>` | `DitherGradient::map` and `DitherGradient::globe` |

@@ -1,0 +1,449 @@
+/* The docs keep the wall's tiles on the moving noise. All text sits on a solid tile, so nothing
+   moves or shows through behind what is being read. */
+html {
+  scroll-padding-top: 24px;
+}
+
+body {
+  display: block;
+  padding: 24px;
+  font-size: 15px;
+  line-height: 26px;
+}
+
+.skip {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 12;
+  translate: 0 -200%;
+}
+
+.skip:focus-visible {
+  translate: 0;
+}
+
+.docs {
+  display: grid;
+  grid-template-columns: 272px minmax(0, 860px);
+  gap: var(--wall-gap);
+  justify-content: center;
+  align-items: start;
+}
+
+.side {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: calc(100dvh - 48px);
+  padding: 16px;
+}
+
+.side-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.side-home {
+  color: var(--fd-ink);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.side-home:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 2px;
+}
+
+.side-tools,
+.side-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.search {
+  flex: 1;
+  justify-content: space-between;
+}
+
+.menu {
+  display: none;
+}
+
+.side-nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.side-group {
+  margin: 20px 0 4px;
+  padding-inline: var(--fd-tab-pad);
+  color: var(--fd-ink-soft);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.side-group:first-child {
+  margin-top: 0;
+}
+
+.fd-drawer#menu {
+  overflow-y: auto;
+}
+
+#menu .side-nav {
+  overflow: visible;
+}
+
+.pages {
+  display: grid;
+  gap: var(--wall-gap);
+  min-width: 0;
+}
+
+.page {
+  min-width: 0;
+  padding: 48px;
+  font-size: 15px;
+  line-height: 26px;
+}
+
+.page > :first-child {
+  margin-top: 0;
+}
+
+.page > :last-child {
+  margin-bottom: 0;
+}
+
+.page h1 {
+  --fd-dissolve-paper: var(--fd-surface-1);
+  margin: 0 0 24px;
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.page h2 {
+  margin: 0 0 20px;
+  font-size: 30px;
+  font-weight: var(--fd-weight-strong);
+  line-height: 36px;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.page h3 {
+  margin: 40px 0 12px;
+  font-size: 20px;
+  font-weight: var(--fd-weight-strong);
+  line-height: 28px;
+  letter-spacing: -0.01em;
+}
+
+.page p,
+.page ul {
+  max-width: 68ch;
+  margin: 0 0 20px;
+  text-wrap: pretty;
+}
+
+.page ul {
+  padding-inline-start: 20px;
+}
+
+.page li + li {
+  margin-top: 8px;
+}
+
+.page strong {
+  font-weight: var(--fd-weight-strong);
+}
+
+.page .lead {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.page a:not(.fd-button) {
+  text-underline-offset: 3px;
+}
+
+.page a:not(.fd-button):hover {
+  color: var(--fd-orange);
+}
+
+.page :not(pre) > code {
+  padding: 1px 4px;
+  border-radius: 3px;
+  background-color: var(--fd-soft);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+}
+
+.page .fd-table {
+  width: 100%;
+  margin-block: 24px;
+}
+
+.page .fd-table caption {
+  margin-bottom: 8px;
+  color: var(--fd-ink-soft);
+  text-align: start;
+}
+
+.page .fd-banner {
+  margin-top: 16px;
+}
+
+.part {
+  margin-top: 64px;
+  scroll-margin-top: 24px;
+}
+
+.page > h2 + .part {
+  margin-top: 32px;
+}
+
+.part > h3 {
+  margin-top: 0;
+}
+
+.code-holder {
+  position: relative;
+  margin-block: 20px;
+}
+
+.code {
+  margin: 0;
+  padding: 16px 64px 16px 16px;
+  overflow-x: auto;
+  border-radius: 6px;
+  background-color: var(--fd-paper);
+  box-shadow: inset 0 0 0 1px var(--fd-line);
+  color: var(--fd-ink);
+  font: 13px / 20px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  tab-size: 2;
+}
+
+.copy-code {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--fd-paper);
+}
+
+/* A live example over its source. The example sits on the page's paper, so it reads as a
+   window through the tile rather than a card inside a card. */
+.plate {
+  --fd-dissolve-paper: var(--fd-paper);
+  position: relative;
+  margin-block: 24px 0;
+}
+
+.plate-view {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 144px;
+  padding: 36px;
+  border-radius: 8px;
+  background-color: var(--fd-paper);
+  box-shadow: inset 0 0 0 1px var(--fd-line);
+}
+
+.plate-view[data-layout='stack'] {
+  display: grid;
+  gap: 16px;
+  align-content: center;
+}
+
+.plate-view[data-layout='stack'] > * {
+  min-width: 0;
+}
+
+.plate-view[data-layout='columns'] {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.plate-view fd-dither-gradient {
+  background-color: transparent;
+}
+
+.plate-view fd-dither-gradient,
+.plate-view fd-field {
+  height: 140px;
+  border-radius: 6px;
+}
+
+/* The same ink and orange as the wall. */
+.plate-view fd-chart {
+  --fd-blue: var(--fd-edge);
+  --fd-green: var(--fd-ink-soft);
+  min-width: 0;
+}
+
+.plate-view .fd-uptime {
+  --fd-green: var(--fd-ink);
+  --fd-red: var(--fd-orange);
+}
+
+.plate-view fd-copy {
+  display: flex;
+  gap: var(--fd-gap);
+}
+
+.plate-view fd-copy .fd-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.plate-view .fd-message {
+  margin: 0;
+}
+
+.plate-view .fd-empty {
+  padding: 8px;
+}
+
+.plate-view .fd-table {
+  margin: 0;
+}
+
+.plate-view fd-tabs {
+  width: min(100%, 360px);
+}
+
+.plate-view fd-tab-panel {
+  margin-top: 8px;
+}
+
+.plate fd-tabs {
+  display: block;
+  margin-top: 12px;
+}
+
+.plate fd-tab-panel .code-holder {
+  margin-block: 12px 0;
+}
+
+.plate-add {
+  margin: 12px 0 0;
+  color: var(--fd-ink-soft);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.demo-scroller {
+  max-height: 96px;
+  overflow-y: auto;
+}
+
+.demo-scroller p {
+  margin: 0;
+}
+
+.demo-square {
+  width: 160px;
+  height: 160px;
+}
+
+.demo-world {
+  height: 200px;
+}
+
+.demo-big {
+  margin: 0 !important;
+  font-size: 30px;
+  font-weight: var(--fd-weight-strong);
+  line-height: 36px;
+}
+
+.demo-compare {
+  height: 180px;
+}
+
+.demo-compare > fd-field {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+@media (max-width: 899px) {
+  body {
+    padding: 12px;
+  }
+
+  .docs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .side {
+    position: static;
+    max-height: none;
+  }
+
+  .side > .side-nav {
+    display: none;
+  }
+
+  .menu {
+    display: inline-flex;
+  }
+
+  .page {
+    padding: 28px 20px;
+  }
+
+  .page h1 {
+    font-size: 48px;
+  }
+
+  .plate-view {
+    padding: 24px 16px;
+  }
+
+  .plate-view[data-layout='columns'] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.demo-row {
+  padding: 6px 10px;
+}
+
+.plate-view fd-reveal p {
+  margin: 0 0 8px;
+}
+
+.plate-view .fd-check-group legend {
+  padding: 0 0 6px;
+}
+
+.plate-view fd-questions {
+  width: min(100%, 380px);
+  justify-self: center;
+}
+
+.page .plate-view p {
+  margin-bottom: 0;
+}
+
+.page .plate-view fd-reveal p {
+  margin-bottom: 8px;
+}

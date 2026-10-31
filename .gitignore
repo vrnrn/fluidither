@@ -2,6 +2,8 @@
 node_modules/
 target/
 web/dist/
+site-dist/
+.wrangler/
 web/skill/
 
 # Local tools and machines

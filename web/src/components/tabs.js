@@ -142,7 +142,7 @@ export class Tabs extends HTMLElement {
     const wasHidden = this.#peeking === null;
     this.#peeking = shown;
     if (!shown) {
-      this.#peek.to({ opacity: 0 });
+      this.#peek.to({ opacity: 0 }, springs.quickOut);
       return;
     }
     const place = { x: shown.offsetLeft, width: shown.offsetWidth };

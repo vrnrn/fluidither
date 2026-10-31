@@ -1,0 +1,9 @@
+{
+  "name": "fluidither",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./site-dist",
+    "not_found_handling": "404-page"
+  },
+  "routes": [{ "pattern": "fluidither.vrnrn.com", "custom_domain": true }]
+}

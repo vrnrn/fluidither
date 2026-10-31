@@ -32,8 +32,10 @@ CSS means no JavaScript is needed. "+ JS" means load the script of that name as 
 | Busy button | `aria-busy="true" disabled` on the button | button.css |
 | Tabs | `<fd-tabs value="a"><fd-tab-list aria-label="..."><fd-tab value="a">A</fd-tab></fd-tab-list><fd-tab-panel value="a">...</fd-tab-panel></fd-tabs>`, `look="underline"` for a lighter form | tabs.css + JS |
 | Text field | `<input class="fd-input">`, or a `<textarea>` | input.css |
+| Input group | `<div class="fd-input-group"><label class="fd-input-row"><span>Name</span><input class="fd-input"></label></div>` | input.css |
 | Labeled field | `<label class="fd-field">Name <input class="fd-input"><span class="fd-field-hint">Hint</span></label>`. For `<fd-select>` and `<fd-combobox>`, use a `<div class="fd-field">`, because a label's click doesn't reach them | input.css |
 | Checkbox | `<label class="fd-choice"><input class="fd-check" type="checkbox"> Label</label>` | check.css |
+| Check group | `<fieldset class="fd-check-group">` holding `.fd-choice` rows. Rows checked side by side join | check.css |
 | Radio | `<input class="fd-radio" type="radio" name="plan">` in a `.fd-choice` | check.css |
 | Switch | `<input class="fd-switch" type="checkbox" role="switch">` in a `.fd-choice` | switch.css, check.css for the label |
 | Slider | `<fd-slider><input type="range" aria-label="Volume"></fd-slider>` | slider.css + JS |
@@ -46,7 +48,8 @@ CSS means no JavaScript is needed. "+ JS" means load the script of that name as 
 | Command menu | `<fd-command aria-label="Commands"><fd-list>...</fd-list></fd-command>`, call `.show()` | list.css, dialog.css, command.css + JS |
 | Card | `<article class="fd-card">` holding `.fd-card-title` and `.fd-card-text`, `data-raised` to lift it | card.css |
 | Badge | `<span class="fd-badge" data-tone="green">Live</span>` | badge.css |
-| Banner | `<div class="fd-banner" data-tone="orange" role="status">` | banner.css |
+| Banner | `<div class="fd-banner" data-tone="orange" role="status">`, with `<fd-dismiss>` inside to let it close | banner.css, banner.js for `<fd-dismiss>`, button.css |
+| Key | `<kbd class="fd-kbd">Tab</kbd>` | misc.css |
 | Accordion | `<details class="fd-accordion" name="group"><summary>Title</summary>...</details>` | accordion.css |
 | Table | `<table class="fd-table">`, `data-number` on numeric cells | table.css |
 | Navigation | `<fd-nav aria-label="Sections"><a href="#a" aria-current="page">A</a></fd-nav>` | nav.css + JS |
@@ -62,15 +65,21 @@ CSS means no JavaScript is needed. "+ JS" means load the script of that name as 
 | Field | `<fd-field kind="plasma" speed="1">` | field.css + JS |
 | Map and globe | `<fd-world kind="map" aria-label="...">`, `kind="globe"` | field.css, extras.css, world.js |
 | Image | `<fd-dither-image src="a.jpg" alt="..." matrix="halftone">`, transparent parts stay paper, so it also makes a dithered logo | field.css, dither-image.js |
-| Text effects | `<fd-scramble>`, `<fd-dissolve>`, `<fd-count value="1204">`. On `<fd-dissolve>`, `hold="0.1 0.7"` keeps the dither and `on-view` waits until it is seen | text-effects.css + JS |
+| Text effects | `<fd-scramble>`, `<fd-dissolve>`, `<fd-count value="1204">`, `<fd-shimmer words="Thinking; Reading">`. On `<fd-dissolve>`, `hold="0.1 0.7"` keeps the dither and `on-view` waits until it is seen | text-effects.css + JS |
+| Gliding hover | `<fd-hover nearest axis="y">` around any list. `items="tbody tr"` picks what counts | hover.css + JS |
+| Reveal | `<fd-reveal subtle>` around what should rise in order. `.run()` plays it again | reveal.css + JS |
 | Calendar | `<fd-calendar value="2026-10-30" min max>` | calendar.css + JS |
 | Date picker | `<fd-date-picker name="due" value="2026-10-30" aria-label="Due">` | calendar.css, select.css, date-picker.js |
 | Color | `<fd-swatches colors="#c33 #39c" aria-label="Accent">`, `<input class="fd-color" type="color">` | misc.css, swatches.js |
 | Chat | `<p class="fd-message" data-from="me">`, `.fd-thinking`, `.fd-composer` | misc.css |
+| Suggested reply | `<fd-composer suggestion="Make it shorter">` around a `.fd-composer` form. Tab fills, Enter sends, and `send` carries `detail: { text }` | misc.css, input.css, button.css, composer.js |
+| Color picker | `<fd-color-picker value="#fc9e47" aria-label="Accent">`, fires `change`, reads `.value` | misc.css, input.css, color-picker.js |
 | Copy field | `<fd-copy value="..." label="...">` | misc.css, input.css, button.css, copy.js |
 | Small pieces | `.fd-avatar`, `.fd-empty`, `.fd-dots`, `.fd-uptime` | misc.css |
 | Steps | `<ol class="fd-steps"><li data-state="done">...</li><li data-state="active">...</li><li>...</li></ol>` | extras.css |
 | Question | `<fieldset class="fd-question"><legend>Which?</legend>...</fieldset>` | extras.css |
+| Question flow | `<fd-questions done="Thanks.">` around `.fd-question` fieldsets of named radios, or checkboxes for several answers. A text input in an option makes its text the answer. Fires `answer` and `done` | extras.css, check.css, button.css, questions.js |
+| Thinking steps | `<details class="fd-thinking-steps" open><summary>Research</summary><ol class="fd-steps">...</ol></details>`, `.fd-sources` for badges | extras.css, badge.css |
 | Sidebar | `<fd-sidebar label="menu">...</fd-sidebar>` | extras.css, sidebar.js |
 | Compare | `<fd-compare aria-label="...">`, around two elements | extras.css, compare.js |
 | Marquee | `<fd-marquee aria-label="..."><span>A</span><span>B</span></fd-marquee>` | extras.css, marquee.js |
@@ -90,7 +99,7 @@ CSS means no JavaScript is needed. "+ JS" means load the script of that name as 
 | Spacing | `--fd-gap` is 6px, for inside a control or row. `--fd-pad` is 14px, for cards and page layout |
 | Sizes | `--fd-control`, `--fd-segment`, `--fd-icon`, `--fd-inset` |
 | Corners | `--fd-radius-control`, `--fd-radius-pill` |
-| Motion | `--fd-spring-quick`, `--fd-spring-glide`, `--fd-spring-settle` |
+| Motion | `--fd-spring-quick`, `--fd-spring-glide`, `--fd-spring-settle`, and exits a step faster: `--fd-spring-quick-out`, `--fd-spring-glide-out`, `--fd-spring-settle-out` |
 
 ## Details
 

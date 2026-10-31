@@ -32,6 +32,23 @@ platform draws nothing:
 npm run check:centering
 ```
 
+## Run the site
+
+The home page and docs live in `site/`:
+
+```bash
+npm run site
+```
+
+Their tests run in Chromium too:
+
+```bash
+npm run test:site
+```
+
+`npm run site:build` puts the site and the library in `site-dist/`, and `npx wrangler deploy`
+publishes that folder.
+
 ## Change a token
 
 Edit `tokens/tokens.json`, never the generated files. Then:

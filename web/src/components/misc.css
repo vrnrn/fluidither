@@ -216,3 +216,117 @@ fd-copy {
   background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
   background-size: 4px 4px;
 }
+
+/* <fd-composer> wraps a .fd-composer form. Its suggestion shows as the placeholder. */
+fd-composer {
+  display: block;
+  position: relative;
+}
+
+fd-composer .fd-input {
+  field-sizing: content;
+  max-height: 120px;
+}
+
+.fd-composer-tab {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-end: 72px;
+  padding-inline: 5px;
+  border-radius: var(--fd-radius-pill);
+  background-color: var(--fd-soft);
+  color: var(--fd-ink-soft);
+  font: var(--fd-weight-regular) 11px / 18px var(--fd-font-sans);
+  pointer-events: none;
+}
+
+.fd-composer-tab[hidden] {
+  display: none;
+}
+
+/* <fd-color-picker>: a field of color cells over a hue slider, with the hex to type. */
+fd-color-picker {
+  display: grid;
+  gap: 8px;
+  width: min(100%, 256px);
+  color: var(--fd-ink);
+}
+
+.fd-color-field {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--fd-radius-control);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.fd-color-field > canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.fd-color-field:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 2px;
+}
+
+.fd-color-mark {
+  position: absolute;
+  left: var(--_x);
+  top: var(--_y);
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  box-shadow: 0 0 0 2px var(--fd-paper), 0 0 0 3px var(--fd-ink);
+  pointer-events: none;
+}
+
+.fd-color-hue {
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  margin: 0;
+  border-radius: var(--fd-radius-pill);
+  background: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+
+.fd-color-hue::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 16px;
+  border-radius: 3px;
+  background-color: var(--fd-ink);
+  box-shadow: 0 0 0 2px var(--fd-paper);
+}
+
+.fd-color-hue::-moz-range-thumb {
+  width: 10px;
+  height: 16px;
+  border: 0;
+  border-radius: 3px;
+  background-color: var(--fd-ink);
+  box-shadow: 0 0 0 2px var(--fd-paper);
+}
+
+.fd-color-hue:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 3px;
+}
+
+/* <kbd class="fd-kbd"> is one key or shortcut. */
+.fd-kbd {
+  display: inline-flex;
+  align-items: center;
+  min-width: 18px;
+  height: 18px;
+  justify-content: center;
+  padding-inline: 5px;
+  border-radius: var(--fd-radius-pill);
+  background-color: var(--fd-soft);
+  box-shadow: inset 0 -1px 0 var(--fd-line);
+  color: var(--fd-ink-soft);
+  font: var(--fd-weight-regular) 11px / 16px var(--fd-font-sans);
+}

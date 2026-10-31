@@ -12,6 +12,8 @@
 </p>
 
 <p align="center">
+  <a href="https://fluidither.vrnrn.com">Website</a> ·
+  <a href="https://fluidither.vrnrn.com/docs">Docs</a> ·
   <a href="#quick-start-for-the-web">Web</a> ·
   <a href="#quick-start-for-gpui">GPUI</a> ·
   <a href="#components">Components</a> ·
@@ -39,8 +41,10 @@ tests hold their dither output to the same cells.
 
 - **Dither instead of tint.** Hover states, dialog screens, chart shading and the empty part
   of a slider are all real dithers, drawn cell by cell.
-- **Springs instead of durations.** Motion keeps its speed when the target changes, and
-  reduced motion is respected.
+- **Springs instead of durations.** Motion keeps its speed when the target changes, things
+  leave faster than they arrive, and reduced motion is respected.
+- **Motion with a job.** One dithered highlight glides between items, and neighbours merge
+  into one shape, so movement always says something.
 - **Real elements on the web.** A button is a `<button>` and a dialog is a `<dialog>`, so the
   keyboard and accessibility come from the browser.
 - **Works under a strict CSP.** No inline styles and no `data:` images. It runs under
@@ -56,8 +60,8 @@ There is no build step. Copy in the components you want, along with the files th
 npx fluidither add tabs button gradient --dir my-site/fluidither
 ```
 
-It prints the tags to paste. Run `npx fluidither list` to see every name, or
-`npx fluidither init` to copy the whole library. Then save this as `my-site/index.html`:
+It prints the tags to paste. Run `npx fluidither list` to see every name, or plain
+`npx fluidither` to copy the whole library. Then save this as `my-site/index.html`:
 
 ```html
 <!doctype html>
@@ -126,7 +130,7 @@ Add the crate, with `gpui` at the same version:
 
 ```toml
 [dependencies]
-fluidither = "0.1"
+fluidither = "0.2"
 gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
 ```
 
@@ -178,15 +182,16 @@ GPUI itself, which took about 10 minutes on an M1 Pro.
 | Group | On both targets |
 | --- | --- |
 | Actions | Button, Tabs |
-| Forms | Text field, Checkbox, Radio group, Switch, Slider, Swatches, Color picker, Copy field |
+| Forms | Text field, Input group, Checkbox, Check group, Radio group, Switch, Slider, Swatches, Color picker, Copy field |
 | Overlays | Tooltip, Menu, Select, Combobox, Dialog, Drawer, Sheet, Command menu |
 | Dates | Calendar, Date picker |
 | Structure | Card, Badge, Banner, Accordion, Table, Nav, Sidebar, Scroll area, Avatar, Dots, Empty state, File card, Missing page |
 | Feedback | Loader, Skeleton, Progress, Divider, Stat, Sparkline, Uptime, Steps, Glow |
-| Chat | Message, Thinking, Composer, Question card |
+| Chat | Message, Thinking, Thinking steps, Composer with suggestions, Question card, Question flow |
 | Charts | Bar, Area, Line, Donut, Radar, Heatmap, Gauge |
 | Dither | Gradient, 18 animated fields, Halftone image, World map, Globe, Save as PNG |
-| Text | Scramble, Dissolve, Count |
+| Text | Scramble, Dissolve, Count, Shimmer |
+| Motion | Gliding hover, Reveal |
 | Media | Compare, Marquee |
 
 To see them all, clone the repository and run the demos:
@@ -229,7 +234,8 @@ for Claude Code, add `--dir`.
 - **Cells, not gradients.** A tone is worked out per cell, then thresholded against a Bayer
   matrix, a halftone screen or blue noise. The output is flat ink, so it stays crisp at any
   size.
-- **Three springs.** `quick` for hover, `glide` for movement, and `settle` for arrivals.
+- **Three springs.** `quick` for hover, `glide` for movement, and `settle` for arrivals, each
+  with a faster exit.
 - **Pixel marks.** Ticks, dashes and arrows are small cell drawings from the tokens, so they
   match on both targets.
 - **Two densities.** `regular` and `compact`, set on any element.
@@ -241,7 +247,7 @@ how the two engines are kept in step.
 
 | | Status |
 | --- | --- |
-| Chromium | Tested. 121 browser tests run under the strict CSP, with axe in both themes. |
+| Chromium | Tested. 136 browser tests run under the strict CSP, with axe in both themes. |
 | macOS on Apple Silicon | Tested with Rust 1.98.1 and `gpui` 0.2.2. |
 | Firefox, Safari | Not run. Styles for them are written but have never been seen. |
 | Linux, Windows | Not built for GPUI. |
@@ -249,7 +255,7 @@ how the two engines are kept in step.
 | Screen readers on GPUI | **Not supported.** `gpui` 0.2.2 has no accessibility API, so VoiceOver can't see these components. |
 | PDF previews | Not included. File cards show the type and size, because a preview needs a PDF renderer. |
 
-There are also 32 unit tests for the web and 76 Rust tests, including parity tests that
+There are also 36 unit tests for the web and 81 Rust tests, including parity tests that
 compare the two engines cell for cell. [Support](docs/support.md) has the full list of limits and the differences between
 the targets, and [Performance](docs/performance.md) has the measurements.
 

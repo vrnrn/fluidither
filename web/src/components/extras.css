@@ -261,3 +261,103 @@ fd-marquee:focus-within .fd-marquee-track {
     animation: none;
   }
 }
+
+/* <details class="fd-thinking-steps"> folds a run of .fd-steps under a line of status. */
+.fd-thinking-steps {
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+}
+
+.fd-thinking-steps > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fd-ink-soft);
+  cursor: pointer;
+  list-style: none;
+}
+
+.fd-thinking-steps > summary::-webkit-details-marker {
+  display: none;
+}
+
+.fd-thinking-steps > summary::after {
+  content: '';
+  width: 2px;
+  height: 2px;
+  margin-inline-end: var(--fd-glyph-arrow-width);
+  box-shadow: var(--fd-glyph-arrow);
+  rotate: -90deg;
+  transition: rotate var(--fd-spring-glide);
+}
+
+.fd-thinking-steps[open] > summary::after {
+  rotate: 0deg;
+}
+
+.fd-thinking-steps > summary:focus-visible {
+  outline: 1px solid var(--fd-focus);
+  outline-offset: 2px;
+}
+
+.fd-thinking-steps > .fd-steps {
+  margin-top: 10px;
+}
+
+.fd-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+  font-weight: var(--fd-weight-regular);
+}
+
+/* <fd-questions> shows one .fd-question at a time. */
+fd-questions {
+  display: grid;
+  gap: 12px;
+  color: var(--fd-ink);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+}
+
+.fd-questions-count,
+.fd-questions-done {
+  margin: 0;
+  color: var(--fd-ink-soft);
+}
+
+fd-questions > .fd-question {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  counter-reset: fd-option;
+}
+
+fd-questions > .fd-question[hidden] {
+  display: none;
+}
+
+fd-questions .fd-choice {
+  counter-increment: fd-option;
+}
+
+fd-questions .fd-choice::after {
+  content: counter(fd-option);
+  margin-inline-start: auto;
+  padding-inline: 5px;
+  border-radius: var(--fd-radius-pill);
+  background-color: var(--fd-soft);
+  color: var(--fd-ink-soft);
+  font-size: 11px;
+}
+
+fd-questions .fd-choice {
+  display: flex;
+}
+
+.fd-questions-actions {
+  display: flex;
+  gap: var(--fd-gap);
+  justify-content: flex-end;
+}

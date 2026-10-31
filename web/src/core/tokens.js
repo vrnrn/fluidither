@@ -3,6 +3,9 @@ export const springs = {
   quick: { omega: 102.59348307168429, damping: 1, duration: 0.09 },
   glide: { omega: 51.296741535842145, damping: 1, duration: 0.18 },
   settle: { omega: 28.659706971825788, damping: 0.9, duration: 0.3 },
+  quickOut: { omega: 131.9059068064512, damping: 1, duration: 0.07 },
+  glideOut: { omega: 65.9529534032256, damping: 1, duration: 0.14 },
+  settleOut: { omega: 46.167067382257926, damping: 1, duration: 0.2 },
 };
 
 export const dither = { cell: 3, fps: 30 };
