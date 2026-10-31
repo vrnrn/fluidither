@@ -91,6 +91,19 @@ a {
   margin-bottom: var(--wall-gap);
 }
 
+.foot {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--wall-gap);
+}
+
+.foot-by {
+  padding-inline-start: 6px;
+  color: var(--fd-ink-soft);
+  font-size: 12px;
+}
+
 .bar-tools {
   display: flex;
   align-items: center;
