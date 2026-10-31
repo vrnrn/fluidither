@@ -73,10 +73,12 @@ test('nearest keeps something lit across a gap', async (t) => {
 
 test('checked neighbours join into one shape', async (t) => {
   const page = await open(t);
-  const corner = (row, side) => `Number.parseFloat(getComputedStyle(document.querySelector('#fruit-group .fd-choice:nth-of-type(${row})')).${side})`;
-  await page.waitForFunction(`${corner(1, 'borderBottomLeftRadius')} === 0 && ${corner(2, 'borderTopLeftRadius')} === 0`);
+  await page.waitForFunction(() => {
+    const [first, second] = document.querySelectorAll('#fruit-group .fd-choice');
+    return Number.parseFloat(getComputedStyle(first).borderBottomLeftRadius) === 0 && Number.parseFloat(getComputedStyle(second).borderTopLeftRadius) === 0;
+  });
   await page.click('#fruit-group .fd-choice:nth-of-type(2)');
-  await page.waitForFunction(`${corner(1, 'borderBottomLeftRadius')} > 0`);
+  await page.waitForFunction(() => Number.parseFloat(getComputedStyle(document.querySelector('#fruit-group .fd-choice')).borderBottomLeftRadius) > 0);
 });
 
 test('shimmer keeps its label, draws, and holds still under reduced motion', async (t) => {
