@@ -180,11 +180,13 @@ const tabBox = (page, value) =>
 test('the thumb lands on the selected tab', async (t) => {
   const page = await open(t);
   await page.click('#range fd-tab[value=month]');
-  await page.waitForTimeout(400);
-  const { thumbX, thumbWidth } = await listVars(page);
   const tab = await tabBox(page, 'month');
-  assert.equal(thumbX, tab.x);
-  assert.equal(thumbWidth, tab.width);
+  const landed = async () => {
+    const { thumbX, thumbWidth } = await listVars(page);
+    return thumbX === tab.x && thumbWidth === tab.width;
+  };
+  for (let tries = 0; tries < 60 && !(await landed()); tries += 1) await page.waitForTimeout(50);
+  assert.ok(await landed(), JSON.stringify(await listVars(page)));
 });
 
 test('a tab keeps its width when its weight changes', async (t) => {

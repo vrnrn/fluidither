@@ -141,11 +141,11 @@ test('dissolve clears its veil and leaves plain text', async (t) => {
 
 test('a count springs to its value and retargets', async (t) => {
   const page = await open(t, {}, '#effects');
-  await page.waitForTimeout(500);
-  assert.equal(await page.textContent('#count'), new Intl.NumberFormat().format(1204));
+  const settlesOn = (text) =>
+    page.waitForFunction((text) => document.querySelector('#count').textContent === text, text, { timeout: 3000 });
+  await settlesOn(new Intl.NumberFormat().format(1204));
   await page.$eval('#count', (each) => each.setAttribute('value', '50'));
-  await page.waitForTimeout(600);
-  assert.equal(await page.textContent('#count'), '50');
+  await settlesOn('50');
 });
 
 test('an image redraws in dots with its alt text as the label', async (t) => {
