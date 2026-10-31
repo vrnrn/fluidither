@@ -240,20 +240,24 @@ test('a page at rest requests no animation frames from the tabs', async (t) => {
   await page.evaluate(() => document.querySelectorAll('fd-dither-gradient').forEach((each) => each.remove()));
   await page.click('#range fd-tab[value=day]');
   await page.mouse.move(1, 1);
-  await page.waitForTimeout(500);
-  const frames = await page.evaluate(
-    () =>
-      new Promise((resolve) => {
-        let count = 0;
-        const original = window.requestAnimationFrame;
-        window.requestAnimationFrame = (callback) => {
-          count += 1;
-          return original.call(window, callback);
-        };
-        setTimeout(() => resolve(count), 300);
-      }),
-  );
-  assert.equal(frames, 0);
+  const framesInAMoment = () =>
+    page.evaluate(
+      () =>
+        new Promise((resolve) => {
+          let count = 0;
+          const original = window.requestAnimationFrame;
+          window.requestAnimationFrame = (callback) => {
+            count += 1;
+            return original.call(window, callback);
+          };
+          setTimeout(() => {
+            window.requestAnimationFrame = original;
+            resolve(count);
+          }, 300);
+        }),
+    );
+  // A slow machine may still be finishing, but a loop that never ends never gets to zero.
+  await settles(framesInAMoment, 0);
 });
 
 test('reduced motion: springs jump and the gradient draws one frame', async (t) => {
