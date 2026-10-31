@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '26'
+          package-manager-cache: false
+      - run: npm ci
+      - run: npx playwright-core install chromium
+      - run: npm run test:web
+      - run: npm run test:browser
+
+  gpui:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            gpui/target
+          key: gpui-${{ runner.os }}-${{ hashFiles('gpui/Cargo.lock') }}
+      - run: cargo test --manifest-path gpui/Cargo.toml

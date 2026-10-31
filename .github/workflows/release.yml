@@ -1,0 +1,51 @@
+# Runs when a tag like v0.2.0 is pushed. Both registries trust this workflow by name through
+# OIDC, so no publish token is stored in the repository.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: node scripts/version.mjs --check "$GITHUB_REF_NAME"
+
+  test:
+    needs: version
+    uses: ./.github/workflows/ci.yml
+
+  crate:
+    needs: test
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: rust-lang/crates-io-auth-action@v1
+        id: auth
+      - run: cargo publish --manifest-path gpui/Cargo.toml
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
+
+  npm:
+    needs: crate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '26'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+      - run: npm publish
+        working-directory: web

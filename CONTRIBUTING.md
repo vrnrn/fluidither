@@ -67,6 +67,28 @@ The `blocks`, `visuals` and `extras` examples show the rest. To remake the READM
 npm run images
 ```
 
+## Release
+
+Pushing a version tag publishes both packages. The release workflow checks that the tag
+matches every version number, runs the tests, then publishes the crate and the npm package.
+
+```bash
+npm run version:set 0.2.0
+```
+
+```bash
+git commit -am "Release 0.2.0" && git tag v0.2.0 && git push origin main v0.2.0
+```
+
+No token is stored in the repository. Each registry trusts the workflow by name, which is set
+once under the package's settings:
+
+- **crates.io:** Settings, Trusted Publishing. Owner `vrnrn`, repository `fluidither`, workflow
+  `release.yml`.
+- **npm:** Settings, Trusted Publisher, GitHub Actions. The same three values, with
+  `npm publish` allowed. A new npm connection expires unless it publishes within 2 days, so set
+  it up just before a release.
+
 ## Keep to these
 
 - No runtime dependencies on the web, and no inline styles.

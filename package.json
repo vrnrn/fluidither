@@ -35,7 +35,8 @@
     "check:centering": "cargo run --release --manifest-path gpui/Cargo.toml --example center_check",
     "size": "node scripts/size.mjs",
     "cost": "node scripts/web-cost.mjs",
-    "images": "node scripts/readme-images.mjs"
+    "images": "node scripts/readme-images.mjs",
+    "version:set": "node scripts/version.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",
