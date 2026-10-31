@@ -57,7 +57,8 @@ value in, as with `.checked()`, `.on()`, `.selected()` or `.value()`.
 | Dialog | `Dialog::new(id, open).title()`, `.text()`, `.body()`, `.action()`, `.on_close()`, `.drawer()`, `.sheet()` |
 | Card | `Card::new().title()`, `.text()`, `.raised()`, `.child()` |
 | Badge | `Badge::new("Live").tone(Tone::Green)` |
-| Banner | `Banner::new("Text").tone(Tone::Orange).action(button)` |
+| Banner | `Banner::new("Text").tone(Tone::Orange).action(button)`, `.on_dismiss()` adds a close button |
+| Key | `Kbd::new("⌘K")` |
 | Accordion | `Accordion::new(id).section("Title", body)`, `.initial(0)`, `.multiple()` |
 | Table | `Table::new(id).column("Name").number_column("Amount").row(["A", "1"])` |
 | Nav | `Nav::new(id, rows)`, `.selected()`, `.initial()`, `.on_change()` |
@@ -74,6 +75,13 @@ value in, as with `.checked()`, `.on()`, `.selected()` or `.value()`.
 | Map and globe | `DitherGradient::map(id).w(px(440.)).h(px(220.))`, `DitherGradient::globe(id)` |
 | Image | `DitherImage::new(id, path).matrix(Matrix::Halftone).size(240., 120.)`, transparent parts stay paper, so it also makes a dithered logo |
 | Text effects | `Scramble::new(id, text)`, `Dissolve::new(id, content)`, `.hold(0.1, 0.7)`, `.on_view()`, `Count::new(id, 1204.)` |
+| Shimmer | `Shimmer::new(id, ["Thinking", "Reading"])`, `.paper()` |
+| Gliding hover | `HoverList::new(id, 28.).row("Inbox").row("Drafts")`, rows of one height |
+| Reveal | `Reveal::new(id, content)`, `.delay()`, `.subtle()` |
+| Check group | `CheckGroup::new("fruit", ["A", "B"]).initial([0])`, `.on_change()` |
+| Input group | `InputGroup::new().field("Name", entity)` |
+| Thinking steps | `ThinkingSteps::new(id, "Research").step("Read", Step::Done).source("docs")` |
+| Question flow | `Questions::new("survey").question("Which?", ["A", "B"]).several("Pick some", ["C", "D"]).on_done()`, number keys answer. Each answer is a list of the chosen rows, empty if skipped |
 | Calendar | `Calendar::new(id, Date::new(2026, 10, 14))`, `.value()`, `.on_change()` |
 | Date picker | `DatePicker::new(id, start)`, `.initial()`, `.on_change()` |
 | Swatches | `Swatches::new(id, colors)`, `.initial()`, `.on_change()` |
@@ -107,6 +115,8 @@ let commands = cx.new(|cx| CommandMenu::new(["New", "Open"], cx)); // CommandEve
 commands.update(cx, |menu, cx| menu.show(cx));
 
 let composer = cx.new(Composer::new); // ComposerEvent::Sent(text)
+// Or, offering a message that Tab takes into the empty box:
+let composer = cx.new(|cx| Composer::new(cx).suggestion("Make it shorter", cx));
 ```
 
 ## Saving a dither

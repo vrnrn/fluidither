@@ -49,3 +49,47 @@
   color: var(--fd-ink-soft);
   font-weight: var(--fd-weight-regular);
 }
+
+/* .fd-input-group stacks <label class="fd-input-row"> rows into one field, split by hairlines. */
+.fd-input-group {
+  display: grid;
+  min-width: 0;
+  border-radius: var(--fd-radius-control);
+  box-shadow: inset 0 0 0 1px var(--fd-edge);
+  overflow: hidden;
+  transition: box-shadow var(--fd-spring-quick);
+}
+
+.fd-input-group:focus-within {
+  box-shadow: inset 0 0 0 1px var(--fd-focus);
+}
+
+.fd-input-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  align-items: center;
+  color: var(--fd-ink-soft);
+  font: var(--fd-weight-regular) var(--fd-font-size) / var(--fd-line-height) var(--fd-font-sans);
+}
+
+.fd-input-row > span {
+  padding-inline-start: var(--fd-tab-pad);
+}
+
+.fd-input-row + .fd-input-row {
+  background-image: linear-gradient(var(--fd-line), var(--fd-line));
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+}
+
+.fd-input-row > .fd-input {
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  outline: 0;
+}
+
+.fd-input-row:has([aria-invalid='true']) > span {
+  color: var(--fd-red);
+}

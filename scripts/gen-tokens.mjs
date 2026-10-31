@@ -217,11 +217,11 @@ const glyphVariables = Object.entries(tokens.glyphs)
   .join('\n');
 
 const springVariables = Object.entries(springs)
-  .map(([name, spring]) => `  --fd-spring-${name}: ${Math.round(spring.duration * 1000)}ms ${cssEasing(spring)};`)
+  .map(([name, spring]) => `  --fd-spring-${kebab(name)}: ${Math.round(spring.duration * 1000)}ms ${cssEasing(spring)};`)
   .join('\n');
 
 const stillSprings = Object.keys(springs)
-  .map((name) => `    --fd-spring-${name}: 0.01ms linear;`)
+  .map((name) => `    --fd-spring-${kebab(name)}: 0.01ms linear;`)
   .join('\n');
 
 write(
@@ -337,7 +337,7 @@ ${Object.entries(size)
 };`;
 
 const rustSpring = ([name, { omega, damping, duration }]) =>
-  `pub const ${name.toUpperCase()}: SpringConfig = SpringConfig { omega: ${float(omega)}, damping: ${float(damping)}, duration: ${float(duration)} };`;
+  `pub const ${snake(name).toUpperCase()}: SpringConfig = SpringConfig { omega: ${float(omega)}, damping: ${float(damping)}, duration: ${float(duration)} };`;
 
 write(
   'gpui/src/generated.rs',

@@ -26,7 +26,8 @@ tags to paste into the page:
 npx fluidither add tabs button gradient --dir public/fluidither
 ```
 
-`npx fluidither list` shows the names. Rerun it to add more or to update. With a bundler, run
+`npx fluidither list` shows the names, and plain `npx fluidither` copies the whole library.
+Rerun either to add more or to update. With a bundler, run
 `npm install fluidither` and import by name, such as `fluidither/tokens.css` and
 `fluidither/components/tabs.js`. Modules need a web server, so pages won't work from `file://`.
 
@@ -34,7 +35,7 @@ npx fluidither add tabs button gradient --dir public/fluidither
 
 ```toml
 [dependencies]
-fluidither = "0.1"
+fluidither = "0.2"
 gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
 ```
 
@@ -46,7 +47,10 @@ Call `fluidither::init(cx)` once at startup.
 - **Dither instead of tint.** Quiet hover states, dialog screens, the unfilled part of a
   bar and the shading in charts are all a dither. Never put a dither behind body text.
 - **Springs instead of durations.** `quick` for hover, `glide` for movement, `settle` for
-  arrivals. Springs keep their speed when the target changes.
+  arrivals, each with a faster exit: `quickOut`, `glideOut`, `settleOut`. Springs keep their
+  speed when the target changes.
+- **Motion with a job.** One highlight glides between items, and neighbours merge. Every
+  animation should say something about what is happening.
 - **Pixel marks.** Ticks, dashes and arrows are small cell drawings from the tokens.
 - **Two densities.** `regular` and `compact`.
 

@@ -22,6 +22,7 @@ jobs:
       - run: npx playwright-core install chromium
       - run: npm run test:web
       - run: npm run test:browser
+      - run: npm run test:site
 
   gpui:
     runs-on: macos-latest

@@ -1,5 +1,6 @@
 //! Static building blocks: Card, Badge and Banner.
 
+use crate::button::{Button, Look};
 use crate::generated::{RADIUS_CONTROL, WEIGHT_STRONG};
 use crate::paint::checker;
 use crate::theme::{cap_offset, fade, Theme};
@@ -7,6 +8,7 @@ use gpui::{
     div, prelude::*, px, AnyElement, App, Div, FontWeight, IntoElement, ParentElement, RenderOnce,
     Rgba, SharedString, Window,
 };
+use std::rc::Rc;
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub enum Tone {
@@ -146,11 +148,14 @@ pub struct Banner {
     text: SharedString,
     tone: Tone,
     action: Option<AnyElement>,
+    on_dismiss: Option<OnDismiss>,
 }
+
+type OnDismiss = Rc<dyn Fn(&mut Window, &mut App)>;
 
 impl Banner {
     pub fn new(text: impl Into<SharedString>) -> Self {
-        Self { text: text.into(), tone: Tone::default(), action: None }
+        Self { text: text.into(), tone: Tone::default(), action: None, on_dismiss: None }
     }
 
     pub fn tone(mut self, tone: Tone) -> Self {
@@ -160,6 +165,12 @@ impl Banner {
 
     pub fn action(mut self, action: impl IntoElement) -> Self {
         self.action = Some(action.into_any_element());
+        self
+    }
+
+    /// Add a close button. Keep the banner's state in your view and clear it here.
+    pub fn on_dismiss(mut self, handler: impl Fn(&mut Window, &mut App) + 'static) -> Self {
+        self.on_dismiss = Some(Rc::new(handler));
         self
     }
 }
@@ -201,5 +212,8 @@ impl RenderOnce for Banner {
             .child(strip(tone))
             .child(div().relative().top(nudge).child(self.text))
             .children(self.action)
+            .when_some(self.on_dismiss, |this, handler| {
+                this.child(Button::new("fd-banner-dismiss", "Close").look(Look::Ghost).on_click(move |_, window, cx| handler(window, cx)))
+            })
     }
 }

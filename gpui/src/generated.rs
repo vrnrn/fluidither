@@ -12,6 +12,9 @@ pub struct SpringConfig {
 pub const QUICK: SpringConfig = SpringConfig { omega: 102.59348307168429, damping: 1.0, duration: 0.09 };
 pub const GLIDE: SpringConfig = SpringConfig { omega: 51.296741535842145, damping: 1.0, duration: 0.18 };
 pub const SETTLE: SpringConfig = SpringConfig { omega: 28.659706971825788, damping: 0.9, duration: 0.3 };
+pub const QUICK_OUT: SpringConfig = SpringConfig { omega: 131.9059068064512, damping: 1.0, duration: 0.07 };
+pub const GLIDE_OUT: SpringConfig = SpringConfig { omega: 65.9529534032256, damping: 1.0, duration: 0.14 };
+pub const SETTLE_OUT: SpringConfig = SpringConfig { omega: 46.167067382257926, damping: 1.0, duration: 0.2 };
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct SizeTokens {

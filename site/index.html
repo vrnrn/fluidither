@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'" />
+    <title>fluidither: dithered UI for the plain web and GPUI</title>
+    <meta name="description" content="A component library with a printed look. Soft dithered shading, spring motion, no framework, and the same cells on the plain web and Rust GPUI." />
+    <meta property="og:title" content="fluidither" />
+    <meta property="og:description" content="UI that looks printed and moves on springs. For the plain web and GPUI." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/vrnrn/fluidither/main/docs/images/showcase-dark.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://fluidither.vrnrn.com/" />
+    <meta property="og:url" content="https://fluidither.vrnrn.com/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="fluidither/tokens.css" />
+    <link rel="stylesheet" href="fluidither/components/card.css" />
+    <link rel="stylesheet" href="fluidither/components/button.css" />
+    <link rel="stylesheet" href="fluidither/components/input.css" />
+    <link rel="stylesheet" href="fluidither/components/misc.css" />
+    <link rel="stylesheet" href="fluidither/components/check.css" />
+    <link rel="stylesheet" href="fluidither/components/switch.css" />
+    <link rel="stylesheet" href="fluidither/components/field.css" />
+    <link rel="stylesheet" href="fluidither/components/text-effects.css" />
+    <link rel="stylesheet" href="site.css" />
+    <script src="theme.js"></script>
+    <script type="module" src="fluidither/components/copy.js"></script>
+    <script type="module" src="fluidither/components/text-effects.js"></script>
+    <script type="module" src="fluidither/components/dither-image.js"></script>
+    <script type="module" src="fluidither/components/field.js"></script>
+    <script type="module" src="site.js"></script>
+  </head>
+  <body>
+    <fd-field id="ground" class="ground" kind="silk" cell="4" speed="0.6"></fd-field>
+
+    <div class="wall">
+    <header class="bar">
+      <div class="fd-card bar-tools">
+        <a class="fd-button" data-look="ghost" data-density="compact" href="docs.html">Docs</a>
+        <a class="fd-button" data-icon-only data-look="ghost" data-density="compact" href="https://github.com/vrnrn/fluidither" aria-label="fluidither on GitHub" title="GitHub">
+          <fd-dither-image class="logo logo-dark" src="github-dark.svg" alt="GitHub" matrix="bayer4" cell="0.5"></fd-dither-image>
+          <fd-dither-image class="logo logo-light" src="github-light.svg" alt="GitHub" matrix="bayer4" cell="0.5"></fd-dither-image>
+        </a>
+        <button class="fd-button" id="randomize" data-icon-only data-density="compact" type="button" aria-label="Randomize" title="Randomize (R)">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 1h12v1h1v12h-1v1H2v-1H1V2h1zm1 2v10h10V3zm1 1h2v2H4zm6 0h2v2h-2zM7 7h2v2H7zm-3 3h2v2H4zm6 0h2v2h-2z" fill-rule="evenodd" /></svg>
+        </button>
+        <label class="theme" data-density="compact">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7 0h2v3H7zM7 13h2v3H7zM0 7h3v2H0zM13 7h3v2h-3zM2 2h2v2H2zM12 2h2v2h-2zM2 12h2v2H2zM12 12h2v2h-2zM6 5h4v1h1v4h-1v1H6v-1H5V6h1z" /></svg>
+          <input class="fd-switch" id="dark" type="checkbox" role="switch" aria-label="Dark mode" checked />
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6 1h4v2H8v1H7v1H6v6h1v1h1v1h4v-1h2v-2h1v3h-1v1h-1v1H4v-1H3v-1H2v-1H1V5h1V4h1V3h1V2h2z" /></svg>
+        </label>
+      </div>
+    </header>
+
+    <main class="board" id="board">
+      <article class="fd-card tile hero" id="hero">
+        <h1>fluidither</h1>
+        <p class="hero-line">UI that looks printed and moves on springs. For the plain web and GPUI.</p>
+        <ul class="hero-points">
+          <li>No framework and no build step</li>
+          <li>Runs under a strict CSP</li>
+          <li>The same dither cells on both targets</li>
+        </ul>
+        <div class="hero-install">
+          <fd-copy value="npx fluidither" label="Install command"></fd-copy>
+          <p class="hero-note">That copies the whole library. Every tile is live, and the data is made up.</p>
+        </div>
+      </article>
+    </main>
+    </div>
+
+    <div class="wipe" id="wipe" hidden></div>
+    <p class="quiet" id="status" role="status"></p>
+  </body>
+</html>

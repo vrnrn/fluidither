@@ -88,8 +88,10 @@ export class Glide {
     return Object.fromEntries(Object.entries(this.springs).map(([name, spring]) => [name, spring.position]));
   }
 
-  to(targets) {
+  /** Move to `targets`. Pass `config` for one move on another spring, such as a faster exit. */
+  to(targets, config = this.config) {
     for (const [name, target] of Object.entries(targets)) {
+      this.springs[name].config = config;
       if (prefersReducedMotion()) this.springs[name].jump(target);
       else this.springs[name].target = target;
     }

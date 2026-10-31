@@ -579,9 +579,11 @@ pub enum ComposerEvent {
     Sent(String),
 }
 
-/// A message box with a send button. Enter or the button sends and clears it.
+/// A message box with a send button. Enter or the button sends and clears it. With a
+/// suggestion, Tab takes it into an empty box.
 pub struct Composer {
     field: Entity<TextField>,
+    suggestion: Option<SharedString>,
 }
 
 impl EventEmitter<ComposerEvent> for Composer {}
@@ -601,7 +603,22 @@ impl Composer {
             }
         })
         .detach();
-        Self { field }
+        Self { field, suggestion: None }
+    }
+
+    /// Offer a message, shown as the placeholder.
+    pub fn suggestion(mut self, text: impl Into<SharedString>, cx: &mut Context<Self>) -> Self {
+        let text = text.into();
+        self.field.update(cx, |field, _| field.set_placeholder(text.clone()));
+        self.suggestion = Some(text);
+        self
+    }
+
+    fn take_suggestion(&mut self, cx: &mut Context<Self>) {
+        match self.suggestion.clone().filter(|_| self.field.read(cx).text().is_empty()) {
+            Some(text) => self.field.update(cx, |field, cx| field.set_text(text.to_string(), cx)),
+            None => cx.propagate(),
+        }
     }
 
     fn send(&mut self, cx: &mut Context<Self>) {
@@ -616,7 +633,8 @@ impl Composer {
 impl Render for Composer {
     fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let view = cx.entity();
-        div().flex().gap(px(6.)).w_full().child(div().flex_1().child(self.field.clone())).child(Button::new("fd-composer-send", "Send").on_click(move |_, _, cx| {
+        let take = cx.listener(|this, _: &crate::FocusNext, _, cx| this.take_suggestion(cx));
+        div().flex().gap(px(6.)).w_full().on_action(take).child(div().flex_1().child(self.field.clone())).child(Button::new("fd-composer-send", "Send").on_click(move |_, _, cx| {
             view.update(cx, |this, cx| this.send(cx));
         }))
     }

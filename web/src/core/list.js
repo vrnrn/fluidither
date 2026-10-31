@@ -64,7 +64,7 @@ export class List extends HTMLElement {
     const wasHidden = this.#active === null;
     this.#active = item;
     if (!item) {
-      this.#mark.to({ opacity: 0 });
+      this.#mark.to({ opacity: 0 }, springs.quickOut);
       this.dispatchEvent(new CustomEvent('activate', { detail: { item: null } }));
       return;
     }

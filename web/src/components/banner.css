@@ -36,3 +36,16 @@
 .fd-banner[data-tone='blue'] { --_tone: var(--fd-blue); }
 .fd-banner[data-tone='violet'] { --_tone: var(--fd-violet); }
 .fd-banner[data-tone='pink'] { --_tone: var(--fd-pink); }
+
+.fd-banner[data-leaving] {
+  opacity: 0;
+  translate: 0 -4px;
+  transition:
+    opacity var(--fd-spring-glide-out),
+    translate var(--fd-spring-glide-out);
+}
+
+fd-dismiss {
+  display: inline-flex;
+  flex: none;
+}

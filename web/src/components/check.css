@@ -93,3 +93,36 @@
   border-radius: 50%;
   background-color: currentColor;
 }
+
+/* .fd-check-group holds .fd-choice rows. Rows checked side by side join into one shape. */
+.fd-check-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fd-check-group > .fd-choice {
+  display: flex;
+  padding: 7px 10px;
+  border-radius: var(--fd-radius-control);
+  transition:
+    background-color var(--fd-spring-glide),
+    border-radius var(--fd-spring-glide);
+}
+
+.fd-check-group > .fd-choice:has(:checked) {
+  background-color: var(--fd-soft);
+}
+
+.fd-check-group > .fd-choice:has(:checked) + .fd-choice:has(:checked) {
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+}
+
+.fd-check-group > .fd-choice:has(:checked):has(+ .fd-choice :checked) {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}

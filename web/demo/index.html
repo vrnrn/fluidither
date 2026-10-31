@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="/src/components/calendar.css" />
     <link rel="stylesheet" href="/src/components/misc.css" />
     <link rel="stylesheet" href="/src/components/extras.css" />
+    <link rel="stylesheet" href="/src/components/hover.css" />
+    <link rel="stylesheet" href="/src/components/reveal.css" />
     <link rel="stylesheet" href="/demo/demo.css" />
     <script type="module" src="/src/components/tabs.js"></script>
     <script type="module" src="/src/components/dither-gradient.js"></script>
@@ -56,6 +58,12 @@
     <script type="module" src="/src/components/sidebar.js"></script>
     <script type="module" src="/src/components/compare.js"></script>
     <script type="module" src="/src/components/marquee.js"></script>
+    <script type="module" src="/src/components/hover.js"></script>
+    <script type="module" src="/src/components/banner.js"></script>
+    <script type="module" src="/src/components/reveal.js"></script>
+    <script type="module" src="/src/components/composer.js"></script>
+    <script type="module" src="/src/components/questions.js"></script>
+    <script type="module" src="/src/components/color-picker.js"></script>
     <script type="module" src="/demo/demo.js"></script>
   </head>
   <body>
@@ -445,6 +453,75 @@
       </div>
       <div class="demo-tall"></div>
       <p class="demo-effects"><fd-dissolve id="late" on-view>Revealed on scroll</fd-dissolve></p>
+    </section>
+
+    <section id="motion">
+      <h2>Motion</h2>
+      <p>One highlight that glides, joined selections, and things that arrive in order.</p>
+      <fd-hover id="glide" class="demo-hover">
+        <div>Inbox</div>
+        <div>Drafts</div>
+        <div aria-disabled="true">Archive</div>
+        <div>Sent</div>
+      </fd-hover>
+      <fd-hover id="glide-near" class="demo-hover" nearest axis="y">
+        <div>Near one</div>
+        <div>Near two</div>
+      </fd-hover>
+      <fieldset class="fd-check-group" id="fruit-group">
+        <legend class="demo-legend">Fruit</legend>
+        <label class="fd-choice"><input class="fd-check" type="checkbox" checked /> Apples</label>
+        <label class="fd-choice"><input class="fd-check" type="checkbox" checked /> Bananas</label>
+        <label class="fd-choice"><input class="fd-check" type="checkbox" /> Cherries</label>
+      </fieldset>
+      <p class="demo-effects"><fd-shimmer id="shimmer" words="Thinking; Reading">Thinking</fd-shimmer></p>
+      <details class="fd-thinking-steps" id="run" open>
+        <summary>Research</summary>
+        <ol class="fd-steps">
+          <li data-state="done">Read the brief<span class="fd-sources"><span class="fd-badge">docs</span></span></li>
+          <li data-state="active">Write the draft</li>
+        </ol>
+      </details>
+      <div class="fd-input-group" id="contact">
+        <label class="fd-input-row"><span>Name</span><input class="fd-input" /></label>
+        <label class="fd-input-row"><span>Email</span><input class="fd-input" type="email" value="nope" aria-invalid="true" /></label>
+      </div>
+      <fd-reveal id="rise" subtle><p>First</p><p>Second</p></fd-reveal>
+      <fd-composer id="suggest" suggestion="Why is it stiff?">
+        <form class="fd-composer">
+          <textarea class="fd-input" rows="1" aria-label="Suggested message"></textarea>
+          <button class="fd-button">Send</button>
+        </form>
+      </fd-composer>
+      <fd-questions id="survey" done="All set.">
+        <fieldset class="fd-question">
+          <legend>Your role?</legend>
+          <label class="fd-choice"><input class="fd-radio" type="radio" name="role" value="design" /> Designer</label>
+          <label class="fd-choice"><input class="fd-radio" type="radio" name="role" value="build" /> Engineer</label>
+        </fieldset>
+        <fieldset class="fd-question">
+          <legend>Your team?</legend>
+          <label class="fd-choice"><input class="fd-radio" type="radio" name="team" value="small" /> Small</label>
+          <label class="fd-choice"><input class="fd-radio" type="radio" name="team" value="big" /> Big</label>
+        </fieldset>
+      </fd-questions>
+      <div class="fd-banner" data-tone="orange" id="news" role="status">
+        <span>Press <kbd class="fd-kbd">R</kbd> to run it again.</span>
+        <fd-dismiss></fd-dismiss>
+      </div>
+      <fd-questions id="many">
+        <fieldset class="fd-question">
+          <legend>Which features?</legend>
+          <label class="fd-choice"><input class="fd-check" type="checkbox" name="features" value="dark" /> Dark mode</label>
+          <label class="fd-choice"><input class="fd-check" type="checkbox" name="features" value="speed" /> Speed</label>
+        </fieldset>
+        <fieldset class="fd-question">
+          <legend>What is blocking you?</legend>
+          <label class="fd-choice"><input class="fd-radio" type="radio" name="block" value="scope" /> Scope</label>
+          <label class="fd-choice"><input class="fd-radio" type="radio" name="block" value="other" /> Other <input class="fd-input" aria-label="Something else" /></label>
+        </fieldset>
+      </fd-questions>
+      <fd-color-picker id="picker" value="#fc9e47" aria-label="Accent"></fd-color-picker>
     </section>
 
     <section>

@@ -29,6 +29,25 @@ export async function thresholdMap(name) {
   return map;
 }
 
+const SHIMMER_SECONDS = 1.6;
+const SHIMMER_SPREAD = 0.45;
+const SHIMMER_VEIL = 0.42;
+
+/**
+ * Fill `tones` with the veil for shimmering text at time `t`: thick everywhere but a clear
+ * band that sweeps across. gpui/src/dither.rs is the same.
+ */
+export function fillShimmer(tones, width, height, t) {
+  const turn = t / SHIMMER_SECONDS;
+  const center = (turn - Math.floor(turn)) * (1 + 2 * SHIMMER_SPREAD) - SHIMMER_SPREAD;
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const away = Math.abs((x + 0.5) / width - center) / SHIMMER_SPREAD;
+      tones[y * width + x] = SHIMMER_VEIL * Math.min(away, 1);
+    }
+  }
+}
+
 // Lattice noise. Integer hashing rather than a random source, so both targets
 // get the same bits.
 function lattice(x, y) {

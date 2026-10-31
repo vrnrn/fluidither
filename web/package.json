@@ -1,6 +1,6 @@
 {
   "name": "fluidither",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "type": "module",
   "description": "Dithered, spring-driven web components with no runtime dependencies",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "url": "git+https://github.com/vrnrn/fluidither.git",
     "directory": "web"
   },
-  "homepage": "https://github.com/vrnrn/fluidither#readme",
+  "homepage": "https://fluidither.vrnrn.com",
   "bugs": {
     "url": "https://github.com/vrnrn/fluidither/issues"
   },

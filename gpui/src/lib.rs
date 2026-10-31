@@ -17,6 +17,7 @@ pub mod export;
 pub mod extras;
 pub mod feedback;
 pub mod fields;
+pub mod fluid;
 pub mod generated;
 pub mod list;
 pub mod misc;
@@ -47,7 +48,8 @@ pub use extras::{
     Sidebar, Step, Steps,
 };
 pub use fields::Field;
-pub use text_effects::{Count, Dissolve, Scramble};
+pub use fluid::{CheckGroup, HoverList, InputGroup, Kbd, Questions, Reveal, ThinkingSteps};
+pub use text_effects::{Count, Dissolve, Scramble, Shimmer};
 pub use button::{Button, Look};
 pub use choice::{Checkbox, Checked, RadioGroup, Switch};
 pub use combobox::{Combobox, ComboboxEvent, CommandEvent, CommandMenu};

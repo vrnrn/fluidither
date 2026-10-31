@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'" />
+    <title>Docs: fluidither</title>
+    <meta name="description" content="How to install fluidither, how its tokens, springs and dithers work, and every component with a live example, for the plain web and Rust GPUI." />
+    <meta property="og:title" content="fluidither docs" />
+    <meta property="og:description" content="Install it, then browse every component with a live example, for the plain web and GPUI." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/vrnrn/fluidither/main/docs/images/showcase-dark.png" />
+    <link rel="canonical" href="https://fluidither.vrnrn.com/docs" />
+    <meta property="og:url" content="https://fluidither.vrnrn.com/docs" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="fluidither/tokens.css" />
+    <link rel="stylesheet" href="fluidither/components/accordion.css" />
+    <link rel="stylesheet" href="fluidither/components/badge.css" />
+    <link rel="stylesheet" href="fluidither/components/banner.css" />
+    <link rel="stylesheet" href="fluidither/components/button.css" />
+    <link rel="stylesheet" href="fluidither/components/calendar.css" />
+    <link rel="stylesheet" href="fluidither/components/card.css" />
+    <link rel="stylesheet" href="fluidither/components/chart.css" />
+    <link rel="stylesheet" href="fluidither/components/check.css" />
+    <link rel="stylesheet" href="fluidither/components/combobox.css" />
+    <link rel="stylesheet" href="fluidither/components/command.css" />
+    <link rel="stylesheet" href="fluidither/components/dialog.css" />
+    <link rel="stylesheet" href="fluidither/components/dither-gradient.css" />
+    <link rel="stylesheet" href="fluidither/components/extras.css" />
+    <link rel="stylesheet" href="fluidither/components/feedback.css" />
+    <link rel="stylesheet" href="fluidither/components/field.css" />
+    <link rel="stylesheet" href="fluidither/components/hover.css" />
+    <link rel="stylesheet" href="fluidither/components/input.css" />
+    <link rel="stylesheet" href="fluidither/components/list.css" />
+    <link rel="stylesheet" href="fluidither/components/misc.css" />
+    <link rel="stylesheet" href="fluidither/components/nav.css" />
+    <link rel="stylesheet" href="fluidither/components/reveal.css" />
+    <link rel="stylesheet" href="fluidither/components/scroll.css" />
+    <link rel="stylesheet" href="fluidither/components/select.css" />
+    <link rel="stylesheet" href="fluidither/components/slider.css" />
+    <link rel="stylesheet" href="fluidither/components/sparkline.css" />
+    <link rel="stylesheet" href="fluidither/components/switch.css" />
+    <link rel="stylesheet" href="fluidither/components/table.css" />
+    <link rel="stylesheet" href="fluidither/components/tabs.css" />
+    <link rel="stylesheet" href="fluidither/components/text-effects.css" />
+    <link rel="stylesheet" href="fluidither/components/tooltip.css" />
+    <link rel="stylesheet" href="site.css" />
+    <link rel="stylesheet" href="docs.css" />
+    <script src="theme.js"></script>
+    <script type="module" src="fluidither/components/banner.js"></script>
+    <script type="module" src="fluidither/components/calendar.js"></script>
+    <script type="module" src="fluidither/components/chart.js"></script>
+    <script type="module" src="fluidither/components/combobox.js"></script>
+    <script type="module" src="fluidither/components/command.js"></script>
+    <script type="module" src="fluidither/components/color-picker.js"></script>
+    <script type="module" src="fluidither/components/compare.js"></script>
+    <script type="module" src="fluidither/components/composer.js"></script>
+    <script type="module" src="fluidither/components/copy.js"></script>
+    <script type="module" src="fluidither/components/date-picker.js"></script>
+    <script type="module" src="fluidither/components/dither-gradient.js"></script>
+    <script type="module" src="fluidither/components/dither-image.js"></script>
+    <script type="module" src="fluidither/components/field.js"></script>
+    <script type="module" src="fluidither/components/hover.js"></script>
+    <script type="module" src="fluidither/components/marquee.js"></script>
+    <script type="module" src="fluidither/components/menu.js"></script>
+    <script type="module" src="fluidither/components/nav.js"></script>
+    <script type="module" src="fluidither/components/questions.js"></script>
+    <script type="module" src="fluidither/components/reveal.js"></script>
+    <script type="module" src="fluidither/components/select.js"></script>
+    <script type="module" src="fluidither/components/sidebar.js"></script>
+    <script type="module" src="fluidither/components/slider.js"></script>
+    <script type="module" src="fluidither/components/sparkline.js"></script>
+    <script type="module" src="fluidither/components/swatches.js"></script>
+    <script type="module" src="fluidither/components/tabs.js"></script>
+    <script type="module" src="fluidither/components/text-effects.js"></script>
+    <script type="module" src="fluidither/components/tooltip.js"></script>
+    <script type="module" src="fluidither/components/world.js"></script>
+    <script type="module" src="docs.js"></script>
+  </head>
+  <body>
+    <a class="fd-button skip" href="#intro">Skip to the docs</a>
+    <fd-field id="ground" class="ground" kind="noise" cell="4" speed="1"></fd-field>
+
+    <div class="docs">
+      <aside class="fd-card side">
+        <div class="side-head">
+          <a class="side-home" href="./" aria-label="fluidither home">fluidither</a>
+          <div class="side-tools">
+            <a class="fd-button" data-icon-only data-look="ghost" data-density="compact" href="https://github.com/vrnrn/fluidither" aria-label="fluidither on GitHub" title="GitHub">
+              <fd-dither-image class="logo logo-dark" src="github-dark.svg" alt="GitHub" matrix="bayer4" cell="0.5"></fd-dither-image>
+              <fd-dither-image class="logo logo-light" src="github-light.svg" alt="GitHub" matrix="bayer4" cell="0.5"></fd-dither-image>
+            </a>
+            <label class="theme" data-density="compact">
+              <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7 0h2v3H7zM7 13h2v3H7zM0 7h3v2H0zM13 7h3v2h-3zM2 2h2v2H2zM12 2h2v2h-2zM2 12h2v2H2zM12 12h2v2h-2zM6 5h4v1h1v4h-1v1H6v-1H5V6h1z" /></svg>
+              <input class="fd-switch" id="dark" type="checkbox" role="switch" aria-label="Dark mode" checked />
+              <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6 1h4v2H8v1H7v1H6v6h1v1h1v1h4v-1h2v-2h1v3h-1v1h-1v1H4v-1H3v-1H2v-1H1V5h1V4h1V3h1V2h2z" /></svg>
+            </label>
+          </div>
+        </div>
+        <div class="side-actions">
+          <button class="fd-button search" id="search" data-look="soft" data-density="compact" type="button">Search <kbd class="fd-kbd">/</kbd></button>
+          <button class="fd-button menu" id="menu-open" data-look="soft" data-density="compact" type="button">Menu</button>
+        </div>
+        <dialog class="fd-dialog fd-drawer" id="menu" aria-label="Docs sections"></dialog>
+        <fd-nav id="nav" class="side-nav fd-scroll" aria-label="Docs">
+          <p class="side-group">Start</p>
+          <a href="#intro" aria-current="page">Introduction</a>
+          <a href="#web">Install for the web</a>
+          <a href="#specifics">Take only what you need</a>
+          <a href="#gpui">Install for GPUI</a>
+          <a href="#skill">Agent skill</a>
+          <p class="side-group">Foundations</p>
+          <a href="#design">Design</a>
+          <a href="#tokens">Tokens</a>
+          <a href="#themes">Themes and density</a>
+          <a href="#springs">Springs</a>
+          <a href="#hover">Gliding hover</a>
+          <a href="#reveal">Reveal</a>
+          <a href="#dithers">Dithers</a>
+          <a href="#csp">Strict CSP</a>
+          <p class="side-group">Actions</p>
+          <a href="#button">Button</a>
+          <a href="#tabs">Tabs</a>
+          <p class="side-group">Forms</p>
+          <a href="#text-field">Text field</a>
+          <a href="#input-group">Input group</a>
+          <a href="#checkbox">Checkbox and radio</a>
+          <a href="#check-group">Check group</a>
+          <a href="#switch">Switch</a>
+          <a href="#slider">Slider</a>
+          <a href="#color">Swatches and color</a>
+          <a href="#color-picker">Color picker</a>
+          <a href="#copy">Copy field</a>
+          <p class="side-group">Overlays</p>
+          <a href="#tooltip">Tooltip</a>
+          <a href="#menu-part">Menu</a>
+          <a href="#select">Select</a>
+          <a href="#combobox">Combobox</a>
+          <a href="#dialog">Dialog</a>
+          <a href="#drawer">Drawer and sheet</a>
+          <a href="#command">Command menu</a>
+          <p class="side-group">Dates</p>
+          <a href="#calendar">Calendar</a>
+          <a href="#date-picker">Date picker</a>
+          <p class="side-group">Structure</p>
+          <a href="#card">Card</a>
+          <a href="#badge">Badge</a>
+          <a href="#banner">Banner</a>
+          <a href="#accordion">Accordion</a>
+          <a href="#table">Table</a>
+          <a href="#nav-part">Nav</a>
+          <a href="#sidebar">Sidebar</a>
+          <a href="#scroll">Scroll area</a>
+          <a href="#pieces">Small pieces</a>
+          <a href="#file">File card</a>
+          <a href="#kbd">Key</a>
+          <a href="#not-found">Missing page</a>
+          <p class="side-group">Feedback</p>
+          <a href="#loading">Loader and skeleton</a>
+          <a href="#progress">Progress and divider</a>
+          <a href="#stat">Stat and sparkline</a>
+          <a href="#uptime">Uptime</a>
+          <a href="#steps">Steps</a>
+          <a href="#glow">Glow</a>
+          <p class="side-group">Chat</p>
+          <a href="#chat">Messages and composer</a>
+          <a href="#composer">Suggested replies</a>
+          <a href="#thinking-steps">Thinking steps</a>
+          <a href="#question">Question card</a>
+          <a href="#questions">Question flow</a>
+          <p class="side-group">Charts</p>
+          <a href="#charts">Charts</a>
+          <p class="side-group">Dither</p>
+          <a href="#gradient">Gradient</a>
+          <a href="#field">Field</a>
+          <a href="#image">Image</a>
+          <a href="#world">Map and globe</a>
+          <a href="#png">Save as PNG</a>
+          <p class="side-group">Text</p>
+          <a href="#scramble">Scramble</a>
+          <a href="#dissolve">Dissolve</a>
+          <a href="#count">Count</a>
+          <a href="#shimmer">Shimmer</a>
+          <p class="side-group">Media</p>
+          <a href="#compare">Compare</a>
+          <a href="#marquee">Marquee</a>
+          <p class="side-group">Reference</p>
+          <a href="#recipes">Recipes</a>
+          <a href="#support">Support</a>
+          <a href="#performance">Performance</a>
+        </fd-nav>
+      </aside>
+
+      <main class="pages">
+        <section class="fd-card page" id="intro">
+          <h1><fd-dissolve hold="0 0.62">fluidither</fd-dissolve></h1>
+          <p class="lead">A component library with a printed look: ink on paper, soft dithered shading where most interfaces use a flat tint, and every movement on a spring.</p>
+          <p>The web target is plain HTML, CSS and JavaScript, with no framework and no runtime dependencies. The GPUI target is a Rust crate. Both come from the same tokens, and tests hold their dither output to the same cells.</p>
+          <p>Every example on this page is the real component, running under the same strict policy the library promises to work under.</p>
+        </section>
+
+        <section class="fd-card page" id="web">
+          <h2>Install for the web</h2>
+          <p>There is no build step. This copies the whole library into your project:</p>
+          <pre class="code" data-label="Install"><code>npx fluidither</code></pre>
+          <p>It uses <code>public/fluidither</code> if the project has a <code>public</code> folder, and <code>fluidither</code> otherwise. Add <code>--dir</code> to choose another place.</p>
+          <p>Every page needs <code>tokens.css</code>, then the file for each component it uses. Scripts are ES modules, so serve the folder from a web server rather than opening the file.</p>
+          <pre class="code" data-label="A first page"><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;title&gt;Hello&lt;/title&gt;
+    &lt;link rel="stylesheet" href="fluidither/tokens.css" /&gt;
+    &lt;link rel="stylesheet" href="fluidither/components/button.css" /&gt;
+    &lt;link rel="stylesheet" href="fluidither/components/tabs.css" /&gt;
+    &lt;link rel="stylesheet" href="site.css" /&gt;
+    &lt;script type="module" src="fluidither/components/tabs.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;fd-tabs value="week"&gt;
+      &lt;fd-tab-list aria-label="Date range"&gt;
+        &lt;fd-tab value="day"&gt;Day&lt;/fd-tab&gt;
+        &lt;fd-tab value="week"&gt;Week&lt;/fd-tab&gt;
+      &lt;/fd-tab-list&gt;
+    &lt;/fd-tabs&gt;
+
+    &lt;button class="fd-button" type="button"&gt;Save&lt;/button&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          <p><code>tokens.css</code> only defines values, so style the page yourself in <code>site.css</code>:</p>
+          <pre class="code" data-label="site.css"><code>body {
+  background: var(--fd-paper);
+  color: var(--fd-ink);
+  font-family: var(--fd-font-sans);
+}</code></pre>
+          <pre class="code" data-label="Serve the folder"><code>python3 -m http.server 8000</code></pre>
+          <p>With a bundler, install the package and import the pieces by name:</p>
+          <pre class="code" data-label="Install from npm"><code>npm install fluidither</code></pre>
+          <pre class="code" data-label="Imports"><code>import 'fluidither/tokens.css';
+import 'fluidither/components/tabs.css';
+import 'fluidither/components/tabs.js';</code></pre>
+        </section>
+
+        <section class="fd-card page" id="specifics">
+          <h2>Take only what you need</h2>
+          <p>Pages load only the files they link, so copying everything costs nothing at runtime. To keep your project tidy as well, name the components instead:</p>
+          <pre class="code" data-label="Add named components"><code>npx fluidither add tabs button gradient</code></pre>
+          <p>That copies those components, <code>tokens.css</code> and the files they import, then prints the tags to paste. Each component below shows its name. To see them all:</p>
+          <pre class="code" data-label="List the names"><code>npx fluidither list</code></pre>
+          <p>Run either command again to add more or to update what you have. <code>--dir</code> works on both.</p>
+          <table class="fd-table">
+            <caption>The commands</caption>
+            <thead><tr><th scope="col">Command</th><th scope="col">What it does</th></tr></thead>
+            <tbody>
+              <tr><td><code>npx fluidither</code></td><td>Copy the whole library</td></tr>
+              <tr><td><code>npx fluidither add &lt;names&gt;</code></td><td>Copy these components and what they need</td></tr>
+              <tr><td><code>npx fluidither list</code></td><td>Show the component names</td></tr>
+              <tr><td><code>npx fluidither skill</code></td><td>Install the agent skill</td></tr>
+              <tr><td><code>npx fluidither help</code></td><td>Show the commands</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="fd-card page" id="gpui">
+          <h2>Install for GPUI</h2>
+          <p>Add the crate, with <code>gpui</code> at the same version:</p>
+          <pre class="code" data-label="Cargo.toml"><code>[dependencies]
+fluidither = "0.2"
+gpui = { version = "=0.2.2", features = ["runtime_shaders"] }</code></pre>
+          <p>Call <code>fluidither::init(cx)</code> once at startup. It sets the theme and makes Tab move focus.</p>
+          <pre class="code" data-label="A complete app"><code>use fluidither::{Button, Look, Theme};
+use gpui::{div, prelude::*, px, App, Application, Context, Render, Window, WindowOptions};
+
+struct Home;
+
+impl Render for Home {
+    fn render(&amp;mut self, _: &amp;mut Window, cx: &amp;mut Context&lt;Self&gt;) -&gt; impl IntoElement {
+        let colors = Theme::get(cx).colors();
+        div()
+            .size_full()
+            .p(px(24.))
+            .bg(colors.paper)
+            .text_color(colors.ink)
+            .child(Button::new("save", "Save").look(Look::Soft).on_click(|_, _, _| {}))
+    }
+}
+
+fn main() {
+    Application::new().run(|cx: &amp;mut App| {
+        fluidither::init(cx);
+        cx.open_window(WindowOptions::default(), |_, cx| cx.new(|_| Home)).unwrap();
+        cx.activate(true);
+    });
+}</code></pre>
+          <p>Building needs no Metal toolchain, because shaders compile at startup. The first build compiles GPUI itself, which took about 10 minutes on an M1 Pro.</p>
+          <p>Most components are elements. Add them directly as children. They keep their own state, keyed by id, unless you pass the value in. The text field, combobox, command menu and composer are views, so create them once and keep the entity.</p>
+          <div class="fd-banner" data-tone="orange" role="note"><span>GPUI 0.2.2 has no accessibility API, so screen readers can't see these components. Don't use this target alone for anything that must be accessible.</span></div>
+        </section>
+
+        <section class="fd-card page" id="skill">
+          <h2>Agent skill</h2>
+          <p>The skill teaches a coding agent to use and extend the library: the rules, a reference for each target, recipes for common screens, and how to add to both targets.</p>
+          <pre class="code" data-label="Install the skill"><code>npx fluidither skill</code></pre>
+          <p>That puts it in <code>.agents/skills/fluidither</code>. Add <code>--dir</code> for another place, such as <code>~/.claude/skills/fluidither</code> for Claude Code.</p>
+        </section>
+
+        <section class="fd-card page" id="design">
+          <h2>Design</h2>
+          <ul>
+            <li><strong>Ink and paper.</strong> Warm neutrals, with color kept for meaning. Dark mode is light ink on dark paper, not an inverted page.</li>
+            <li><strong>Dither instead of tint.</strong> Hover states, dialog screens, chart shading and the empty part of a slider are real dithers, drawn cell by cell. Never put a dither behind body text.</li>
+            <li><strong>Springs instead of durations.</strong> Motion keeps its speed when the target changes, and reduced motion is respected.</li>
+            <li><strong>Pixel marks.</strong> Ticks, dashes and arrows are small cell drawings from the tokens, so they match on both targets.</li>
+            <li><strong>Two densities.</strong> <code>regular</code> and <code>compact</code>, set on any element.</li>
+          </ul>
+        </section>
+
+        <section class="fd-card page" id="tokens">
+          <h2>Tokens</h2>
+          <p>Use a token rather than a hard coded color or size. In a project that copied the source, override the custom properties in your own CSS, and leave the copied files alone.</p>
+          <pre class="code" data-label="Override a token"><code>:root {
+  --fd-radius-control: 2px;
+}</code></pre>
+          <table class="fd-table">
+            <caption>Web tokens</caption>
+            <thead><tr><th scope="col">Use</th><th scope="col">Tokens</th></tr></thead>
+            <tbody>
+              <tr><td>Page</td><td><code>--fd-paper</code>, <code>--fd-ink</code>, <code>--fd-ink-soft</code></td></tr>
+              <tr><td>Surfaces</td><td><code>--fd-surface-0</code> to <code>--fd-surface-3</code>, each with <code>--fd-shadow-0</code> to <code>--fd-shadow-3</code></td></tr>
+              <tr><td>Lines and fills</td><td><code>--fd-line</code>, <code>--fd-edge</code>, <code>--fd-focus</code>, <code>--fd-soft</code>, <code>--fd-wash</code>, <code>--fd-screen</code></td></tr>
+              <tr><td>Color</td><td><code>--fd-red</code>, <code>--fd-orange</code>, <code>--fd-green</code>, <code>--fd-blue</code>, <code>--fd-violet</code>, <code>--fd-pink</code></td></tr>
+              <tr><td>Text</td><td><code>--fd-font-sans</code>, <code>--fd-font-size</code>, <code>--fd-line-height</code>, <code>--fd-weight-regular</code>, <code>--fd-weight-strong</code></td></tr>
+              <tr><td>Spacing</td><td><code>--fd-gap</code> is 6px, for inside a control or row. <code>--fd-pad</code> is 14px, for cards and page layout</td></tr>
+              <tr><td>Sizes</td><td><code>--fd-control</code>, <code>--fd-segment</code>, <code>--fd-icon</code>, <code>--fd-inset</code></td></tr>
+              <tr><td>Corners</td><td><code>--fd-radius-control</code>, <code>--fd-radius-pill</code></td></tr>
+              <tr><td>Motion</td><td><code>--fd-spring-quick</code>, <code>--fd-spring-glide</code>, <code>--fd-spring-settle</code></td></tr>
+            </tbody>
+          </table>
+          <p>On GPUI, read them from <code>Theme::get(cx).colors()</code> and <code>Density::tokens()</code>. The main colors are <code>paper</code>, <code>ink</code>, <code>ink_soft</code>, <code>line</code>, <code>edge</code>, <code>focus</code>, <code>soft</code>, <code>wash</code> and <code>surfaces[0]</code> to <code>surfaces[3]</code>, with the same six named colors.</p>
+        </section>
+
+        <section class="fd-card page" id="themes">
+          <h2>Themes and density</h2>
+          <p>Themes follow the system. Set <code>data-theme="light"</code> or <code>"dark"</code> on <code>&lt;html&gt;</code> to force one. <code>data-density="compact"</code> works on any element and applies to what is inside it.</p>
+          <p>On GPUI, set <code>cx.global_mut::&lt;Theme&gt;().mode</code> to <code>Mode::Dark</code> or <code>Mode::Light</code>, then call <code>window.refresh()</code>. Density is <code>Density::Regular</code> or <code>Density::Compact</code>.</p>
+        </section>
+
+        <section class="fd-card page" id="springs">
+          <h2>Springs</h2>
+          <p>There are three: <code>quick</code> for hover, <code>glide</code> for movement, and <code>settle</code> for arrivals. A spring keeps its speed when the target changes, stops by itself and honors reduced motion.</p>
+          <p>Things leave faster than they arrive. Each spring has an exit a step quicker, <code>quickOut</code>, <code>glideOut</code> and <code>settleOut</code>, or <code>--fd-spring-quick-out</code> and its siblings in CSS. Pass one to <code>glide.to(targets, springs.quickOut)</code> for a single move.</p>
+          <pre class="code" data-label="Move something on a spring"><code>import { Glide, springs } from './fluidither/core/spring.js';
+
+const glide = new Glide({ x: 0 }, springs.glide, ({ x }) =&gt; element.style.setProperty('--x', `${x}px`));
+glide.to({ x: 120 });</code></pre>
+          <p>On GPUI, hold a <code>Spring::new(fluidither::generated::GLIDE, 0.0)</code>, set <code>target</code>, call <code>step(dt)</code> in render, and call <code>window.request_animation_frame()</code> until it returns true.</p>
+        </section>
+
+        <section class="fd-card page" id="hover">
+          <h2>Gliding hover</h2>
+          <p>One highlight moves between items, in place of each item blinking on and off. Your eye stays on the task, because there is only one thing to follow. It is a dither, so it reads as ink and never as a tint.</p>
+          <section class="part" data-add="hover">
+            <h3>Hover</h3>
+            <p>Wrap any list. <code>items</code> takes a selector, such as <code>tbody tr</code>, and the children count by default. Disabled items are passed over, and keyboard focus moves the highlight too. <code>nearest</code> keeps the closest item lit across the gaps, measured along <code>axis</code>: <code>y</code>, <code>x</code> or <code>xy</code>. On GPUI, <code>HoverList</code> takes rows of one height.</p>
+            <template data-demo data-layout="stack">
+              <fd-hover nearest axis="y">
+                <div class="demo-row">Inbox</div>
+                <div class="demo-row">Drafts</div>
+                <div class="demo-row" aria-disabled="true">Archive</div>
+                <div class="demo-row">Sent</div>
+              </fd-hover>
+            </template>
+            <template data-rust>HoverList::new("rows", 28.).row("Inbox").row("Drafts").row("Sent")</template>
+          </section>
+        </section>
+
+        <section class="fd-card page" id="reveal">
+          <h2>Reveal</h2>
+          <p>Children rise into place one after another when they scroll into view, for a page read once. Add <code>subtle</code> for a smaller move. Content stays visible until the script runs, and reduced motion shows it at once. Call <code>.run()</code> to play it again.</p>
+          <section class="part" data-add="reveal">
+            <h3>Reveal</h3>
+            <template data-demo data-layout="stack" data-replay>
+              <fd-reveal>
+                <p>First this.</p>
+                <p>Then this.</p>
+                <p>Then the last line.</p>
+              </fd-reveal>
+            </template>
+            <template data-rust>Reveal::new("first", "First this.").subtle()</template>
+          </section>
+        </section>
+
+        <section class="fd-card page" id="dithers">
+          <h2>Dithers</h2>
+          <p>A tone from 0 to 1 is worked out for every cell, then compared with a threshold from a matrix. A cell above its threshold gets ink, so the output is a flat grid of ink and paper that stays crisp at any size.</p>
+          <p>Matrices are <code>bayer2</code>, <code>bayer4</code>, <code>bayer8</code>, <code>halftone</code> and <code>blue-noise</code>. Bayer looks crisp and patterned, blue noise looks organic, and halftone looks like print. Cells of 2 to 3px read as texture, and larger cells read as pixel art.</p>
+          <p>A canvas element's ink is its CSS <code>color</code>, and the paper is its <code>background-color</code>. Give gradients, fields and images a size in CSS. To dither a shape of your own, fill a tone array and threshold it:</p>
+          <pre class="code" data-label="Dither your own shape"><code>import { ditherTones, thresholdMap } from './fluidither/core/dither.js';
+
+const map = await thresholdMap('bayer4');
+const tones = new Float64Array(width * height).map((_, index) =&gt; (index % width) / width);
+const cells = new Uint8Array(width * height);
+ditherTones(tones, width, height, map, Uint8Array.of(0, 1), cells);</code></pre>
+          <p>To add a dithered hover to something new:</p>
+          <pre class="code" data-label="A dithered hover"><code>.thing:hover {
+  --_dots: color-mix(in srgb, currentColor var(--fd-dither-hover-ink), transparent);
+  background-image: repeating-conic-gradient(var(--_dots) 0 25%, transparent 0 50%);
+  background-size: calc(var(--fd-dither-hover-cell) * 2) calc(var(--fd-dither-hover-cell) * 2);
+}</code></pre>
+        </section>
+
+        <section class="fd-card page" id="csp">
+          <h2>Strict CSP</h2>
+          <p>The web target has no inline styles and no <code>data:</code> images, so it runs under this policy. This page runs under it too.</p>
+          <pre class="code" data-label="The policy"><code>default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'</code></pre>
+          <p>Keep your own code inside it: no <code>style</code> attributes and no <code>&lt;style&gt;</code> tags. Setting styles from JavaScript through the CSSOM is fine. Dither CSS masks built from data URLs are blocked, so use canvas or a <code>repeating-conic-gradient</code>.</p>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="actions">Actions</h2>
+
+          <section class="part" id="button" data-add="button">
+            <h3>Button</h3>
+            <p>A real <code>&lt;button&gt;</code> with a class. Looks are <code>solid</code>, the default, <code>soft</code>, <code>outline</code> and <code>ghost</code>. For a busy button, set <code>aria-busy="true"</code> and <code>disabled</code>. For an icon, put an <code>&lt;svg&gt;</code> inside.</p>
+            <template data-demo>
+              <button class="fd-button" type="button">Solid</button>
+              <button class="fd-button" data-look="soft" type="button">Soft</button>
+              <button class="fd-button" data-look="outline" type="button">Outline</button>
+              <button class="fd-button" data-look="ghost" type="button">Ghost</button>
+              <button class="fd-button" type="button" aria-busy="true" disabled>Saving</button>
+            </template>
+            <template data-rust>Button::new("save", "Save").look(Look::Soft).on_click(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="tabs" data-add="tabs">
+            <h3>Tabs</h3>
+            <p>Hover shows a dithered peek at the next tab. Arrow keys, Home and End move the selection, and <code>change</code> fires with <code>detail: { value, index }</code>. Use <code>look="underline"</code> for a lighter form.</p>
+            <template data-demo>
+              <fd-tabs value="week">
+                <fd-tab-list aria-label="Date range">
+                  <fd-tab value="day">Day</fd-tab>
+                  <fd-tab value="week">Week</fd-tab>
+                  <fd-tab value="month">Month</fd-tab>
+                </fd-tab-list>
+                <fd-tab-panel value="day" hidden>Today's numbers.</fd-tab-panel>
+                <fd-tab-panel value="week">This week's numbers.</fd-tab-panel>
+                <fd-tab-panel value="month" hidden>This month's numbers.</fd-tab-panel>
+              </fd-tabs>
+            </template>
+            <template data-rust>Tabs::new("range", ["Day", "Week", "Month"]).initial(1).on_change(|index, _, _| {})</template>
+          </section>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="forms">Forms</h2>
+
+          <section class="part" id="text-field" data-add="input">
+            <h3>Text field</h3>
+            <p>A real <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code> with a class. Wrap it in <code>.fd-field</code> for a label and a hint, and set <code>aria-invalid="true"</code> for an error. Use a <code>&lt;div class="fd-field"&gt;</code> around a select or combobox, because a label's click doesn't reach them.</p>
+            <template data-demo data-layout="stack">
+              <label class="fd-field">
+                Name
+                <input class="fd-input" type="text" placeholder="Your name" />
+                <span class="fd-field-hint">As it should appear on the invoice.</span>
+              </label>
+              <label class="fd-field">
+                Email
+                <input class="fd-input" type="email" value="not an email" aria-invalid="true" />
+                <span class="fd-field-hint">That doesn't look like an address.</span>
+              </label>
+            </template>
+            <template data-rust>let name = cx.new(|cx| TextField::new(cx).placeholder("Your name"));
+cx.subscribe(&amp;name, |this, _, event: &amp;TextFieldEvent, cx| {}).detach();</template>
+          </section>
+
+          <section class="part" id="input-group" data-add="input-group">
+            <h3>Input group</h3>
+            <p>Rows that read as one field, split by hairlines, with the label inline. An invalid row colors its label.</p>
+            <template data-demo data-layout="stack">
+              <div class="fd-input-group">
+                <label class="fd-input-row"><span>Name</span><input class="fd-input" value="Ada Lovelace" /></label>
+                <label class="fd-input-row"><span>Email</span><input class="fd-input" type="email" value="ada@" aria-invalid="true" /></label>
+              </div>
+            </template>
+            <template data-rust>InputGroup::new().field("Name", name).field("Email", email)</template>
+          </section>
+
+          <section class="part" id="checkbox" data-add="check">
+            <h3>Checkbox and radio</h3>
+            <p>Real inputs with a class, in a <code>.fd-choice</code> label.</p>
+            <template data-demo data-layout="stack">
+              <label class="fd-choice"><input class="fd-check" type="checkbox" checked /> Send a weekly summary</label>
+              <label class="fd-choice"><input class="fd-check" type="checkbox" /> Keep older versions</label>
+              <label class="fd-choice"><input class="fd-radio" type="radio" name="plan" checked /> Monthly</label>
+              <label class="fd-choice"><input class="fd-radio" type="radio" name="plan" /> Yearly</label>
+            </template>
+            <template data-rust>Checkbox::new("summary").label("Send a weekly summary").initial(true).on_change(|_, _, _| {})
+RadioGroup::new("plan", ["Monthly", "Yearly"]).on_change(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="check-group" data-add="check-group">
+            <h3>Check group</h3>
+            <p>Rows checked side by side join into one shape, so a selection reads as a whole. It is CSS only.</p>
+            <template data-demo data-layout="stack">
+              <fieldset class="fd-check-group">
+                <legend>Fruit</legend>
+                <label class="fd-choice"><input class="fd-check" type="checkbox" checked /> Apples</label>
+                <label class="fd-choice"><input class="fd-check" type="checkbox" checked /> Bananas</label>
+                <label class="fd-choice"><input class="fd-check" type="checkbox" /> Cherries</label>
+                <label class="fd-choice"><input class="fd-check" type="checkbox" checked /> Dates</label>
+              </fieldset>
+            </template>
+            <template data-rust>CheckGroup::new("fruit", ["Apples", "Bananas", "Cherries"]).initial([0, 1]).on_change(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="switch" data-add="switch">
+            <h3>Switch</h3>
+            <p>A real checkbox with <code>role="switch"</code>.</p>
+            <template data-demo>
+              <label class="fd-choice"><input class="fd-switch" type="checkbox" role="switch" checked /> Sync</label>
+            </template>
+            <template data-rust>Switch::new("sync").label("Sync").initial(true).on_change(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="slider" data-add="slider">
+            <h3>Slider</h3>
+            <p>A real range input, with a dithered empty part. After setting its value from code, call <code>.refresh()</code> on the <code>&lt;fd-slider&gt;</code>.</p>
+            <template data-demo data-layout="stack">
+              <fd-slider><input type="range" min="0" max="100" value="62" aria-label="Volume" /></fd-slider>
+            </template>
+            <template data-rust>Slider::new("volume").range(0., 100.).step(5.).initial(60.).on_change(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="color" data-add="swatches color">
+            <h3>Swatches and color</h3>
+            <p>A row of colors, and the browser's color input with a class.</p>
+            <template data-demo>
+              <fd-swatches colors="#FC9E47 #B25900 #6DD17F #A8A498 #5F5C54" value="#FC9E47" aria-label="Accent color"></fd-swatches>
+              <input class="fd-color" type="color" value="#fc9e47" aria-label="Custom color" />
+            </template>
+            <template data-rust>Swatches::new("accent", colors).on_change(|_, _, _| {})
+ColorPicker::new("custom").on_change(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="color-picker" data-add="color-picker">
+            <h3>Color picker</h3>
+            <p>A field of cells for saturation and brightness, a hue slider and the hex to type. Arrow keys move the mark. It fires <code>change</code> and has a <code>.value</code>.</p>
+            <template data-demo>
+              <fd-color-picker value="#fc9e47" aria-label="Accent"></fd-color-picker>
+            </template>
+            <template data-rust>ColorPicker::new("accent").on_change(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="copy" data-add="copy">
+            <h3>Copy field</h3>
+            <p>A read only field with a copy button that reports success in words.</p>
+            <template data-demo data-layout="stack">
+              <fd-copy value="npx fluidither" label="Install command"></fd-copy>
+            </template>
+            <template data-rust>CopyField::new("install", "cargo add fluidither")</template>
+          </section>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="overlays">Overlays</h2>
+
+          <section class="part" id="tooltip" data-add="tooltip">
+            <h3>Tooltip</h3>
+            <p>Wraps one control. It shows on hover and on keyboard focus. On GPUI, tooltips show on hover only.</p>
+            <template data-demo>
+              <fd-tooltip text="Saves a copy"><button class="fd-button" data-look="soft" type="button">Hover me</button></fd-tooltip>
+            </template>
+            <template data-rust>Button::new("save", "Save").tip("Saves a copy")</template>
+          </section>
+
+          <section class="part" id="menu-part" data-add="menu">
+            <h3>Menu</h3>
+            <p>A button and a list. <code>pick</code> fires with <code>detail: { value }</code>.</p>
+            <template data-demo>
+              <fd-menu>
+                <button class="fd-button" data-look="outline" type="button">Actions</button>
+                <fd-list>
+                  <fd-item value="rename">Rename</fd-item>
+                  <fd-item value="duplicate">Duplicate</fd-item>
+                  <fd-item value="archive" disabled>Archive</fd-item>
+                </fd-list>
+              </fd-menu>
+            </template>
+            <template data-rust>Menu::new("actions", "Actions", [Row::new("Rename"), Row::new("Archive").disabled(true)]).on_pick(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="select" data-add="select">
+            <h3>Select</h3>
+            <p>Joins forms through <code>name</code>, fires <code>change</code>, and has a <code>.value</code>.</p>
+            <template data-demo>
+              <fd-select name="fruit" value="pear" aria-label="Fruit" placeholder="Choose a fruit">
+                <fd-list>
+                  <fd-item value="apple">Apple</fd-item>
+                  <fd-item value="cherry" disabled>Cherry</fd-item>
+                  <fd-item value="pear">Pear</fd-item>
+                </fd-list>
+              </fd-select>
+            </template>
+            <template data-rust>Select::new("fruit", ["Apple", "Pear"]).placeholder("Choose a fruit").on_change(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="combobox" data-add="combobox">
+            <h3>Combobox</h3>
+            <p>A select you can type into, which filters as you go.</p>
+            <template data-demo>
+              <fd-combobox name="city" aria-label="City" placeholder="Search cities">
+                <fd-list>
+                  <fd-item value="lis">Lisbon</fd-item>
+                  <fd-item value="osl">Oslo</fd-item>
+                  <fd-item value="tok">Tokyo</fd-item>
+                </fd-list>
+              </fd-combobox>
+            </template>
+            <template data-rust>let city = cx.new(|cx| Combobox::new(["Lisbon", "Oslo"], window, cx)); // ComboboxEvent::Chosen</template>
+          </section>
+
+          <section class="part" id="dialog" data-add="dialog">
+            <h3>Dialog</h3>
+            <p>A real <code>&lt;dialog&gt;</code> over a dithered screen. Open it with <code>showModal()</code>, and read <code>returnValue</code> on <code>close</code>. On GPUI, keep an <code>open</code> bool in your view and clear it in <code>on_close</code>.</p>
+            <template data-demo>
+              <button class="fd-button" type="button" data-opens="demo-dialog">Open dialog</button>
+              <dialog class="fd-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
+                <h3 class="fd-dialog-title" id="demo-dialog-title">Delete this report?</h3>
+                <p class="fd-dialog-text">This can't be undone.</p>
+                <form class="fd-dialog-actions" method="dialog">
+                  <button class="fd-button" data-look="soft" value="cancel">Cancel</button>
+                  <button class="fd-button" value="delete">Delete</button>
+                </form>
+              </dialog>
+            </template>
+            <template data-rust>Dialog::new("confirm", open).title("Delete this report?").text("This can't be undone.").on_close(|_, _| {})</template>
+          </section>
+
+          <section class="part" id="drawer" data-add="drawer">
+            <h3>Drawer and sheet</h3>
+            <p>A dialog that slides in from the edge. Add <code>data-side="bottom"</code> for a sheet.</p>
+            <template data-demo>
+              <button class="fd-button" data-look="outline" type="button" data-opens="demo-drawer">Open drawer</button>
+              <dialog class="fd-dialog fd-drawer" id="demo-drawer" aria-labelledby="demo-drawer-title">
+                <h3 class="fd-dialog-title" id="demo-drawer-title">Filters</h3>
+                <p class="fd-dialog-text">A panel that slides in from the edge.</p>
+                <form class="fd-dialog-actions" method="dialog"><button class="fd-button" data-look="soft">Close</button></form>
+              </dialog>
+            </template>
+            <template data-rust>Dialog::new("filters", open).title("Filters").drawer().on_close(|_, _| {})</template>
+          </section>
+
+          <section class="part" id="command" data-add="command">
+            <h3>Command menu</h3>
+            <p>A searchable list in a modal. Add it once, and call <code>.show()</code> from your own shortcut. <code>pick</code> fires with <code>detail: { value }</code>. The search on this page is one.</p>
+            <template data-demo>
+              <button class="fd-button" data-look="soft" type="button" data-opens="demo-command">Open commands</button>
+              <fd-command id="demo-command" aria-label="Commands" placeholder="Type a command">
+                <fd-list>
+                  <fd-item value="new">New report</fd-item>
+                  <fd-item value="open">Open recent</fd-item>
+                  <fd-item value="help">Help</fd-item>
+                </fd-list>
+              </fd-command>
+            </template>
+            <template data-rust>let commands = cx.new(|cx| CommandMenu::new(["New", "Open"], cx)); // CommandEvent::Picked
+commands.update(cx, |menu, cx| menu.show(cx));</template>
+          </section>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="dates">Dates</h2>
+
+          <section class="part" id="calendar" data-add="calendar">
+            <h3>Calendar</h3>
+            <p>Takes <code>value</code>, <code>min</code> and <code>max</code>. It fires <code>change</code> and has a <code>.value</code>.</p>
+            <template data-demo>
+              <fd-calendar value="2026-10-14" aria-label="Pick a day"></fd-calendar>
+            </template>
+            <template data-rust>Calendar::new("day", Date::new(2026, 10, 14)).on_change(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="date-picker" data-add="date-picker">
+            <h3>Date picker</h3>
+            <p>A calendar in a popup, which joins forms through <code>name</code>.</p>
+            <template data-demo>
+              <fd-date-picker name="due" value="2026-10-30" aria-label="Due date"></fd-date-picker>
+            </template>
+            <template data-rust>DatePicker::new("due", Date::new(2026, 10, 30)).on_change(|_, _, _| {})</template>
+          </section>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="structure">Structure</h2>
+
+          <section class="part" id="card" data-add="card">
+            <h3>Card</h3>
+            <p>Any block with <code>.fd-card</code>, holding <code>.fd-card-title</code> and <code>.fd-card-text</code>. Add <code>data-raised</code> to lift it.</p>
+            <template data-demo data-layout="columns">
+              <article class="fd-card">
+                <h4 class="fd-card-title">Quiet card</h4>
+                <p class="fd-card-text">Sits on the page with a thin ring.</p>
+              </article>
+              <article class="fd-card" data-raised>
+                <h4 class="fd-card-title">Raised card</h4>
+                <p class="fd-card-text">Lifts off the page for what matters.</p>
+              </article>
+            </template>
+            <template data-rust>Card::new().title("Quiet card").text("Sits on the page with a thin ring.").raised()</template>
+          </section>
+
+          <section class="part" id="badge" data-add="badge">
+            <h3>Badge</h3>
+            <p>Tones are <code>red</code>, <code>orange</code>, <code>green</code>, <code>blue</code>, <code>violet</code> and <code>pink</code>, or none for neutral.</p>
+            <template data-demo>
+              <span class="fd-badge">Draft</span>
+              <span class="fd-badge" data-tone="green">Live</span>
+              <span class="fd-badge" data-tone="orange">Review</span>
+            </template>
+            <template data-rust>Badge::new("Live").tone(Tone::Green)</template>
+          </section>
+
+          <section class="part" id="banner" data-add="banner">
+            <h3>Banner</h3>
+            <p>A line of news, with a tone and an optional action. Add <code>&lt;fd-dismiss&gt;</code> to let people close it. It leaves on the fast exit spring and fires <code>dismiss</code>.</p>
+            <template data-demo data-layout="stack" data-replay>
+              <div class="fd-banner" data-tone="orange" role="status">
+                <span>Your trial ends in three days.</span>
+                <button class="fd-button" data-look="soft" data-density="compact" type="button">Upgrade</button>
+                <fd-dismiss></fd-dismiss>
+              </div>
+            </template>
+            <template data-rust>Banner::new("Your trial ends in three days.").tone(Tone::Orange).action(button).on_dismiss(|_, _| {})</template>
+          </section>
+
+          <section class="part" id="accordion" data-add="accordion">
+            <h3>Accordion</h3>
+            <p>Real <code>&lt;details&gt;</code> elements. Give them the same <code>name</code> to keep one open at a time. Animation needs <code>interpolate-size</code> and <code>::details-content</code>, and without them sections open at once.</p>
+            <template data-demo data-layout="stack">
+              <details class="fd-accordion" name="faq" open>
+                <summary>What is dithering?</summary>
+                <div class="fd-accordion-body">Mixing two colors in a fine pattern so they read as a tone.</div>
+              </details>
+              <details class="fd-accordion" name="faq">
+                <summary>Why a spring?</summary>
+                <div class="fd-accordion-body">It keeps its speed when the target moves, so motion never jerks.</div>
+              </details>
+            </template>
+            <template data-rust>Accordion::new("faq").section("What is dithering?", body).initial(0)</template>
+          </section>
+
+          <section class="part" id="table" data-add="table">
+            <h3>Table</h3>
+            <p>A real table. Put <code>data-number</code> on numeric cells.</p>
+            <template data-demo data-layout="stack">
+              <table class="fd-table">
+                <thead><tr><th scope="col">Invoice</th><th scope="col">Client</th><th scope="col" data-number>Amount</th></tr></thead>
+                <tbody>
+                  <tr><td>INV-1021</td><td>Harbour Coffee</td><td data-number>$1,204.00</td></tr>
+                  <tr><td>INV-1022</td><td>Atlas Print</td><td data-number>$98.50</td></tr>
+                </tbody>
+              </table>
+            </template>
+            <template data-rust>Table::new("invoices").column("Client").number_column("Amount").row(["Atlas Print", "$98.50"])</template>
+          </section>
+
+          <section class="part" id="nav-part" data-add="nav">
+            <h3>Nav</h3>
+            <p>Plain links with a thumb that glides to the current one. Mark it <code>aria-current="page"</code>. <code>in-page</code> keeps clicks from following the link, and <code>.select(link)</code> moves it from code. The sidebar on this page is one.</p>
+            <template data-demo data-layout="stack">
+              <fd-nav aria-label="Sections" in-page>
+                <a href="#overview" aria-current="page">Overview</a>
+                <a href="#activity">Activity</a>
+                <a href="#billing">Billing</a>
+              </fd-nav>
+            </template>
+            <template data-rust>Nav::new("sections", ["Overview", "Activity", "Billing"]).on_change(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="sidebar" data-add="sidebar">
+            <h3>Sidebar</h3>
+            <p>Holds an <code>&lt;fd-nav&gt;</code> and collapses to a thin strip. A <code>collapsed</code> attribute holds the state.</p>
+            <template data-demo data-layout="stack">
+              <fd-sidebar class="fd-card" label="menu">
+                <fd-nav aria-label="Menu" in-page><a href="#inbox" aria-current="page">Inbox</a><a href="#sent">Sent</a></fd-nav>
+              </fd-sidebar>
+            </template>
+            <template data-rust>Sidebar::new("menu").width(200.).child(nav)</template>
+          </section>
+
+          <section class="part" id="scroll" data-add="scroll">
+            <h3>Scroll area</h3>
+            <p>A slim bar that takes its colors from the theme. Give it a height.</p>
+            <template data-demo data-layout="stack">
+              <div class="fd-scroll demo-scroller" tabindex="0" role="region" aria-label="Release notes">
+                <p>Version 0.4 added overlays.</p>
+                <p>Version 0.3 added form controls.</p>
+                <p>Version 0.2 added tabs.</p>
+                <p>Version 0.1 added the button.</p>
+                <p>Before that there was only a dither.</p>
+              </div>
+            </template>
+            <template data-rust>ScrollArea::new("notes").h(px(70.)).child(content)</template>
+          </section>
+
+          <section class="part" id="pieces" data-add="misc">
+            <h3>Small pieces</h3>
+            <p>An avatar, carousel dots and an empty state.</p>
+            <template data-demo>
+              <span class="fd-avatar" role="img" aria-label="Ada Lovelace">AL</span>
+              <nav class="fd-dots" aria-label="Slides">
+                <button type="button" aria-label="Slide 1"></button>
+                <button type="button" aria-label="Slide 2" aria-current="true"></button>
+                <button type="button" aria-label="Slide 3"></button>
+              </nav>
+              <div class="fd-empty">
+                <h4 class="fd-empty-title">No reports yet</h4>
+                <p>New reports will appear here.</p>
+              </div>
+            </template>
+            <template data-rust>Avatar::new("AL")
+Dots::new("slides", 3, 1)
+EmptyState::new("No reports yet", "New reports will appear here.")</template>
+          </section>
+
+          <section class="part" id="file" data-add="file">
+            <h3>File card</h3>
+            <p>Shows the type and size, with no preview, because a thumbnail needs a PDF renderer.</p>
+            <template data-demo>
+              <span class="fd-file"><span class="fd-file-type">pdf</span><span>Report.pdf <span class="fd-file-size">2.4 MB</span></span></span>
+            </template>
+            <template data-rust>FileCard::new("report.pdf", "2.4 MB")</template>
+          </section>
+
+          <section class="part" id="kbd" data-add="kbd">
+            <h3>Key</h3>
+            <p>One key or shortcut, on a real <code>&lt;kbd&gt;</code>.</p>
+            <template data-demo>
+              <kbd class="fd-kbd">⌘K</kbd>
+              <kbd class="fd-kbd">Tab</kbd>
+            </template>
+            <template data-rust>Kbd::new("⌘K")</template>
+          </section>
+
+          <section class="part" id="not-found" data-add="not-found text">
+            <h3>Missing page</h3>
+            <p>A page for a bad address.</p>
+            <template data-demo data-layout="stack">
+              <div class="fd-not-found">
+                <p class="fd-not-found-code"><fd-dissolve hold="0.1 0.7">404</fd-dissolve></p>
+                <p>This page has gone missing.</p>
+              </div>
+            </template>
+            <template data-rust>NotFound::new("404", "This page has gone missing.").action(button)</template>
+          </section>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="feedback">Feedback</h2>
+
+          <section class="part" id="loading" data-add="feedback">
+            <h3>Loader and skeleton</h3>
+            <p>Give a loader <code>role="status"</code> and a label. Skeletons are decoration, so hide them from assistive tech.</p>
+            <template data-demo data-layout="stack">
+              <span class="fd-loader" role="status" aria-label="Loading"></span>
+              <span class="fd-skeleton" aria-hidden="true"></span>
+            </template>
+            <template data-rust>Loader::new("loading")
+Skeleton::new("line").height(18.)</template>
+          </section>
+
+          <section class="part" id="progress" data-add="feedback">
+            <h3>Progress and divider</h3>
+            <p>A real <code>&lt;progress&gt;</code>, and a dithered <code>&lt;hr&gt;</code>.</p>
+            <template data-demo data-layout="stack">
+              <progress class="fd-progress" value="62" max="100" aria-label="Upload"></progress>
+              <hr class="fd-divider" />
+            </template>
+            <template data-rust>Progress::new(0.62)
+Divider</template>
+          </section>
+
+          <section class="part" id="stat" data-add="feedback sparkline">
+            <h3>Stat and sparkline</h3>
+            <p>A number with a label and a change, and a small dithered line. Sparklines need an <code>aria-label</code>.</p>
+            <template data-demo data-layout="stack">
+              <div class="fd-stat">
+                <span class="fd-stat-label">Revenue</span>
+                <span class="fd-stat-value">$48,210</span>
+                <span class="fd-stat-change">Up 12% this month</span>
+              </div>
+              <fd-sparkline values="4 6 5 8 7 11 9 13 12 16" aria-label="Revenue rose over ten months"></fd-sparkline>
+            </template>
+            <template data-rust>Stat::new("Revenue", "$48,210").change("Up 12%")
+Sparkline::new("revenue", [4., 6., 5., 8.])</template>
+          </section>
+
+          <section class="part" id="uptime" data-add="misc">
+            <h3>Uptime</h3>
+            <p>One <code>&lt;i&gt;</code> for each period, with <code>data-state="partial"</code> or <code>"down"</code>.</p>
+            <template data-demo data-layout="stack">
+              <div class="fd-uptime" role="img" aria-label="Up for 13 of 14 days, partly down on one">
+                <i></i><i></i><i></i><i></i><i data-state="partial"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </template>
+            <template data-rust>Uptime::new([Status::Up, Status::Partial, Status::Down])</template>
+          </section>
+
+          <section class="part" id="steps" data-add="steps">
+            <h3>Steps</h3>
+            <p>A list with <code>data-state="done"</code> or <code>"active"</code>. Without one, a step waits.</p>
+            <template data-demo>
+              <ol class="fd-steps">
+                <li data-state="done">Read the brief</li>
+                <li data-state="active">Write the draft</li>
+                <li>Review</li>
+              </ol>
+            </template>
+            <template data-rust>Steps::new([("Read", Step::Done), ("Write", Step::Active), ("Check", Step::Waiting)])</template>
+          </section>
+
+          <section class="part" id="glow" data-add="bloom badge">
+            <h3>Glow</h3>
+            <p>Gives any element a soft glow in its <code>data-tone</code> color.</p>
+            <template data-demo>
+              <span class="fd-bloom" data-tone="orange"><span class="fd-badge" data-tone="orange">Glowing</span></span>
+            </template>
+            <template data-rust>Bloom::new(Tone::Green, content)</template>
+          </section>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="chat-group">Chat</h2>
+
+          <section class="part" id="chat" data-add="chat">
+            <h3>Messages and composer</h3>
+            <p>A column of <code>.fd-message</code>, with <code>data-from="me"</code> on the user's, then <code>.fd-thinking</code> while waiting and <code>.fd-composer</code> at the bottom.</p>
+            <template data-demo data-layout="stack">
+              <p class="fd-message">Can you draft the report?</p>
+              <p class="fd-message" data-from="me">Sure, starting now.</p>
+              <span class="fd-thinking"><span class="fd-loader" role="status" aria-label="Thinking"></span> Thinking</span>
+              <form class="fd-composer">
+                <textarea class="fd-input" rows="1" aria-label="Message" placeholder="Write a message"></textarea>
+                <button class="fd-button" type="button">Send</button>
+              </form>
+            </template>
+            <template data-rust>Message::new("Sure, starting now.").mine()
+Thinking::new("thinking", "Thinking")
+let composer = cx.new(Composer::new); // ComposerEvent::Sent(text)</template>
+          </section>
+
+          <section class="part" id="composer" data-add="composer">
+            <h3>Suggested replies</h3>
+            <p>Wrap a composer to offer a message. Tab takes the suggestion into an empty box, Enter sends, and Shift and Enter makes a new line. <code>send</code> fires with <code>detail: { text }</code>.</p>
+            <template data-demo data-layout="stack">
+              <fd-composer suggestion="Make it shorter">
+                <form class="fd-composer">
+                  <textarea class="fd-input" rows="1" aria-label="Message"></textarea>
+                  <button class="fd-button">Send</button>
+                </form>
+              </fd-composer>
+            </template>
+            <template data-rust>let composer = cx.new(|cx| Composer::new(cx).suggestion("Make it shorter", cx));</template>
+          </section>
+
+          <section class="part" id="thinking-steps" data-add="thinking-steps">
+            <h3>Thinking steps</h3>
+            <p>A run of work folded under a line of status, with the sources it used. It is a real <code>&lt;details&gt;</code>.</p>
+            <template data-demo data-layout="stack">
+              <details class="fd-thinking-steps" open>
+                <summary>Research</summary>
+                <ol class="fd-steps">
+                  <li data-state="done">Read the brief<span class="fd-sources"><span class="fd-badge">docs</span><span class="fd-badge">issues</span></span></li>
+                  <li data-state="active">Write the draft</li>
+                  <li>Review</li>
+                </ol>
+              </details>
+            </template>
+            <template data-rust>ThinkingSteps::new("run", "Research").step("Read the brief", Step::Done).step("Write", Step::Active).source("docs")</template>
+          </section>
+
+          <section class="part" id="question" data-add="question">
+            <h3>Question card</h3>
+            <p>A <code>&lt;fieldset&gt;</code> that asks one thing, with choices and actions inside.</p>
+            <template data-demo data-layout="stack">
+              <fieldset class="fd-question">
+                <legend>Which format should this take?</legend>
+                <label class="fd-choice"><input class="fd-radio" type="radio" name="format" checked /> A short report</label>
+                <label class="fd-choice"><input class="fd-radio" type="radio" name="format" /> Slides</label>
+                <button class="fd-button" data-density="compact" type="button">Answer</button>
+              </fieldset>
+            </template>
+            <template data-rust>QuestionCard::new("format", "Which format should this take?", ["A short report", "Slides"]).on_answer(|_, _, _| {})</template>
+          </section>
+
+          <section class="part" id="questions" data-add="questions">
+            <h3>Question flow</h3>
+            <p>One question at a time. A click or a number key answers and moves on, while arrow keys choose and Next moves on, so a keyboard is never rushed past an answer. Use checkboxes for several answers. A text input inside an option makes its text the answer. Skip leaves it null. <code>answer</code> fires each time, and <code>done</code> fires with <code>detail: { answers }</code> at the end.</p>
+            <template data-demo data-layout="stack" data-replay>
+              <fd-questions done="Thanks.">
+                <fieldset class="fd-question">
+                  <legend>What are you making?</legend>
+                  <label class="fd-choice"><input class="fd-radio" type="radio" name="making" value="site" /> A website</label>
+                  <label class="fd-choice"><input class="fd-radio" type="radio" name="making" value="app" /> A desktop app</label>
+                </fieldset>
+                <fieldset class="fd-question">
+                  <legend>Which target?</legend>
+                  <label class="fd-choice"><input class="fd-radio" type="radio" name="target" value="web" /> The web</label>
+                  <label class="fd-choice"><input class="fd-radio" type="radio" name="target" value="gpui" /> GPUI</label>
+                </fieldset>
+                <fieldset class="fd-question">
+                  <legend>What matters most?</legend>
+                  <label class="fd-choice"><input class="fd-check" type="checkbox" name="matters" value="look" /> The look</label>
+                  <label class="fd-choice"><input class="fd-check" type="checkbox" name="matters" value="size" /> The size</label>
+                </fieldset>
+              </fd-questions>
+            </template>
+            <template data-rust>Questions::new("survey").question("Which target?", ["The web", "GPUI"]).several("Which features?", ["Dark mode", "Speed"]).on_done(|_, _, _| {})</template>
+          </section>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="charts-group">Charts</h2>
+
+          <section class="part" id="charts" data-add="chart">
+            <h3>Charts</h3>
+            <p>Kinds are <code>bar</code>, <code>area</code>, <code>line</code>, <code>donut</code>, <code>radar</code>, <code>heatmap</code> and <code>gauge</code>. Keep to two or three series, because the shading already adds texture. A gauge's series is <code>value max</code>, a heatmap's series are rows, and a donut takes its slice names from <code>labels</code>.</p>
+            <p>A hidden table carries the numbers for screen readers. Set the height with <code>--fd-chart-height</code>, not <code>height</code>. The default is 160px. Separate labels with <code>;</code> if they hold spaces. In a grid, give the track <code>minmax(0, 1fr)</code> or it won't shrink. On GPUI there are no axis labels.</p>
+            <template data-demo data-layout="columns">
+              <fd-chart kind="bar" series="3 7 2 9 5; 5 1 6 4 7" names="Sales; Costs" labels="Mon Tue Wed Thu Fri" aria-label="Sales and costs by day"></fd-chart>
+              <fd-chart kind="area" series="2 6 3 8 5 9; 1 2 2 4 3 5" names="Visits; Signups" labels="Jan Feb Mar Apr May Jun" aria-label="Visits and signups by month"></fd-chart>
+              <fd-chart kind="line" series="2 6 3 8 5; 7 1 6 2 4" names="This year; Last year" labels="Q1 Q2 Q3 Q4 Q5" aria-label="This year against last year"></fd-chart>
+              <fd-chart kind="donut" series="5 3 2" labels="Search Direct Social" aria-label="Traffic by source"></fd-chart>
+              <fd-chart kind="radar" series="5 8 3 7 6; 3 4 6 2 5" names="Plan; Actual" labels="Speed Cost Reach Trust Scale" aria-label="Plan against actual"></fd-chart>
+              <fd-chart kind="heatmap" series="1 4 2 6; 7 3 9 2; 2 8 5 4" aria-label="Activity by hour and day"></fd-chart>
+              <fd-chart kind="gauge" series="62 100" names="Used" aria-label="62 percent of quota used"></fd-chart>
+            </template>
+            <template data-rust>Chart::new("sales", ChartKind::Bar, vec![vec![3., 7.], vec![5., 1.]]).names(["Sales", "Costs"]).height(120.)</template>
+          </section>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="dither-group">Dither</h2>
+
+          <section class="part" id="gradient" data-add="gradient">
+            <h3>Gradient</h3>
+            <p>Modes are <code>linear</code>, <code>radial</code> and <code>conic</code>, with <code>angle</code>, <code>center="0.5 0.5"</code>, <code>radius</code>, <code>from</code>, <code>to</code>, <code>warp</code>, <code>speed</code> and <code>matrix</code>. It pauses offscreen and holds still under reduced motion.</p>
+            <template data-demo data-layout="stack">
+              <fd-dither-gradient angle="90" from="0" to="0.75" speed="0.4"></fd-dither-gradient>
+            </template>
+            <template data-rust>DitherGradient::new("band", Gradient::default()).speed(0.4).h(px(120.)).w_full()</template>
+          </section>
+
+          <section class="part" id="field" data-add="field">
+            <h3>Field</h3>
+            <p>An animated background computed on the CPU. Kinds are <code>noise</code>, <code>waves</code>, <code>plasma</code>, <code>ripples</code>, <code>tunnel</code>, <code>metaballs</code>, <code>orb</code>, <code>stars</code>, <code>aurora</code>, <code>contours</code>, <code>beams</code>, <code>eclipse</code>, <code>horizon</code>, <code>mesh</code>, <code>grid</code>, <code>ridges</code>, <code>silk</code> and <code>smoke</code>. A <code>speed</code> of 0 draws one still frame. Keep text off busy fields.</p>
+            <template data-demo data-layout="stack">
+              <fd-field kind="aurora" speed="1"></fd-field>
+            </template>
+            <template data-rust>DitherGradient::field("sky", Field::Aurora).h(px(70.)).w_full()</template>
+          </section>
+
+          <section class="part" id="image" data-add="image">
+            <h3>Image</h3>
+            <p>A picture redrawn in cells. It must be same origin, so its pixels can be read. Transparent parts stay paper, so it also makes a dithered logo, like the GitHub mark on this page.</p>
+            <template data-demo>
+              <fd-dither-image class="demo-square" src="sphere.svg" alt="A lit sphere redrawn in dots" matrix="halftone"></fd-dither-image>
+            </template>
+            <template data-rust>DitherImage::new("sphere", path).matrix(Matrix::Halftone).size(240., 120.)</template>
+          </section>
+
+          <section class="part" id="world" data-add="world">
+            <h3>Map and globe</h3>
+            <p>A dotted map, or a turning globe with <code>kind="globe"</code>. The map comes from outlines drawn by hand, so it looks right but isn't geographic data. Don't use it to show where something really is.</p>
+            <template data-demo data-layout="columns">
+              <fd-world class="demo-world" kind="map" aria-label="A dotted sketch of the world"></fd-world>
+              <fd-world class="demo-world" kind="globe" aria-label="A turning globe"></fd-world>
+            </template>
+            <template data-rust>DitherGradient::map("map").w(px(440.)).h(px(220.))
+DitherGradient::globe("globe")</template>
+          </section>
+
+          <section class="part" id="png">
+            <h3>Save as PNG</h3>
+            <p>Any drawn element can be saved.</p>
+            <pre class="code" data-label="Save a PNG in the browser"><code>import { savePng } from './fluidither/core/export.js';
+
+savePng(element, 'name.png');</code></pre>
+            <p>On GPUI, <code>fluidither::export::save_png(path, &amp;cells, columns, rows, 3, ink)</code> writes cells you made yourself, at 3 pixels a cell.</p>
+          </section>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="text-group">Text</h2>
+
+          <section class="part" id="scramble" data-add="text">
+            <h3>Scramble</h3>
+            <p>Letters settle from stand in glyphs. Call <code>.run()</code> to play it again, optionally with new text. The real text stays available to assistive tech.</p>
+            <template data-demo data-replay>
+              <p class="demo-big"><fd-scramble>Scrambled into place</fd-scramble></p>
+            </template>
+            <template data-rust>Scramble::new("title", "Scrambled into place")</template>
+          </section>
+
+          <section class="part" id="dissolve" data-add="text">
+            <h3>Dissolve</h3>
+            <p>Text appears through a thinning dither. <code>on-view</code> waits until it is seen, and <code>hold="0.1 0.7"</code> keeps the dither, for dithered headings and logos. On a surface other than the page, set <code>--fd-dissolve-paper</code>.</p>
+            <template data-demo data-replay>
+              <p class="demo-big"><fd-dissolve>Dissolved into view</fd-dissolve></p>
+            </template>
+            <template data-rust>Dissolve::new("word", content)</template>
+          </section>
+
+          <section class="part" id="count" data-add="text">
+            <h3>Count</h3>
+            <p>A number that springs to its value. <code>digits</code> sets the decimal places.</p>
+            <template data-demo data-replay>
+              <p class="demo-big"><fd-count value="1204"></fd-count> reports</p>
+            </template>
+            <template data-rust>Count::new("reports", 1204.)</template>
+          </section>
+
+          <section class="part" id="shimmer" data-add="text">
+            <h3>Shimmer</h3>
+            <p>A clear band sweeps through a dither over the text, for something at work. <code>words</code> cycles through several. On a surface other than the page, set <code>--fd-dissolve-paper</code>.</p>
+            <template data-demo>
+              <p class="demo-big"><fd-shimmer words="Thinking; Reading; Writing">Thinking</fd-shimmer></p>
+            </template>
+            <template data-rust>Shimmer::new("status", ["Thinking", "Reading", "Writing"])</template>
+          </section>
+        </section>
+
+        <section class="fd-card page">
+          <h2 id="media">Media</h2>
+
+          <section class="part" id="compare" data-add="compare field">
+            <h3>Compare</h3>
+            <p>Two images or dither elements with a real range input for the split, so it works with the keyboard. Drag across it.</p>
+            <template data-demo data-layout="stack">
+              <fd-compare class="demo-compare" aria-label="Bayer against blue noise">
+                <fd-field kind="silk" speed="0" matrix="bayer2"></fd-field>
+                <fd-field kind="silk" speed="0" matrix="blue-noise"></fd-field>
+              </fd-compare>
+            </template>
+            <template data-rust>Compare::new("matrices", first, second).height(160.)</template>
+          </section>
+
+          <section class="part" id="marquee" data-add="marquee">
+            <h3>Marquee</h3>
+            <p>A strip that moves on its own and pauses on hover and focus.</p>
+            <template data-demo data-layout="stack">
+              <fd-marquee aria-label="No framework, no runtime dependencies, no build step">
+                <span>No framework</span><span>No runtime dependencies</span><span>No build step</span>
+              </fd-marquee>
+            </template>
+            <template data-rust>Marquee::new("facts", ["No framework", "No build step"])</template>
+          </section>
+        </section>
+
+        <section class="fd-card page" id="recipes">
+          <h2>Recipes</h2>
+          <h3>A settings page</h3>
+          <p>Use <code>.fd-card</code> sections holding <code>.fd-field</code> rows, with <code>.fd-switch</code> for on and off and <code>&lt;fd-select&gt;</code> for choices. Put a solid button last, with a soft one for cancel. Use <code>data-density="compact"</code> on the page if there's a lot of it.</p>
+          <h3>A dashboard</h3>
+          <p>A row of cards, each with a <code>.fd-stat</code> and an <code>&lt;fd-sparkline&gt;</code>, above one large <code>&lt;fd-chart&gt;</code> and a <code>.fd-table</code>. Use color for series, and tones for status with <code>.fd-badge</code>.</p>
+          <h3>A hero band</h3>
+          <pre class="code" data-label="A hero band"><code>&lt;fd-dither-gradient class="band" angle="90" from="0" to="0.75" speed="0.4"&gt;&lt;/fd-dither-gradient&gt;</code></pre>
+          <pre class="code" data-label="Its size"><code>.band {
+  height: 120px;
+  border-radius: 8px;
+}</code></pre>
+          <p>Use <code>&lt;fd-field kind="aurora"&gt;</code> for something livelier.</p>
+          <h3>A command palette</h3>
+          <p>Add <code>&lt;fd-command&gt;</code> once, and call <code>.show()</code> from your own shortcut. On GPUI, create a <code>CommandMenu</code> view, add it as a child, and call <code>show</code>.</p>
+        </section>
+
+        <section class="fd-card page" id="support">
+          <h2>Support</h2>
+          <table class="fd-table">
+            <thead><tr><th scope="col">Where</th><th scope="col">Status</th></tr></thead>
+            <tbody>
+              <tr><td>Chromium</td><td>Tested. 136 browser tests run under the strict CSP, with axe in both themes.</td></tr>
+              <tr><td>macOS on Apple Silicon</td><td>Tested with Rust 1.98.1 and <code>gpui</code> 0.2.2.</td></tr>
+              <tr><td>Firefox, Safari</td><td>Not run. Styles for them are written but have never been seen. <code>linear()</code> easing needs Safari 17.2 or later.</td></tr>
+              <tr><td>Linux, Windows</td><td>Not built for GPUI.</td></tr>
+              <tr><td>Screen readers on the web</td><td>Real elements and ARIA, but not tried with a real screen reader.</td></tr>
+              <tr><td>Screen readers on GPUI</td><td><strong>Not supported.</strong> <code>gpui</code> 0.2.2 has no accessibility API.</td></tr>
+            </tbody>
+          </table>
+          <p>Vertical tabs, sortable tables, submenus and PDF previews are missing on both targets. GPUI also has no multi line text and no link style button. <a href="https://github.com/vrnrn/fluidither/blob/main/docs/support.md">The full list of limits</a> is on GitHub.</p>
+        </section>
+
+        <section class="fd-card page" id="performance">
+          <h2>Performance</h2>
+          <table class="fd-table">
+            <caption>Bundle size on the web</caption>
+            <thead><tr><th scope="col">What</th><th scope="col" data-number>Gzipped</th></tr></thead>
+            <tbody>
+              <tr><td><code>tokens.css</code>, once per page</td><td data-number>1.2 KB</td></tr>
+              <tr><td>Most CSS only components</td><td data-number>under 1 KB each</td></tr>
+              <tr><td>Tokens plus an animated gradient</td><td data-number>4.2 KB</td></tr>
+              <tr><td>The overlays, such as Select and the command menu</td><td data-number>3 to 5 KB each</td></tr>
+              <tr><td>Every file, compressed separately</td><td data-number>about 65 KB</td></tr>
+            </tbody>
+          </table>
+          <p>The last figure counts shared code more than once. There are no runtime dependencies. <a href="https://github.com/vrnrn/fluidither/blob/main/docs/performance.md">The frame costs</a> for both targets are on GitHub.</p>
+        </section>
+      </main>
+    </div>
+
+    <div class="wipe" id="wipe" hidden></div>
+  </body>
+</html>

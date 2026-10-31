@@ -1,0 +1,562 @@
+:root {
+  --wall-gap: 16px;
+  --wall-edge: 24px;
+  --wall-bar: 64px;
+  --wall-columns: 5;
+  --wall-row: 232px;
+  --wall-width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Keeps the page to ink and orange, focus rings included. */
+:root[data-theme] {
+  --fd-focus: var(--fd-orange);
+}
+
+::selection {
+  background-color: var(--fd-orange);
+  color: var(--fd-on-solid);
+}
+
+html {
+  background-color: var(--fd-paper);
+  scrollbar-color: var(--fd-edge) transparent;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100dvh;
+  margin: 0;
+  padding: var(--wall-bar) var(--wall-edge);
+  color: var(--fd-ink);
+  font-family: var(--fd-font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+.quiet {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The moving background. It shows through the gaps and the margins. */
+.ground {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  color: color-mix(in srgb, var(--fd-ink) 46%, transparent);
+}
+
+.wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wipe > canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.wall {
+  position: relative;
+  flex: none;
+  width: var(--wall-width);
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+/* The tools sit on the wall's top right corner, so they don't push it off center. */
+.bar {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: var(--wall-gap);
+}
+
+.bar-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 8px;
+}
+
+.fd-button svg,
+.theme svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+/* A dither reads ink from light parts on dark paper, so each theme has its own logo. */
+.logo {
+  flex: none;
+  width: 22px;
+  height: 22px;
+}
+
+:root[data-theme='dark'] .logo-light,
+:root[data-theme='light'] .logo-dark {
+  display: none;
+}
+
+.theme {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-inline: 6px 2px;
+  color: var(--fd-ink-soft);
+  cursor: pointer;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--wall-columns), minmax(0, 1fr));
+  grid-auto-rows: var(--wall-row);
+  gap: var(--wall-gap);
+}
+
+/* Elements fill their tile, so no size is promised that the deal can't keep. */
+.tile {
+  display: flex;
+  flex-direction: column;
+  --fd-dissolve-paper: var(--fd-surface-1);
+  position: relative;
+  justify-content: center;
+  gap: 14px;
+  min-width: 0;
+  min-height: 0;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* The tallest in a 1x1, on the shortest cells a window allows. */
+.tile[data-tile='form'] {
+  gap: 10px;
+  padding-block: 18px;
+}
+
+.tile[data-tile='calendar'] {
+  padding-block: 12px;
+}
+
+/* In the corner of whatever it replays, on a tile or a docs example. */
+.replay {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: var(--fd-ink-soft);
+}
+
+.replay svg {
+  width: 14px;
+  height: 14px;
+}
+
+.tile[data-bare] {
+  padding: 0;
+  place-items: center;
+}
+
+.tile[data-bare] > * {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+.tile fd-dither-gradient {
+  background-color: transparent;
+}
+
+/* A picture keeps its proportions in any tile. */
+.tile[data-tile='image'] {
+  container-type: size;
+  align-items: center;
+}
+
+.tile[data-tile='image'] > fd-dither-image {
+  flex: none;
+  width: min(100cqw, 100cqh);
+  height: min(100cqw, 100cqh);
+}
+
+.tile fd-world {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tile fd-compare {
+  display: block;
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.tile fd-compare > fd-field {
+  width: 100%;
+  height: 100%;
+}
+
+/* Only the page's ink and orange in a chart, whichever series it has. */
+.tile fd-chart {
+  --fd-blue: var(--fd-edge);
+  --fd-green: var(--fd-ink-soft);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.tile .fd-uptime {
+  --fd-green: var(--fd-ink);
+  --fd-red: var(--fd-orange);
+}
+
+/* A table ignores a small width until its layout is fixed, and would widen the tile. */
+.tile .fd-chart-data {
+  table-layout: fixed;
+}
+
+.tile .fd-chart-plot {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
+}
+
+.tile fd-calendar {
+  display: block;
+  margin: auto;
+}
+
+.tile-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: var(--fd-weight-strong);
+  line-height: 20px;
+}
+
+.tile-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--fd-ink-soft);
+  font-size: 13px;
+  line-height: 18px;
+  text-wrap: pretty;
+}
+
+.tile-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tile-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tile-middle {
+  align-items: center;
+  justify-content: center;
+  margin-block: auto;
+}
+
+.tile-end {
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.tile-glide > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 8px;
+}
+
+.tile-glide span {
+  color: var(--fd-ink-soft);
+}
+
+.tile fd-color-picker {
+  margin: auto;
+}
+
+.tile fd-color-picker .fd-input {
+  height: 26px;
+}
+
+.tile .fd-check-group legend {
+  padding: 0 0 6px;
+}
+
+.tile fd-composer {
+  flex: none;
+}
+
+.tile fd-questions {
+  --fd-dissolve-paper: var(--fd-surface-1);
+}
+
+.tile fd-questions .fd-question {
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.tile-short {
+  width: 60%;
+}
+
+.tile-big {
+  margin: 0;
+  font-size: 30px;
+  font-weight: var(--fd-weight-strong);
+  line-height: 36px;
+  letter-spacing: -0.02em;
+}
+
+.tile-figure {
+  margin: auto 0 0;
+  font-size: 30px;
+  font-weight: var(--fd-weight-strong);
+  line-height: 36px;
+  letter-spacing: -0.02em;
+}
+
+.tile-figure + .tile-note {
+  margin-bottom: auto;
+}
+
+.tile-chat {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.tile-chat .fd-message {
+  margin-block: 0;
+  flex: none;
+}
+
+.tile-code {
+  height: 100%;
+  margin: 0;
+  overflow: auto;
+  color: var(--fd-ink-soft);
+  font: 12px / 18px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.tile fd-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+
+.tile[data-tile='code'] fd-tabs {
+  flex: 1;
+}
+
+.tile[data-tile='code'] fd-tab-panel {
+  flex: 1;
+  min-height: 0;
+}
+
+.tile[data-tile='bars'] fd-tabs,
+.tile[data-tile='accordion'] .fd-accordion:last-child {
+  flex: none;
+}
+
+.tile .fd-table {
+  width: 100%;
+}
+
+.tile .fd-table caption {
+  margin-bottom: 8px;
+  color: var(--fd-ink-soft);
+  text-align: start;
+}
+
+.tile fd-marquee {
+  margin-block: auto;
+}
+
+.tile .fd-empty {
+  margin-block: auto;
+}
+
+.tile .fd-not-found {
+  margin-block: auto;
+}
+
+.tile .fd-question {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.hero {
+  position: relative;
+  container-type: size;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 24px;
+}
+
+.tile-over {
+  z-index: 11;
+}
+
+.hero-points {
+  display: none;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  color: var(--fd-ink-soft);
+  list-style: none;
+}
+
+.hero-points li {
+  position: relative;
+  padding-inline-start: 20px;
+}
+
+.hero-points li::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 2px;
+  height: 2px;
+  box-shadow: var(--fd-glyph-tick);
+  color: var(--fd-orange);
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.hero-line {
+  max-width: 34ch;
+  margin: 0;
+  font-size: 18px;
+  line-height: 24px;
+  text-wrap: pretty;
+}
+
+.hero-install {
+  display: grid;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.hero fd-copy {
+  display: flex;
+  gap: var(--fd-gap);
+  min-width: 0;
+}
+
+.hero fd-copy .fd-input {
+  flex: 1;
+  min-width: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+}
+
+.hero-note {
+  margin: 0;
+  color: var(--fd-ink-soft);
+  font-size: 12px;
+  line-height: 16px;
+  text-wrap: pretty;
+}
+
+@container (min-width: 420px) {
+  .hero-line {
+    max-width: none;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+@container (min-width: 420px) and (min-height: 200px) {
+  .hero h1 {
+    font-size: 60px;
+  }
+
+  .hero-line {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/* A 2x2 hero: the word runs the full width, with room for the points under it. */
+@container (min-width: 420px) and (min-height: 340px) {
+  .hero h1 {
+    font-size: 19.4cqw;
+  }
+
+  .hero-line {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .hero-points {
+    display: grid;
+    gap: 8px;
+    margin-block: auto;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .hero-points li::before {
+    top: 7px;
+  }
+}
+
+/* Narrow windows scroll instead of fitting the wall to the screen. */
+@media (max-width: 420px) {
+  :root {
+    --wall-gap: 12px;
+    --wall-edge: 12px;
+  }
+}
+
+.missing {
+  --fd-dissolve-paper: var(--fd-surface-1);
+  width: min(100%, 420px);
+  margin: auto;
+  padding: 32px;
+}

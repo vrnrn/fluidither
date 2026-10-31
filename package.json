@@ -1,6 +1,6 @@
 {
   "name": "fluidither-workspace",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Dithered, spring-driven UI components for the plain web and GPUI",
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/vrnrn/fluidither.git"
   },
-  "homepage": "https://github.com/vrnrn/fluidither#readme",
+  "homepage": "https://fluidither.vrnrn.com",
   "bugs": {
     "url": "https://github.com/vrnrn/fluidither/issues"
   },
@@ -27,6 +27,9 @@
     "tokens": "node scripts/gen-tokens.mjs",
     "fixtures": "node scripts/gen-fixtures.mjs",
     "demo": "node web/demo/serve.mjs",
+    "site": "node site/serve.mjs",
+    "site:build": "node scripts/build-site.mjs",
+    "test:site": "node --test site/tests/*.test.mjs",
     "test": "npm run test:web && npm run test:gpui",
     "test:web": "node --test web/tests/*.test.mjs",
     "test:browser": "node --test web/tests/browser/*.test.mjs",

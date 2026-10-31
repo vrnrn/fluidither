@@ -173,3 +173,12 @@ figcaption {
 .demo-tall {
   height: 400px;
 }
+
+.demo-hover > div {
+  padding: 6px 10px;
+}
+
+.demo-hover[nearest] {
+  display: grid;
+  gap: 16px;
+}

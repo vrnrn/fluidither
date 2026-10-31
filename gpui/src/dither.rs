@@ -149,6 +149,23 @@ pub fn fill_gradient(tones: &mut [f64], width: usize, height: usize, gradient: &
     }
 }
 
+const SHIMMER_SECONDS: f64 = 1.6;
+const SHIMMER_SPREAD: f64 = 0.45;
+const SHIMMER_VEIL: f64 = 0.42;
+
+/// Fill `tones` with the veil for shimmering text at time `t`: thick everywhere but a clear
+/// band that sweeps across. `web/src/core/dither.js` is the same.
+pub fn fill_shimmer(tones: &mut [f64], width: usize, height: usize, t: f64) {
+    let turn = t / SHIMMER_SECONDS;
+    let center = (turn - turn.floor()) * (1.0 + 2.0 * SHIMMER_SPREAD) - SHIMMER_SPREAD;
+    for y in 0..height {
+        for x in 0..width {
+            let away = ((x as f64 + 0.5) / width as f64 - center).abs() / SHIMMER_SPREAD;
+            tones[y * width + x] = SHIMMER_VEIL * away.min(1.0);
+        }
+    }
+}
+
 /// Pick a palette entry per cell. A tone falls between two neighbouring entries
 /// and the threshold decides which.
 pub fn dither_tones<T: Copy>(

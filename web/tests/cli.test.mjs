@@ -72,11 +72,28 @@ test('every component copies with no broken imports, and every file belongs to o
   assert.deepEqual(missing, []);
 });
 
-test('init copies everything', () => {
+test('with no command it copies everything', () => {
   inFolder((folder) => {
-    run(folder, 'init');
+    run(folder);
     assert.ok(existsSync(join(folder, 'fluidither/components/world.js')));
     assert.ok(existsSync(join(folder, 'fluidither/core/blue-noise.js')));
+  });
+});
+
+test('--dir works with no command, and init still does the same', () => {
+  inFolder((folder) => {
+    run(folder, '--dir', 'site/ui');
+    assert.ok(existsSync(join(folder, 'site/ui/components/world.js')));
+    run(folder, 'init', '--dir', 'other');
+    assert.ok(existsSync(join(folder, 'other/components/world.js')));
+  });
+});
+
+test('help prints the commands and copies nothing', () => {
+  inFolder((folder) => {
+    assert.match(run(folder, 'help'), /npx fluidither add <names\.\.\.>/);
+    assert.match(run(folder, '--help'), /Copy the whole library/);
+    assert.deepEqual(readdirSync(folder), []);
   });
 });
 

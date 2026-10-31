@@ -24,3 +24,8 @@ fd-dissolve {
 fd-count {
   font-variant-numeric: tabular-nums;
 }
+
+fd-shimmer {
+  position: relative;
+  display: inline-block;
+}
