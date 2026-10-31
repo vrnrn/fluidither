@@ -144,6 +144,18 @@ test('tab takes the suggestion, enter sends it', async (t) => {
   assert.equal(await page.inputValue('#suggest textarea'), '');
 });
 
+test('a suggestion stops short of the tab chip', async (t) => {
+  const page = await open(t);
+  const { textEnd, chipStart } = await page.$eval('#suggest', (composer) => {
+    const box = composer.querySelector('textarea');
+    return {
+      textEnd: box.getBoundingClientRect().right - parseFloat(getComputedStyle(box).paddingInlineEnd),
+      chipStart: composer.querySelector('.fd-composer-tab').getBoundingClientRect().left,
+    };
+  });
+  assert.ok(textEnd <= chipStart, `text ends at ${textEnd}, chip starts at ${chipStart}`);
+});
+
 test('a reveal ends with everything shown, and can run again', async (t) => {
   const page = await open(t);
   await page.$eval('#rise', (each) => each.scrollIntoView());

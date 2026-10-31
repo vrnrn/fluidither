@@ -16,7 +16,7 @@ export class Composer extends HTMLElement {
       this.#chip.className = 'fd-composer-tab';
       this.#chip.textContent = 'Tab';
       this.#chip.setAttribute('aria-hidden', 'true');
-      this.append(this.#chip);
+      this.#box.after(this.#chip);
     }
     this.#box.addEventListener('input', () => this.#sync());
     this.#box.addEventListener('keydown', (event) => this.#onKey(event));
