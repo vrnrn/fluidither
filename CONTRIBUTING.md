@@ -46,8 +46,8 @@ Their tests run in Chromium too:
 npm run test:site
 ```
 
-`npm run site:build` puts the site and the library in `site-dist/`, and `npx wrangler deploy`
-publishes that folder.
+`npm run site:build` puts the site and the library in `site-dist/`. Cloudflare Workers Builds
+runs that and `npx wrangler deploy` on every push to `main`, so a merge updates the site.
 
 ## Change a token
 
