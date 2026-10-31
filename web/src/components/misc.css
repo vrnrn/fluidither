@@ -220,18 +220,31 @@ fd-copy {
 /* <fd-composer> wraps a .fd-composer form. Its suggestion shows as the placeholder. */
 fd-composer {
   display: block;
-  position: relative;
+}
+
+fd-composer .fd-composer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
 }
 
 fd-composer .fd-input {
+  grid-area: 1 / 1;
   field-sizing: content;
   max-height: 120px;
 }
 
+/* Room for the chip, so a suggestion of any length stops short of it. */
+fd-composer[suggestion] .fd-input {
+  padding-inline-end: 46px;
+}
+
 .fd-composer-tab {
-  position: absolute;
-  inset-block-start: 8px;
-  inset-inline-end: 72px;
+  grid-area: 1 / 1;
+  justify-self: end;
+  align-self: start;
+  margin-block-start: 8px;
+  margin-inline-end: 8px;
   padding-inline: 5px;
   border-radius: var(--fd-radius-pill);
   background-color: var(--fd-soft);
