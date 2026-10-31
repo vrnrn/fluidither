@@ -33,6 +33,8 @@ In a project that only copied `web/src`, don't edit the generated files. Overrid
 - Stay inside the strict CSP: no inline `style` attributes and no `data:` images. Setting
   styles from JavaScript through the CSSOM is fine.
 - Use tokens for every color and size, and honor `prefers-reduced-motion`.
+- Add it to `COMPONENTS` in `web/bin/fluidither.mjs`, so `npx fluidither add` can copy it. A
+  test fails if a file in `web/src/components` belongs to no component.
 - Add it to `web/demo/index.html`. The demo server sends the strict CSP, so a violation shows
   up there.
 - Add a test to `web/tests/browser`, with axe if it has content people read.

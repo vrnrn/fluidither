@@ -45,21 +45,19 @@ tests hold their dither output to the same cells.
   keyboard and accessibility come from the browser.
 - **Works under a strict CSP.** No inline styles and no `data:` images. It runs under
   `default-src 'none'`, with `script-src`, `style-src` and `img-src` set to `'self'`.
-- **Pay for what you use.** Each component loads on its own. Tokens plus an animated gradient
-  come to 4.2 KB gzipped.
+- **Pay for what you use.** `npx fluidither add` copies only what you ask for, and each
+  component loads on its own. Tokens plus an animated gradient come to 4.2 KB gzipped.
 
 ## Quick start for the web
 
-```bash
-npm install fluidither
-```
+There is no build step. Copy in the components you want, along with the files they need:
 
 ```bash
-mkdir -p my-site/fluidither && cp -R node_modules/fluidither/src/. my-site/fluidither/
+npx fluidither add tabs button gradient --dir my-site/fluidither
 ```
 
-There is no build step, so the files can be copied as they are. Link what you need. Save this
-as `my-site/index.html`:
+It prints the tags to paste. Run `npx fluidither list` to see every name, or
+`npx fluidither init` to copy the whole library. Then save this as `my-site/index.html`:
 
 ```html
 <!doctype html>
@@ -114,7 +112,7 @@ python3 -m http.server --directory my-site 8000
 
 Themes follow the system. Set `data-theme="light"` or `"dark"` on `<html>` to force one.
 
-With a bundler, import the pieces by name:
+With a bundler, run `npm install fluidither` and import the pieces by name:
 
 ```js
 import 'fluidither/tokens.css';
@@ -215,16 +213,14 @@ method is in the [web](skills/fluidither/references/web.md) and
 reference for each target, recipes for common screens, and how to add to both targets. A test
 fails if it names anything the code doesn't have.
 
-Copy it into your agent's skills folder. That is `.agents/skills/` in many projects, or
-`~/.claude/skills/` for Claude Code:
+Install it into your project:
 
 ```bash
-git clone --depth 1 https://github.com/vrnrn/fluidither
+npx fluidither skill
 ```
 
-```bash
-mkdir -p .agents/skills && cp -R fluidither/skills/fluidither .agents/skills/
-```
+That puts it in `.agents/skills/fluidither`. For another location, such as `~/.claude/skills/fluidither`
+for Claude Code, add `--dir`.
 
 ## The design
 
@@ -253,7 +249,7 @@ how the two engines are kept in step.
 | Screen readers on GPUI | **Not supported.** `gpui` 0.2.2 has no accessibility API, so VoiceOver can't see these components. |
 | PDF previews | Not included. File cards show the type and size, because a preview needs a PDF renderer. |
 
-There are also 26 unit tests for the web and 76 Rust tests, including parity tests that
+There are also 32 unit tests for the web and 76 Rust tests, including parity tests that
 compare the two engines cell for cell. [Support](docs/support.md) has the full list of limits and the differences between
 the targets, and [Performance](docs/performance.md) has the measurements.
 

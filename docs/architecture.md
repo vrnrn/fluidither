@@ -68,6 +68,7 @@ without a jump. Slow changes step on a timer, because any redraw repaints the wh
 | --- | --- |
 | `tokens/` | The shared design source |
 | `web/src/` | The web library: `tokens.css`, `components/`, `core/` |
+| `web/bin/` | The `npx fluidither` command |
 | `web/demo/` | The demo and showcase pages, and a server with the strict CSP |
 | `web/tests/` | Unit tests, and Chromium tests in `browser/` |
 | `gpui/src/` | The Rust crate |

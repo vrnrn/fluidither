@@ -1,6 +1,6 @@
 {
   "name": "fluidither",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "Dithered, spring-driven web components with no runtime dependencies",
   "license": "MIT",
@@ -23,9 +23,17 @@
     "strict-csp",
     "springs"
   ],
+  "bin": {
+    "fluidither": "bin/fluidither.mjs"
+  },
   "files": [
-    "src"
+    "src",
+    "bin",
+    "skill"
   ],
+  "scripts": {
+    "prepack": "rm -rf skill && cp -R ../skills/fluidither skill"
+  },
   "sideEffects": true,
   "exports": {
     "./tokens.css": "./src/tokens.css",

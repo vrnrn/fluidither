@@ -19,20 +19,16 @@ Before writing code, open the reference for your target:
 
 Check whether the project already has it before fetching it.
 
-**Web:** install it. With no bundler, copy the source into the folder you serve, then link
-what you use.
+**Web:** with no bundler, copy what you need into the folder you serve. This also prints the
+tags to paste into the page:
 
 ```bash
-npm install fluidither
+npx fluidither add tabs button gradient --dir public/fluidither
 ```
 
-```bash
-mkdir -p public/fluidither && cp -R node_modules/fluidither/src/. public/fluidither/
-```
-
-With a bundler, import by name, such as `fluidither/tokens.css` and
-`fluidither/components/tabs.js`. Modules need a web server, so pages won't work from
-`file://`.
+`npx fluidither list` shows the names. Rerun it to add more or to update. With a bundler, run
+`npm install fluidither` and import by name, such as `fluidither/tokens.css` and
+`fluidither/components/tabs.js`. Modules need a web server, so pages won't work from `file://`.
 
 **GPUI:** add the crate, with `gpui` at the same version.
 

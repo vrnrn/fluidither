@@ -1,6 +1,7 @@
 # Web reference
 
-No framework and no runtime dependencies. Install `fluidither`, then link only what you use.
+No framework and no runtime dependencies. Copy parts in with `npx fluidither add <names>`, then
+link only what you use.
 Every page needs `tokens.css`. Scripts are ES modules.
 
 `tokens.css` only defines values, so style the page yourself:
