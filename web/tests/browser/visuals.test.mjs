@@ -96,10 +96,21 @@ test('charts follow the theme', async (t) => {
     const { data } = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < data.length; i += 4) if (data[i + 3] > 0) return data[i];
   });
-  const light = await ink();
+  const key = () =>
+    page.$eval('#chart-bar .fd-chart-legend span', (entry) => getComputedStyle(entry, '::before').backgroundColor);
+  const [lightInk, lightKey] = [await ink(), await key()];
   await page.click('#theme');
   await page.waitForTimeout(100);
-  assert.notEqual(await ink(), light);
+  assert.notEqual(await ink(), lightInk);
+  assert.notEqual(await key(), lightKey);
+});
+
+test('labels can hold spaces when separated by semicolons', async (t) => {
+  const page = await open(t);
+  await page.$eval('#chart-bar', (chart) => chart.setAttribute('labels', 'New York; Los Angeles; Oslo; Lima; Rome'));
+  await page.waitForTimeout(100);
+  const heads = await page.$$eval('#chart-bar .fd-chart-data tr:first-child th', (each) => each.map((cell) => cell.textContent));
+  assert.deepEqual(heads, ['New York', 'Los Angeles', 'Oslo', 'Lima', 'Rome']);
 });
 
 for (const kind of FIELDS) {

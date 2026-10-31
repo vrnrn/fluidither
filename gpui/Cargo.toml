@@ -1,6 +1,6 @@
 [package]
 name = "fluidither"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["vrnrn"]
 license = "MIT"
@@ -11,9 +11,6 @@ readme = "README.md"
 keywords = ["gpui", "ui", "components", "dither", "spring"]
 categories = ["gui"]
 include = ["src/**", "Cargo.toml", "README.md", "LICENSE"]
-
-[package.metadata.docs.rs]
-targets = ["aarch64-apple-darwin"]
 
 [dependencies]
 # Shaders compile at app start, so building needs no Metal toolchain.

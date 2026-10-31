@@ -1,5 +1,5 @@
 // <fd-chart kind="bar" series="3 7 2; 5 1 6" names="Sales; Costs" labels="Mon Tue Wed"
-// aria-label="..."> draws a dithered chart. Kinds: bar, area, line, donut, radar,
+// aria-label="..."> draws a dithered chart. Separate labels with ";" if they hold spaces. Kinds: bar, area, line, donut, radar,
 // heatmap, gauge. For a gauge, series is "value max". A hidden table carries the same
 // numbers for screen readers, so the data is never locked in the picture.
 
@@ -11,6 +11,7 @@ const COLORS = ['--fd-ink', '--fd-orange', '--fd-blue', '--fd-green', '--fd-viol
 const CHART_CELL = 2;
 
 const list = (text, split = /\s+/) => (text ?? '').trim().split(split).filter(Boolean);
+const labelList = (text) => list(text, text?.includes(';') ? /\s*;\s*/ : /\s+/);
 
 export class Chart extends HTMLElement {
   static observedAttributes = ['kind', 'series', 'names', 'labels'];
@@ -63,7 +64,7 @@ export class Chart extends HTMLElement {
   // A donut colors each slice, and everything else each series.
   #keys(series) {
     const names = list(this.getAttribute('names'), /\s*;\s*/);
-    const labels = list(this.getAttribute('labels'));
+    const labels = labelList(this.getAttribute('labels'));
     if (this.#kind === 'donut') return labels.length ? labels : series[0].map((_, index) => `Slice ${index + 1}`);
     if (this.#kind === 'heatmap' || this.#kind === 'gauge') return [];
     return names.length ? names : series.map((_, index) => `Series ${index + 1}`);
@@ -73,12 +74,11 @@ export class Chart extends HTMLElement {
     const series = this.#series;
     if (series.length === 0) return;
     const keys = this.#keys(series);
-    const styles = getComputedStyle(this);
     this.#legend.replaceChildren(
       ...keys.map((key, index) => {
         const entry = document.createElement('span');
         entry.textContent = key;
-        entry.style.setProperty('--_key', styles.getPropertyValue(COLORS[index % COLORS.length]));
+        entry.style.setProperty('--_key', `var(${COLORS[index % COLORS.length]})`);
         return entry;
       }),
     );
@@ -87,7 +87,7 @@ export class Chart extends HTMLElement {
   }
 
   #fillTable(series) {
-    const labels = list(this.getAttribute('labels'));
+    const labels = labelList(this.getAttribute('labels'));
     const names = list(this.getAttribute('names'), /\s*;\s*/);
     const rows = series.map((values, index) => {
       const row = document.createElement('tr');

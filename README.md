@@ -55,7 +55,7 @@ npm install fluidither
 ```
 
 ```bash
-mkdir -p my-site && cp -R node_modules/fluidither/src my-site/fluidither
+mkdir -p my-site/fluidither && cp -R node_modules/fluidither/src/. my-site/fluidither/
 ```
 
 There is no build step, so the files can be copied as they are. Link what you need. Save this
@@ -245,7 +245,7 @@ how the two engines are kept in step.
 
 | | Status |
 | --- | --- |
-| Chromium | Tested. 120 browser tests run under the strict CSP, with axe in both themes. |
+| Chromium | Tested. 121 browser tests run under the strict CSP, with axe in both themes. |
 | macOS on Apple Silicon | Tested with Rust 1.98.1 and `gpui` 0.2.2. |
 | Firefox, Safari | Not run. Styles for them are written but have never been seen. |
 | Linux, Windows | Not built for GPUI. |

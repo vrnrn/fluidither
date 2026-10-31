@@ -49,6 +49,7 @@ GPUI also has no multi-line text and no link-style Button.
 | --- | --- | --- |
 | Color | The browser's color input, plus swatches | ColorPicker, a saturation field over a hue slider, plus swatches |
 | Saving a PNG | `savePng` saves any drawn element | `save_png` takes cells you made yourself |
+| Chart axis labels | `labels` | Not available |
 | Map and globe | `<fd-world>` | `DitherGradient::map` and `DitherGradient::globe` |
 | Accordion animation | Needs `interpolate-size` and `::details-content`, or sections open at once | Animated |
 

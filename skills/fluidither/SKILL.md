@@ -27,7 +27,7 @@ npm install fluidither
 ```
 
 ```bash
-cp -R node_modules/fluidither/src public/fluidither
+mkdir -p public/fluidither && cp -R node_modules/fluidither/src/. public/fluidither/
 ```
 
 With a bundler, import by name, such as `fluidither/tokens.css` and

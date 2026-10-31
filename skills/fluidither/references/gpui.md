@@ -3,16 +3,41 @@
 A Rust crate on `gpui` 0.2.2. The crate turns on `runtime_shaders`, so building needs no
 Metal toolchain.
 
+A complete app:
+
 ```rust
-use fluidither::{Button, Look, Tabs};
+use fluidither::{Button, Look, Theme};
+use gpui::{div, prelude::*, px, App, Application, Context, Render, Window, WindowOptions};
 
-fluidither::init(cx); // once at startup: sets the theme and makes Tab move focus
+struct Home;
 
-Button::new("save", "Save").look(Look::Soft).on_click(|_, _, _| {});
+impl Render for Home {
+    fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
+        let colors = Theme::get(cx).colors();
+        div()
+            .size_full()
+            .p(px(24.))
+            .bg(colors.paper)
+            .text_color(colors.ink)
+            .child(Button::new("save", "Save").look(Look::Soft).on_click(|_, _, _| {}))
+    }
+}
+
+fn main() {
+    Application::new().run(|cx: &mut App| {
+        fluidither::init(cx); // sets the theme and makes Tab move focus
+        cx.open_window(WindowOptions::default(), |_, cx| cx.new(|_| Home)).unwrap();
+        cx.activate(true);
+    });
+}
 ```
 
-Use `Theme::get(cx).colors()` for colors. Set `cx.global_mut::<Theme>().mode` to force a
-theme, then call `window.refresh()`.
+Common types are exported at the crate root. Set `cx.global_mut::<Theme>().mode` to `Mode::Dark`
+or `Mode::Light` to force a theme, then call `window.refresh()`. Density is `Density::Regular`
+or `Density::Compact`.
+
+The main colors are `paper`, `ink`, `ink_soft`, `line`, `edge`, `focus`, `soft`, `wash` and
+`surfaces[0]` to `surfaces[3]`, with `red`, `orange`, `green`, `blue`, `violet` and `pink`.
 
 ## Elements
 
@@ -23,7 +48,7 @@ value in, as with `.checked()`, `.on()`, `.selected()` or `.value()`.
 | --- | --- |
 | Button | `Button::new(id, label)`, `.look()`, `.density()`, `.icon(path)`, `.busy()`, `.disabled()`, `.tip()`, `.on_click()` |
 | Tabs | `Tabs::new(id, ["A", "B"])`, `.selected()`, `.initial()`, `.flat_peek()`, `.underline()`, `.on_change()` |
-| Checkbox | `Checkbox::new(id).label("Tick")`, `.checked(Checked::Mixed)`, `.initial()`, `.on_change()` |
+| Checkbox | `Checkbox::new(id).label("Tick")`, `.checked(Checked::Mixed)`, `.initial(true)`, `.on_change()` |
 | Radio group | `RadioGroup::new(id, ["A", "B"])`, `.disable(1)`, `.on_change()` |
 | Switch | `Switch::new(id).label("Sync")`, `.on()`, `.initial()`, `.on_change()` |
 | Slider | `Slider::new(id).range(0., 100.).step(5.)`, `.value()`, `.initial()`, `.on_change()` |
@@ -43,7 +68,7 @@ value in, as with `.checked()`, `.on()`, `.selected()` or `.value()`.
 | Divider | `Divider` |
 | Stat | `Stat::new("Revenue", "$48,210").change("Up 12%")` |
 | Sparkline | `Sparkline::new(id, [4., 6., 5.])` |
-| Chart | `Chart::new(id, ChartKind::Bar, series).names(["A", "B"]).height(120.)` |
+| Chart | `Chart::new(id, ChartKind::Bar, vec![vec![3., 7.], vec![5., 1.]]).names(["A", "B"]).height(120.)`. There are no axis labels on GPUI |
 | Gradient | `DitherGradient::new(id, Gradient::default()).speed(0.4).h(px(120.)).w_full()` |
 | Field | `DitherGradient::field(id, Field::Plasma).h(px(70.)).w_full()` |
 | Map and globe | `DitherGradient::map(id).w(px(440.)).h(px(220.))`, `DitherGradient::globe(id)` |
@@ -62,7 +87,7 @@ value in, as with `.checked()`, `.on()`, `.selected()` or `.value()`.
 | File | `FileCard::new("report.pdf", "2.4 MB")` |
 | Glow | `Bloom::new(Tone::Green, content)` |
 | Missing page | `NotFound::new("404", "Gone.").action(button)` |
-| Small pieces | `CopyField::new(id, text)`, `Avatar::new("AL")`, `Dots::new(id, 3, 1)`, `EmptyState::new(title, text)`, `Uptime::new(periods)` |
+| Small pieces | `CopyField::new(id, text)`, `Avatar::new("AL")`, `Dots::new(id, 3, 1)`, `EmptyState::new(title, text)`, `Uptime::new([Status::Up, Status::Partial, Status::Down])` |
 
 Rows are `Row::new("Name")`, with `.disabled(true)`. Plain strings work too.
 
@@ -72,8 +97,9 @@ These are views, because they need a long-lived object. Create them once and kee
 entity. Add it as a child, and subscribe to hear from it.
 
 ```rust
+// Inside a view's constructor, where `cx` is a `Context<Self>`:
 let name = cx.new(|cx| TextField::new(cx).placeholder("Your name"));
-cx.subscribe(&name, |_, event: &TextFieldEvent, _| { /* Changed or Submitted */ }).detach();
+cx.subscribe(&name, |this, _, event: &TextFieldEvent, cx| { /* Changed or Submitted */ }).detach();
 
 let city = cx.new(|cx| Combobox::new(["Lisbon", "Oslo"], window, cx)); // ComboboxEvent::Chosen
 

@@ -38,11 +38,10 @@ test('every file it names exists', () => {
   }
 });
 
-test('every token it names exists', () => {
+test('every token and setting it names exists', () => {
   const tokens = read('web/src/tokens.css');
   for (const name of new Set(skill.match(/--fd-[a-z-]+/g))) {
-    if (name === '--fd-dissolve-paper') continue;
-    assert.ok(tokens.includes(name), `${name} is not a token`);
+    assert.ok(tokens.includes(name) || web.includes(name), `${name} is not defined`);
   }
 });
 

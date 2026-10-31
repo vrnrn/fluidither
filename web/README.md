@@ -17,7 +17,7 @@ npm install fluidither
 There is no build step. Copy the files into the folder you serve:
 
 ```bash
-cp -R node_modules/fluidither/src public/fluidither
+mkdir -p public/fluidither && cp -R node_modules/fluidither/src/. public/fluidither/
 ```
 
 Then link what you use:

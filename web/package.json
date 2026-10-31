@@ -1,6 +1,6 @@
 {
   "name": "fluidither",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Dithered, spring-driven web components with no runtime dependencies",
   "license": "MIT",

@@ -3,6 +3,16 @@
 No framework and no runtime dependencies. Install `fluidither`, then link only what you use.
 Every page needs `tokens.css`. Scripts are ES modules.
 
+`tokens.css` only defines values, so style the page yourself:
+
+```css
+body {
+  background: var(--fd-paper);
+  color: var(--fd-ink);
+  font-family: var(--fd-font-sans);
+}
+```
+
 ```html
 <link rel="stylesheet" href="fluidither/tokens.css" />
 <link rel="stylesheet" href="fluidither/components/button.css" />
@@ -21,19 +31,19 @@ CSS means no JavaScript is needed. "+ JS" means load the script of that name as 
 | Busy button | `aria-busy="true" disabled` on the button | button.css |
 | Tabs | `<fd-tabs value="a"><fd-tab-list aria-label="..."><fd-tab value="a">A</fd-tab></fd-tab-list><fd-tab-panel value="a">...</fd-tab-panel></fd-tabs>`, `look="underline"` for a lighter form | tabs.css + JS |
 | Text field | `<input class="fd-input">`, or a `<textarea>` | input.css |
-| Labeled field | `<label class="fd-field">Name <input class="fd-input"><span class="fd-field-hint">Hint</span></label>` | input.css |
+| Labeled field | `<label class="fd-field">Name <input class="fd-input"><span class="fd-field-hint">Hint</span></label>`. For `<fd-select>` and `<fd-combobox>`, use a `<div class="fd-field">`, because a label's click doesn't reach them | input.css |
 | Checkbox | `<label class="fd-choice"><input class="fd-check" type="checkbox"> Label</label>` | check.css |
 | Radio | `<input class="fd-radio" type="radio" name="plan">` in a `.fd-choice` | check.css |
 | Switch | `<input class="fd-switch" type="checkbox" role="switch">` in a `.fd-choice` | switch.css, check.css for the label |
 | Slider | `<fd-slider><input type="range" aria-label="Volume"></fd-slider>` | slider.css + JS |
 | Tooltip | `<fd-tooltip text="Save"><button>...</button></fd-tooltip>` | tooltip.css + JS |
 | Menu | `<fd-menu><button>Open</button><fd-list><fd-item value="a">A</fd-item></fd-list></fd-menu>` | list.css, menu.js |
-| Select | `<fd-select name="f" value="a" aria-label="Fruit"><fd-list>...</fd-list></fd-select>` | list.css, select.css + JS |
-| Combobox | `<fd-combobox name="c" aria-label="City"><fd-list>...</fd-list></fd-combobox>` | list.css, combobox.css + JS |
+| Select | `<fd-select name="f" value="a" aria-label="Fruit"><fd-list><fd-item value="a">A</fd-item></fd-list></fd-select>` | list.css, select.css + JS |
+| Combobox | `<fd-combobox name="c" aria-label="City"><fd-list><fd-item value="a">A</fd-item></fd-list></fd-combobox>` | list.css, combobox.css + JS |
 | Dialog | `<dialog class="fd-dialog">`, opened with `showModal()` | dialog.css |
 | Drawer | `<dialog class="fd-dialog fd-drawer">`, `data-side="bottom"` for a sheet | dialog.css, misc.css |
 | Command menu | `<fd-command aria-label="Commands"><fd-list>...</fd-list></fd-command>`, call `.show()` | list.css, dialog.css, command.css + JS |
-| Card | `<article class="fd-card">`, `data-raised` to lift it | card.css |
+| Card | `<article class="fd-card">` holding `.fd-card-title` and `.fd-card-text`, `data-raised` to lift it | card.css |
 | Badge | `<span class="fd-badge" data-tone="green">Live</span>` | badge.css |
 | Banner | `<div class="fd-banner" data-tone="orange" role="status">` | banner.css |
 | Accordion | `<details class="fd-accordion" name="group"><summary>Title</summary>...</details>` | accordion.css |
@@ -67,6 +77,20 @@ CSS means no JavaScript is needed. "+ JS" means load the script of that name as 
 | Glow | `<span class="fd-bloom" data-tone="orange">...</span>` | extras.css |
 | Missing page | `.fd-not-found` holding `.fd-not-found-code` | extras.css |
 
+## Tokens
+
+| Use | Tokens |
+| --- | --- |
+| Page | `--fd-paper`, `--fd-ink`, `--fd-ink-soft` |
+| Surfaces | `--fd-surface-0` to `--fd-surface-3`, each with `--fd-shadow-0` to `--fd-shadow-3` |
+| Lines and fills | `--fd-line`, `--fd-edge`, `--fd-focus`, `--fd-soft`, `--fd-wash`, `--fd-screen` |
+| Color | `--fd-red`, `--fd-orange`, `--fd-green`, `--fd-blue`, `--fd-violet`, `--fd-pink` |
+| Text | `--fd-font-sans`, `--fd-font-size`, `--fd-line-height`, `--fd-weight-regular`, `--fd-weight-strong` |
+| Spacing | `--fd-gap` is 6px, for inside a control or row. `--fd-pad` is 14px, for cards and page layout |
+| Sizes | `--fd-control`, `--fd-segment`, `--fd-icon`, `--fd-inset` |
+| Corners | `--fd-radius-control`, `--fd-radius-pill` |
+| Motion | `--fd-spring-quick`, `--fd-spring-glide`, `--fd-spring-settle` |
+
 ## Details
 
 - Button looks: `solid` (default), `soft`, `outline`, `ghost`. Icons: put an `<svg>` inside.
@@ -81,6 +105,11 @@ CSS means no JavaScript is needed. "+ JS" means load the script of that name as 
   `from`, `to` and `warp`.
 - A canvas element's ink is its CSS `color`, and the paper is its `background-color`. Give
   gradients, fields and images a size in CSS.
+- Set a chart's height with `--fd-chart-height`, not `height`. The default is 160px.
+- Chart `labels` split on spaces. Separate them with `;` if they hold spaces, as in
+  `labels="New York; Oslo"`.
+- A canvas keeps its width while it lays out, so give a chart's grid track `minmax(0, 1fr)`, or
+  `min-width: 0` on a flex or grid child, or it won't shrink.
 - Events: tabs fire `change` with `detail: { value, index }`. Menus and the command menu
   fire `pick` with `detail: { value }`. Select, combobox, calendar and date picker fire
   `change`, and read `.value`.

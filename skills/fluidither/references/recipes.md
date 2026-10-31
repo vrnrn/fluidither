@@ -62,7 +62,7 @@ and a `Composer` view.
 Fill a tone array, then threshold it. A tone of 0 is paper and 1 is ink.
 
 ```js
-import { ditherTones, thresholdMap } from './core/dither.js';
+import { ditherTones, thresholdMap } from './fluidither/core/dither.js';
 
 const map = await thresholdMap('bayer4');
 const tones = new Float64Array(width * height).map((_, index) => (index % width) / width);
@@ -91,17 +91,20 @@ like print. Cells of 2 to 3px read as texture. Larger cells read as pixel art.
 }
 ```
 
-On GPUI, use `paint::checker(fade(colors.ink, DITHER_HOVER_INK), DITHER_HOVER_CELL, radius)`
-as a child. Keep the area small, because each cell is a quad.
+On GPUI, add `checker(fade(colors.ink, DITHER_HOVER_INK), DITHER_HOVER_CELL, 6.0)` as a child.
+Import `fluidither::paint::checker`, `fluidither::theme::fade` and
+`fluidither::generated::{DITHER_HOVER_CELL, DITHER_HOVER_INK}`. Keep the area small, because
+each cell is a quad.
 
 ## Move something on a spring
 
 ```js
-import { Glide, springs } from './core/spring.js';
+import { Glide, springs } from './fluidither/core/spring.js';
 
 const glide = new Glide({ x: 0 }, springs.glide, ({ x }) => element.style.setProperty('--x', `${x}px`));
 glide.to({ x: 120 });
 ```
 
-It stops by itself and honors reduced motion. On GPUI, hold a `Spring`, set `target`, call
-`step(dt)` in render, and call `window.request_animation_frame()` until it reports landed.
+It stops by itself and honors reduced motion. On GPUI, hold a
+`Spring::new(fluidither::generated::GLIDE, 0.0)`, set `target`, call `step(dt)` in render, and
+call `window.request_animation_frame()` until it returns true.
