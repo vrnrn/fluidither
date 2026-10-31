@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { chromium } from 'playwright-core';
 import { createDemoServer } from '../../demo/serve.mjs';
+import { settles } from './settles.mjs';
 
 const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 
@@ -180,13 +181,11 @@ const tabBox = (page, value) =>
 test('the thumb lands on the selected tab', async (t) => {
   const page = await open(t);
   await page.click('#range fd-tab[value=month]');
-  const tab = await tabBox(page, 'month');
-  const landed = async () => {
+  const thumb = async () => {
     const { thumbX, thumbWidth } = await listVars(page);
-    return thumbX === tab.x && thumbWidth === tab.width;
+    return { x: thumbX, width: thumbWidth };
   };
-  for (let tries = 0; tries < 60 && !(await landed()); tries += 1) await page.waitForTimeout(50);
-  assert.ok(await landed(), JSON.stringify(await listVars(page)));
+  await settles(thumb, await tabBox(page, 'month'));
 });
 
 test('a tab keeps its width when its weight changes', async (t) => {
@@ -204,16 +203,16 @@ test('the peek fades in on the hovered tab, glides, and fades out in place', asy
   await page.hover('#range fd-tab[value=day]');
   // It appears on the tab, without sliding over from the selection.
   assert.equal((await listVars(page)).peekX, (await tabBox(page, 'day')).x);
-  await page.waitForTimeout(250);
-  assert.equal((await listVars(page)).peekOpacity, 1);
+  const peek = async () => {
+    const { peekX, peekOpacity } = await listVars(page);
+    return { x: peekX, opacity: peekOpacity };
+  };
+  await settles(async () => (await peek()).opacity, 1);
   await page.hover('#range fd-tab[value=month]');
-  await page.waitForTimeout(250);
-  assert.equal((await listVars(page)).peekX, (await tabBox(page, 'month')).x);
+  const { x: monthX } = await tabBox(page, 'month');
+  await settles(peek, { x: monthX, opacity: 1 });
   await page.hover('h1');
-  await page.waitForTimeout(250);
-  const after = await listVars(page);
-  assert.equal(after.peekOpacity, 0);
-  assert.equal(after.peekX, (await tabBox(page, 'month')).x);
+  await settles(peek, { x: monthX, opacity: 0 });
 });
 
 test('the peek stays off the selected and disabled tabs', async (t) => {

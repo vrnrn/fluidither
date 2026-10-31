@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { chromium } from 'playwright-core';
 import { createDemoServer } from '../../demo/serve.mjs';
+import { settles } from './settles.mjs';
 
 const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 
@@ -88,8 +89,7 @@ test('nav: the thumb sits on the current link and glides to a new one', async (t
   assert.equal(await thumb(), await top('#overview'));
   await page.click('#side a[href="#billing"]');
   assert.equal(await page.$eval('#side a[aria-current]', (link) => link.textContent), 'Billing');
-  await page.waitForTimeout(400);
-  assert.equal(await thumb(), await top('#billing'));
+  await settles(thumb, await top('#billing'));
   assert.equal(await page.$$eval('#side a[aria-current]', (links) => links.length), 1);
 });
 
@@ -97,11 +97,9 @@ test('nav: the peek shows on other links and not on the current one', async (t) 
   const page = await open(t);
   const opacity = () => page.$eval('#side', (nav) => Number.parseFloat(nav.style.getPropertyValue('--_peek-opacity')) || 0);
   await page.hover('#side a[href="#activity"]');
-  await page.waitForTimeout(200);
-  assert.equal(await opacity(), 1);
+  await settles(opacity, 1);
   await page.hover('#side a[href="#overview"]');
-  await page.waitForTimeout(200);
-  assert.equal(await opacity(), 0);
+  await settles(opacity, 0);
 });
 
 test('nav: links stay reachable by keyboard', async (t) => {

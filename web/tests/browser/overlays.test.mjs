@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { chromium } from 'playwright-core';
 import { createDemoServer } from '../../demo/serve.mjs';
+import { settles } from './settles.mjs';
 
 const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 
@@ -138,12 +139,8 @@ test('menu: clicking outside closes it and hover moves the mark', async (t) => {
   await page.click('#actions button');
   await page.hover('#actions fd-item[value=duplicate]');
   assert.equal(await activeText(page, list), 'Duplicate');
-  await page.waitForTimeout(200);
-  const place = await page.$eval(list, (each) => ({
-    mark: Number.parseFloat(each.style.getPropertyValue('--_mark-y')),
-    item: each.querySelector('[data-active]').offsetTop,
-  }));
-  assert.equal(place.mark, place.item);
+  const item = await page.$eval(list, (each) => each.querySelector('[data-active]').offsetTop);
+  await settles(() => page.$eval(list, (each) => Number.parseFloat(each.style.getPropertyValue('--_mark-y'))), item);
   await page.mouse.click(5, 5);
   assert.equal(await isOpen(page, list), false);
 });
