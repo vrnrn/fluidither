@@ -248,8 +248,14 @@ test('one-shot tiles can run their animation again', async (t) => {
 
 test('the docs button sits just before GitHub and leads to the docs', async (t) => {
   const { page } = await open(t, { viewport: { width: 1440, height: 900 } });
-  const links = await page.$$eval('.bar-tools a', (each) => each.map((link) => link.getAttribute('href')));
+  const links = await page.$$eval('.bar .bar-tools a', (each) => each.map((link) => link.getAttribute('href')));
   assert.deepEqual(links, ['docs.html', 'https://github.com/vrnrn/fluidither']);
+});
+
+test('the credit sits under the wall and leads to vrnrn.com', async (t) => {
+  const { page } = await open(t, { viewport: { width: 1440, height: 900 } });
+  assert.equal((await page.textContent('.foot')).replace(/\s+/g, ' ').trim(), 'Made by vrnrn.com');
+  assert.equal(await page.getAttribute('.foot a', 'href'), 'https://vrnrn.com');
 });
 
 test('the theme switch flips the page and is remembered', async (t) => {
