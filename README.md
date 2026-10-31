@@ -5,30 +5,29 @@
   </picture>
 </p>
 
-<h3 align="center">Dithered, spring-driven UI for the plain web and GPUI.</h3>
+<h1 align="center">Interfaces that look printed and move like they have weight.</h1>
 
 <p align="center">
+  <strong>fluidither</strong> is a dithered, spring-driven component library for the plain web and GPUI.<br>
   One set of tokens. Two targets. The same cells on both.
 </p>
 
 <p align="center">
-  <a href="https://fluidither.vrnrn.com">Website</a> ·
+  <a href="https://fluidither.vrnrn.com"><strong>See it live</strong></a> ·
   <a href="https://fluidither.vrnrn.com/docs">Docs</a> ·
-  <a href="#quick-start-for-the-web">Web</a> ·
-  <a href="#quick-start-for-gpui">GPUI</a> ·
-  <a href="#components">Components</a> ·
-  <a href="#agent-skill">Agent skill</a> ·
-  <a href="#support">Support</a>
+  <a href="#get-it-in-one-command">Get started</a> ·
+  <a href="#everything-you-need">Components</a>
 </p>
 
 <br>
 
-fluidither is a component library with a print-like look: ink on paper, with soft dithered
-shading where most interfaces use a flat tint. Everything that moves runs on a spring.
+```bash
+npx fluidither
+```
 
-The web target is plain HTML, CSS and JavaScript, with no framework and no runtime
-dependencies. The GPUI target is a Rust crate. Both are generated from the same tokens, and
-tests hold their dither output to the same cells.
+<p align="center">One command copies the whole library into your project. No framework, no build step, no runtime dependencies.</p>
+
+<br>
 
 <p align="center">
   <picture>
@@ -37,31 +36,54 @@ tests hold their dither output to the same cells.
   </picture>
 </p>
 
-## Why fluidither
+## Your interface doesn't have to look like everyone else's
 
-- **Dither instead of tint.** Hover states, dialog screens, chart shading and the empty part
-  of a slider are all real dithers, drawn cell by cell.
-- **Springs instead of durations.** Motion keeps its speed when the target changes, things
-  leave faster than they arrive, and reduced motion is respected.
+Most component libraries give you the same soft tints and the same ease curves. fluidither
+starts from ink on paper. Shading is real dither, worked out cell by cell, and every movement
+runs on a spring. The result looks like a print that came to life, and it still behaves like
+a proper interface.
+
+- **Dither instead of tint.** Hover states, dialog screens, chart shading and even the empty
+  part of a slider are drawn in crisp cells that stay sharp at any size.
 - **Motion with a job.** One dithered highlight glides between items, and neighbours merge
   into one shape, so movement always says something.
-- **Real elements on the web.** A button is a `<button>` and a dialog is a `<dialog>`, so the
-  keyboard and accessibility come from the browser.
-- **Works under a strict CSP.** No inline styles and no `data:` images. It runs under
+- **Springs instead of durations.** Motion keeps its speed when the target changes, things
+  leave faster than they arrive, and reduced motion is respected.
+- **Eighteen animated fields.** Living backgrounds, plus a globe, a world map and dithered
+  images and gradients you can save as PNG.
+
+## Built to fit into real projects
+
+- **Plain HTML, CSS and JavaScript.** A button is a `<button>` and a dialog is a `<dialog>`, so
+  the keyboard and accessibility come from the browser.
+- **The code is yours.** Components are copied into your project, so you can read and change
+  every line.
+- **Small enough to add anywhere.** Each component loads on its own. Tokens plus an animated
+  gradient come to 4.2 KB gzipped.
+- **Happy under a strict CSP.** No inline styles and no `data:` images. It runs under
   `default-src 'none'`, with `script-src`, `style-src` and `img-src` set to `'self'`.
-- **Pay for what you use.** `npx fluidither add` copies only what you ask for, and each
-  component loads on its own. Tokens plus an animated gradient come to 4.2 KB gzipped.
+- **Two targets, one look.** The GPUI crate and the web library share their tokens, and tests
+  hold their dither output to the same cells.
 
-## Quick start for the web
+## Get it in one command
 
-There is no build step. Copy in the components you want, along with the files they need:
+### On the web
 
 ```bash
-npx fluidither add tabs button gradient --dir my-site/fluidither
+npx fluidither
 ```
 
-It prints the tags to paste. Run `npx fluidither list` to see every name, or plain
-`npx fluidither` to copy the whole library. Then save this as `my-site/index.html`:
+That copies everything. To take only what you need, name it, and the CLI prints the tags to
+paste:
+
+```bash
+npx fluidither add tabs button gradient
+```
+
+<details>
+<summary>A complete first page</summary>
+
+Run `npx fluidither --dir my-site/fluidither`, then save this as `my-site/index.html`:
 
 ```html
 <!doctype html>
@@ -108,13 +130,13 @@ fd-dither-gradient {
 }
 ```
 
-The modules need a web server, so serve the folder rather than opening the file:
+The modules need a web server, so serve the folder:
 
 ```bash
 python3 -m http.server --directory my-site 8000
 ```
 
-Themes follow the system. Set `data-theme="light"` or `"dark"` on `<html>` to force one.
+</details>
 
 With a bundler, run `npm install fluidither` and import the pieces by name:
 
@@ -124,15 +146,19 @@ import 'fluidither/components/tabs.css';
 import 'fluidither/components/tabs.js';
 ```
 
-## Quick start for GPUI
+Themes follow the system. Set `data-theme="light"` or `"dark"` on `<html>` to force one.
 
-Add the crate, with `gpui` at the same version:
+### On GPUI
+
+The same look in a native Rust app. Add the crate, with `gpui` at the same version:
 
 ```toml
 [dependencies]
 fluidither = "0.2"
 gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
 ```
+
+Then in `main.rs`:
 
 ```rust
 use fluidither::{Button, DitherGradient, Gradient, Look, Tabs, Theme};
@@ -177,7 +203,9 @@ GPUI itself, which took about 10 minutes on an M1 Pro.
   </picture>
 </p>
 
-## Components
+## Everything you need
+
+From a button to a question flow for your AI product, all on both targets:
 
 | Group | On both targets |
 | --- | --- |
@@ -194,46 +222,30 @@ GPUI itself, which took about 10 minutes on an M1 Pro.
 | Motion | Gliding hover, Reveal |
 | Media | Compare, Marquee |
 
-To see them all, clone the repository and run the demos:
+Try every one of them in the [live docs](https://fluidither.vrnrn.com/docs), which show the web
+and GPUI code for each. For every attribute and method, see the
+[web](skills/fluidither/references/web.md) and [GPUI](skills/fluidither/references/gpui.md)
+references.
 
-```bash
-git clone https://github.com/vrnrn/fluidither && cd fluidither && npm install
-```
+## Teach your coding agent
 
-```bash
-npm run demo
-```
-
-```bash
-cargo run --release --manifest-path gpui/Cargo.toml --example gallery
-```
-
-The `blocks`, `visuals` and `extras` examples show the rest on GPUI. Every attribute and
-method is in the [web](skills/fluidither/references/web.md) and
-[GPUI](skills/fluidither/references/gpui.md) references.
-
-## Agent skill
-
-`skills/fluidither` teaches a coding agent to use and extend the library: the rules, a
-reference for each target, recipes for common screens, and how to add to both targets. A test
-fails if it names anything the code doesn't have.
-
-Install it into your project:
+fluidither comes with an agent skill: the rules, a reference for each target, recipes for
+common screens, and how to add to both targets. A test fails if it names anything the code
+doesn't have, so your agent won't invent components.
 
 ```bash
 npx fluidither skill
 ```
 
-That puts it in `.agents/skills/fluidither`. For another location, such as `~/.claude/skills/fluidither`
-for Claude Code, add `--dir`.
+That puts it in `.agents/skills/fluidither`. For another location, such as
+`~/.claude/skills/fluidither` for Claude Code, add `--dir`.
 
-## The design
+## How it works
 
 - **Ink and paper.** Warm neutrals, with color kept for meaning. Dark mode is light ink on
   dark paper, not an inverted page.
 - **Cells, not gradients.** A tone is worked out per cell, then thresholded against a Bayer
-  matrix, a halftone screen or blue noise. The output is flat ink, so it stays crisp at any
-  size.
+  matrix, a halftone screen or blue noise. The output is flat ink.
 - **Three springs.** `quick` for hover, `glide` for movement, and `settle` for arrivals, each
   with a faster exit.
 - **Pixel marks.** Ticks, dashes and arrows are small cell drawings from the tokens, so they
@@ -243,7 +255,7 @@ for Claude Code, add `--dir`.
 [Architecture](docs/architecture.md) explains how one set of tokens reaches both targets, and
 how the two engines are kept in step.
 
-## Support
+## What's tested
 
 | | Status |
 | --- | --- |
@@ -255,13 +267,15 @@ how the two engines are kept in step.
 | Screen readers on GPUI | **Not supported.** `gpui` 0.2.2 has no accessibility API, so VoiceOver can't see these components. |
 | PDF previews | Not included. File cards show the type and size, because a preview needs a PDF renderer. |
 
-There are also 36 unit tests for the web and 81 Rust tests, including parity tests that
-compare the two engines cell for cell. [Support](docs/support.md) has the full list of limits and the differences between
-the targets, and [Performance](docs/performance.md) has the measurements.
+There are also 36 unit tests for the web and 81 Rust tests, including parity tests that compare
+the two engines cell for cell. [Support](docs/support.md) has the full list of limits and the
+differences between the targets, and [Performance](docs/performance.md) has the measurements.
 
 ## Contributing
 
-[CONTRIBUTING.md](CONTRIBUTING.md) covers the tests, tokens and how to change an engine.
+[CONTRIBUTING.md](CONTRIBUTING.md) covers the tests, tokens and how to change an engine. To run
+the demos, clone the repository and use `npm run demo`, or
+`cargo run --release --manifest-path gpui/Cargo.toml --example gallery` for GPUI.
 
 ## License
 
