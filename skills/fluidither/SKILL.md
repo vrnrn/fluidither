@@ -17,26 +17,28 @@ Before writing code, open the reference for your target:
 
 ## Get the library
 
-Neither target is published to a package registry. Check whether the project already has it
-before fetching it.
+Check whether the project already has it before fetching it.
 
-**Web:** copy the source into the project, then link what you use.
+**Web:** install it. With no bundler, copy the source into the folder you serve, then link
+what you use.
 
 ```bash
-git clone --depth 1 https://github.com/vrnrn/fluidither
+npm install fluidither
 ```
 
 ```bash
-cp -R fluidither/web/src public/fluidither
+cp -R node_modules/fluidither/src public/fluidither
 ```
 
-Modules need a web server, so pages won't work from `file://`.
+With a bundler, import by name, such as `fluidither/tokens.css` and
+`fluidither/components/tabs.js`. Modules need a web server, so pages won't work from
+`file://`.
 
-**GPUI:** add the crate from Git, with `gpui` at the same version.
+**GPUI:** add the crate, with `gpui` at the same version.
 
 ```toml
 [dependencies]
-fluidither = { git = "https://github.com/vrnrn/fluidither" }
+fluidither = "0.1"
 gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
 ```
 

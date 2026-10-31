@@ -50,17 +50,16 @@ tests hold their dither output to the same cells.
 
 ## Quick start for the web
 
-Neither target is on a package registry yet, so start from a copy of the source.
-
 ```bash
-git clone --depth 1 https://github.com/vrnrn/fluidither
+npm install fluidither
 ```
 
 ```bash
-mkdir -p my-site && cp -R fluidither/web/src my-site/fluidither
+mkdir -p my-site && cp -R node_modules/fluidither/src my-site/fluidither
 ```
 
-Then link what you need. Save this as `my-site/index.html`:
+There is no build step, so the files can be copied as they are. Link what you need. Save this
+as `my-site/index.html`:
 
 ```html
 <!doctype html>
@@ -115,13 +114,21 @@ python3 -m http.server --directory my-site 8000
 
 Themes follow the system. Set `data-theme="light"` or `"dark"` on `<html>` to force one.
 
+With a bundler, import the pieces by name:
+
+```js
+import 'fluidither/tokens.css';
+import 'fluidither/components/tabs.css';
+import 'fluidither/components/tabs.js';
+```
+
 ## Quick start for GPUI
 
 Add the crate, with `gpui` at the same version:
 
 ```toml
 [dependencies]
-fluidither = { git = "https://github.com/vrnrn/fluidither" }
+fluidither = "0.1"
 gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
 ```
 
@@ -187,7 +194,7 @@ GPUI itself, which took about 10 minutes on an M1 Pro.
 To see them all, clone the repository and run the demos:
 
 ```bash
-npm install
+git clone https://github.com/vrnrn/fluidither && cd fluidither && npm install
 ```
 
 ```bash
@@ -210,6 +217,10 @@ fails if it names anything the code doesn't have.
 
 Copy it into your agent's skills folder. That is `.agents/skills/` in many projects, or
 `~/.claude/skills/` for Claude Code:
+
+```bash
+git clone --depth 1 https://github.com/vrnrn/fluidither
+```
 
 ```bash
 mkdir -p .agents/skills && cp -R fluidither/skills/fluidither .agents/skills/

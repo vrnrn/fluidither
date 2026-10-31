@@ -6,7 +6,7 @@
 tokens/tokens.json ──► npm run tokens ──┬─► web/src/tokens.css
 tokens/blue-noise-64.bin                ├─► web/src/core/tokens.js
 tokens/world.json                       ├─► web/src/core/blue-noise.js, world-data.js
-                                        └─► gpui/src/generated.rs
+                                        └─► gpui/src/generated.rs, blue-noise-64.bin
 ```
 
 Colors, sizes, springs, pixel glyphs and dither tables live in `tokens/`. The generated

@@ -7,10 +7,13 @@ license = "MIT"
 description = "Dithered, spring-driven UI components for GPUI"
 repository = "https://github.com/vrnrn/fluidither"
 homepage = "https://github.com/vrnrn/fluidither"
-readme = "../README.md"
+readme = "README.md"
 keywords = ["gpui", "ui", "components", "dither", "spring"]
 categories = ["gui"]
-publish = false
+include = ["src/**", "Cargo.toml", "README.md", "LICENSE"]
+
+[package.metadata.docs.rs]
+targets = ["aarch64-apple-darwin"]
 
 [dependencies]
 # Shaders compile at app start, so building needs no Metal toolchain.
