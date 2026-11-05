@@ -117,8 +117,9 @@ const showWord = () => {
   hero.querySelector('h1').replaceChildren(word);
 };
 
-const setSize = ({ columns, cellWidth, cellHeight, gap }) => {
+const setSize = ({ columns, rows, cellWidth, cellHeight, gap }) => {
   page.style.setProperty('--wall-columns', columns);
+  page.style.setProperty('--wall-rows', rows);
   page.style.setProperty('--wall-row', `${cellHeight}px`);
   page.style.setProperty('--wall-width', `${columns * cellWidth + (columns - 1) * gap}px`);
 };
@@ -185,7 +186,7 @@ async function toggleTheme() {
 function refit() {
   const grid = measure();
   if (describe(grid) === shape) {
-    setSize(grid);
+    setSize({ ...grid, rows: seed === 0 ? opening(grid.columns, WALL).rows : grid.rows });
     showWord();
     return;
   }
