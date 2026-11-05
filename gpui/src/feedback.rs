@@ -195,7 +195,7 @@ impl RenderOnce for Stat {
             .line_height(px(18.))
             .text_color(colors.ink)
             .child(div().text_color(colors.ink_soft).child(self.label))
-            .child(div().text_size(px(24.)).line_height(px(30.)).font_weight(FontWeight(WEIGHT_STRONG)).child(self.value))
+            .child(div().font_family(Theme::get(cx).mono_font.clone()).text_size(px(24.)).line_height(px(30.)).font_weight(FontWeight(WEIGHT_STRONG)).child(self.value))
             .when_some(self.change, |this, change| this.child(div().text_color(colors.ink_soft).child(change)))
     }
 }

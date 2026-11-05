@@ -57,6 +57,26 @@ test('it uses the public folder when there is one, and --dir wins', () => {
   });
 });
 
+test('typography copies its font files and license, while other components stay font-free', () => {
+  inFolder((folder) => {
+    run(folder, 'add', 'button', '--dir', 'plain');
+    assert.ok(!existsSync(join(folder, 'plain/fonts')));
+    const output = run(folder, 'add', 'typography');
+    const root = join(folder, 'fluidither');
+    const css = readFileSync(join(root, 'components/typography.css'), 'utf8');
+    const urls = [...css.matchAll(/url\('([^']+)'\)/g)].map(([, path]) => posix.join('components', path));
+    assert.equal(urls.length, 2);
+    for (const path of urls) {
+      assert.deepEqual(readFileSync(join(root, path)), readFileSync(join(here, '../src', path)));
+    }
+    const license = readFileSync(join(root, 'fonts/obel-mono/OFL.txt'), 'utf8');
+    assert.match(license, /Copyright 2026 The Obel Mono Project Authors/);
+    assert.match(license, /SIL OPEN FONT LICENSE Version 1\.1/);
+    assert.ok(existsSync(join(root, 'fonts/obel-mono/AUTHORS.txt')));
+    assert.match(output, /href="fluidither\/components\/typography\.css"/);
+  });
+});
+
 test('every component copies with no broken imports, and every file belongs to one', () => {
   const names = run(here, 'list').trim().split('\n');
   const covered = new Set();

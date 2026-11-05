@@ -22,6 +22,19 @@ body {
 Set `data-theme="light"` or `"dark"` on `<html>` to force a theme. Otherwise it follows the
 system. `data-density="compact"` works on any element and applies to what is inside it.
 
+## Typography
+
+Run `npx fluidither add typography`, then link `components/typography.css` after `tokens.css`.
+With a bundler, import `fluidither/components/typography.css`. It loads Obel Mono, with roman
+and italic weights 100–900, from the bundled WOFF2 files. Add `font-src 'self'` to your CSP.
+Roman is about 140 KiB and italic another 154 KiB, fetched only when used.
+
+Use `.fd-mono` or `font-family: var(--fd-font-mono)` for code, identifiers and short display
+text. Stats, counts, numeric table columns, copy fields and keyboard hints use this token.
+Without the stylesheet, these use local monospace fallbacks. Override the token to use
+another typeface; keep paragraphs and controls in `--fd-font-sans`. Keep the bundled OFL
+license and attribution with the fonts when redistributing. Secret masking is off.
+
 ## Components
 
 CSS means no JavaScript is needed. "+ JS" means load the script of that name as well.
@@ -95,7 +108,7 @@ CSS means no JavaScript is needed. "+ JS" means load the script of that name as 
 | Surfaces | `--fd-surface-0` to `--fd-surface-3`, each with `--fd-shadow-0` to `--fd-shadow-3` |
 | Lines and fills | `--fd-line`, `--fd-edge`, `--fd-focus`, `--fd-soft`, `--fd-wash`, `--fd-screen` |
 | Color | `--fd-red`, `--fd-orange`, `--fd-green`, `--fd-blue`, `--fd-violet`, `--fd-pink` |
-| Text | `--fd-font-sans`, `--fd-font-size`, `--fd-line-height`, `--fd-weight-regular`, `--fd-weight-strong` |
+| Text | `--fd-font-sans`, `--fd-font-mono`, `--fd-font-size`, `--fd-line-height`, `--fd-weight-regular`, `--fd-weight-strong` |
 | Spacing | `--fd-gap` is 6px, for inside a control or row. `--fd-pad` is 14px, for cards and page layout |
 | Sizes | `--fd-control`, `--fd-segment`, `--fd-icon`, `--fd-inset` |
 | Corners | `--fd-radius-control`, `--fd-radius-pill` |

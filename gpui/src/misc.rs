@@ -259,6 +259,7 @@ impl RenderOnce for CopyField {
                     .bg(colors.surfaces[1])
                     .text_size(px(tokens.font_size))
                     .text_color(colors.ink)
+                    .font_family(Theme::get(cx).mono_font.clone())
                     .child(self.text),
             )
             .child(Button::new(self.id, if copied { "Copied" } else { "Copy" }).look(Look::Soft).on_click(move |_, _, cx| {

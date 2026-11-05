@@ -62,6 +62,7 @@ const COMPONENTS = {
   text: ['text-effects.css', 'text-effects.js'],
   'thinking-steps': ['extras.css', 'badge.css'],
   tooltip: ['tooltip.css', 'tooltip.js'],
+  typography: ['typography.css'],
   world: ['field.css', 'extras.css', 'world.js'],
 };
 
@@ -103,7 +104,7 @@ function withImports(start) {
 function copy(files, target) {
   for (const file of files) {
     mkdirSync(dirname(join(target, file)), { recursive: true });
-    cpSync(join(source, file), join(target, file));
+    cpSync(join(source, file), join(target, file), { recursive: true });
   }
 }
 
@@ -142,6 +143,8 @@ function add(names, dir) {
   const start = ['tokens.css', ...chosen];
   const target = resolve(dir ?? defaultTarget());
   const files = withImports(start);
+  // Keep the original font binaries, license and attribution together.
+  if (names.includes('typography')) files.push('fonts/obel-mono');
   copy(files, target);
   console.log(`Copied ${files.length} files to ${relative('.', target) || '.'}`);
   printTags(start, target);

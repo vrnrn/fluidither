@@ -296,6 +296,6 @@ impl RenderOnce for Count {
         if !landed {
             window.request_animation_frame();
         }
-        div().min_w(px(0.)).child((self.format)(shown))
+        div().min_w(px(0.)).font_family(Theme::get(cx).mono_font.clone()).child((self.format)(shown))
     }
 }

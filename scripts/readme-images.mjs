@@ -114,7 +114,10 @@ const hero = await page.evaluate(
     const map = await thresholdMap('bayer4');
     const canvas = new OffscreenCanvas(columns, rows);
     const painter = canvas.getContext('2d', { willReadFrequently: true });
+    await document.fonts.load(`700 66px ${font}`);
     painter.font = `700 66px ${font}`;
+    const typeSize = 66 * Math.min(1, (columns - rows - 16) / painter.measureText('fluidither').width);
+    painter.font = `700 ${typeSize}px ${font}`;
     painter.textBaseline = 'middle';
     painter.fillText('fluidither', 8, rows / 2);
     const { width: wordWidth } = painter.measureText('fluidither');
@@ -144,7 +147,7 @@ const hero = await page.evaluate(
     }
     return { frames, box: { x: left, y: top, width: size, height: size } };
   },
-  { columns: COLUMNS, rows: ROWS, count: FRAMES, font: tokens.font.sans, START_TURN: 20 },
+  { columns: COLUMNS, rows: ROWS, count: FRAMES, font: JSON.stringify(tokens.font.mono.family), START_TURN: 20 },
 );
 for (const [name, theme] of Object.entries(tokens.themes)) {
   writeFileSync(join(out, `hero-${name}.png`), animatedPng(hero.frames, hero.box, [theme.paper, theme.ink]));
@@ -154,6 +157,7 @@ await page.close();
 for (const colorScheme of ['light', 'dark']) {
   const shot = await browser.newPage({ colorScheme, deviceScaleFactor: 2, viewport: { width: 880, height: 900 } });
   await shot.goto(`${origin}/demo/showcase.html`);
+  await shot.evaluate(() => document.fonts.ready);
   await shot.waitForTimeout(600);
   await shot.screenshot({ fullPage: true, path: join(out, `showcase-${colorScheme}.png`) });
   await shot.close();

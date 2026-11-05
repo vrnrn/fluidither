@@ -59,6 +59,8 @@ pub const RADIUS_PILL: f32 = 5.0;
 pub const WEIGHT_REGULAR: f32 = 400.0;
 pub const WEIGHT_STRONG: f32 = 560.0;
 
+pub const FONT_MONO: &str = "Obel Mono";
+
 pub const DITHER_CELL: f32 = 3.0;
 pub const DITHER_FPS: f32 = 30.0;
 pub const DITHER_HOVER_CELL: f32 = 2.0;

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; style-src 'self'; font-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'" />
     <title>Docs: fluidither</title>
     <meta name="description" content="How to install fluidither, how its tokens, springs and dithers work, and every component with a live example, for the plain web and Rust GPUI." />
     <meta property="og:title" content="fluidither docs" />
@@ -14,6 +14,7 @@
     <meta property="og:url" content="https://fluidither.vrnrn.com/docs" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="fluidither/tokens.css" />
+    <link rel="stylesheet" href="fluidither/components/typography.css" />
     <link rel="stylesheet" href="fluidither/components/accordion.css" />
     <link rel="stylesheet" href="fluidither/components/badge.css" />
     <link rel="stylesheet" href="fluidither/components/banner.css" />
@@ -111,6 +112,7 @@
           <a href="#skill">Agent skill</a>
           <p class="side-group">Foundations</p>
           <a href="#design">Design</a>
+          <a href="#typography">Typography</a>
           <a href="#tokens">Tokens</a>
           <a href="#themes">Themes and density</a>
           <a href="#springs">Springs</a>
@@ -265,7 +267,7 @@ import 'fluidither/components/tabs.js';</code></pre>
           <h2>Install for GPUI</h2>
           <p>Add the crate, with <code>gpui</code> at the same version:</p>
           <pre class="code" data-label="Cargo.toml"><code>[dependencies]
-fluidither = "0.2"
+fluidither = "0.3"
 gpui = { version = "=0.2.2", features = ["runtime_shaders"] }</code></pre>
           <p>Call <code>fluidither::init(cx)</code> once at startup. It sets the theme and makes Tab move focus.</p>
           <pre class="code" data-label="A complete app"><code>use fluidither::{Button, Look, Theme};
@@ -311,8 +313,26 @@ fn main() {
             <li><strong>Dither instead of tint.</strong> Hover states, dialog screens, chart shading and the empty part of a slider are real dithers, drawn cell by cell. Never put a dither behind body text.</li>
             <li><strong>Springs instead of durations.</strong> Motion keeps its speed when the target changes, and reduced motion is respected.</li>
             <li><strong>Pixel marks.</strong> Ticks, dashes and arrows are small cell drawings from the tokens, so they match on both targets.</li>
+            <li><strong>Type with a grid.</strong> Obel Mono aligns code, keys and numbers beside the dither cells. System sans carries prose and controls. Give the letters clear paper and let size, spacing and weight carry the hierarchy.</li>
             <li><strong>Two densities.</strong> <code>regular</code> and <code>compact</code>, set on any element.</li>
           </ul>
+        </section>
+
+        <section class="fd-card page" id="typography">
+          <h2>Typography</h2>
+          <p><a href="https://typographic.systems/obel-mono">Obel Mono</a>, by Cody Collier at Typographic Systems, gives the library its monospace voice. Its fixed character cells fit the same rhythm as our dither grid. Use it for code, identifiers, keyboard hints, numeric readouts and short display text; keep longer reading in the system sans.</p>
+          <div class="type-specimen fd-mono" aria-label="Obel Mono type specimen">
+            <p>Type in cells.</p>
+            <p>0123456789</p>
+            <p><em>Ink, paper, rhythm.</em></p>
+          </div>
+          <pre class="code" data-label="Add Obel Mono"><code>npx fluidither add typography</code></pre>
+          <pre class="code" data-label="Load the typography stylesheet"><code>&lt;link rel="stylesheet" href="fluidither/tokens.css" /&gt;
+&lt;link rel="stylesheet" href="fluidither/components/typography.css" /&gt;</code></pre>
+          <p>With a bundler, import <code>fluidither/components/typography.css</code>. Use <code>.fd-mono</code> or <code>font-family: var(--fd-font-mono)</code> for your own text. Stats, counts, numeric table columns, copy fields and keyboard hints already use the mono token. Without this stylesheet, they use local monospace fallbacks. Override the token to choose another family.</p>
+          <p>The original variable fonts cover weights 100–900, in roman and italic. They are served from your own origin: add <code>font-src 'self'</code> to a strict CSP. Roman adds about 140 KiB, italic another 154 KiB when used, separately from the component sizes. The installer includes the fonts, attribution and <a href="fluidither/fonts/obel-mono/OFL.txt">SIL OFL 1.1 license</a> together.</p>
+          <p>GPUI registers its bundled static OTFs in <code>fluidither::init(cx)</code>, without a system installation. Its text engine selects named faces, so all nine roman and italic weights are included (about 3.6 MiB), with 560 selecting SemiBold. Use <code>.font_family(fluidither::FONT_MONO)</code> for custom text, or set <code>Theme::mono_font</code> to customize component readouts.</p>
+          <p>The ordinary family is bundled with secret masking off. The font's optional masking changes appearance only; it never removes the underlying text.</p>
         </section>
 
         <section class="fd-card page" id="tokens">
@@ -329,7 +349,7 @@ fn main() {
               <tr><td>Surfaces</td><td><code>--fd-surface-0</code> to <code>--fd-surface-3</code>, each with <code>--fd-shadow-0</code> to <code>--fd-shadow-3</code></td></tr>
               <tr><td>Lines and fills</td><td><code>--fd-line</code>, <code>--fd-edge</code>, <code>--fd-focus</code>, <code>--fd-soft</code>, <code>--fd-wash</code>, <code>--fd-screen</code></td></tr>
               <tr><td>Color</td><td><code>--fd-red</code>, <code>--fd-orange</code>, <code>--fd-green</code>, <code>--fd-blue</code>, <code>--fd-violet</code>, <code>--fd-pink</code></td></tr>
-              <tr><td>Text</td><td><code>--fd-font-sans</code>, <code>--fd-font-size</code>, <code>--fd-line-height</code>, <code>--fd-weight-regular</code>, <code>--fd-weight-strong</code></td></tr>
+              <tr><td>Text</td><td><code>--fd-font-sans</code>, <code>--fd-font-mono</code>, <code>--fd-font-size</code>, <code>--fd-line-height</code>, <code>--fd-weight-regular</code>, <code>--fd-weight-strong</code></td></tr>
               <tr><td>Spacing</td><td><code>--fd-gap</code> is 6px, for inside a control or row. <code>--fd-pad</code> is 14px, for cards and page layout</td></tr>
               <tr><td>Sizes</td><td><code>--fd-control</code>, <code>--fd-segment</code>, <code>--fd-icon</code>, <code>--fd-inset</code></td></tr>
               <tr><td>Corners</td><td><code>--fd-radius-control</code>, <code>--fd-radius-pill</code></td></tr>
@@ -412,7 +432,7 @@ ditherTones(tones, width, height, map, Uint8Array.of(0, 1), cells);</code></pre>
         <section class="fd-card page" id="csp">
           <h2>Strict CSP</h2>
           <p>The web target has no inline styles and no <code>data:</code> images, so it runs under this policy. This page runs under it too.</p>
-          <pre class="code" data-label="The policy"><code>default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'</code></pre>
+          <pre class="code" data-label="The policy"><code>default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'</code></pre>
           <p>Keep your own code inside it: no <code>style</code> attributes and no <code>&lt;style&gt;</code> tags. Setting styles from JavaScript through the CSSOM is fine. Dither CSS masks built from data URLs are blocked, so use canvas or a <code>repeating-conic-gradient</code>.</p>
         </section>
 
@@ -1179,7 +1199,7 @@ savePng(element, 'name.png');</code></pre>
           <table class="fd-table">
             <thead><tr><th scope="col">Where</th><th scope="col">Status</th></tr></thead>
             <tbody>
-              <tr><td>Chromium</td><td>Tested. 136 browser tests run under the strict CSP, with axe in both themes.</td></tr>
+              <tr><td>Chromium</td><td>Tested. 140 browser tests run under the strict CSP, with axe in both themes.</td></tr>
               <tr><td>macOS on Apple Silicon</td><td>Tested with Rust 1.98.1 and <code>gpui</code> 0.2.2.</td></tr>
               <tr><td>Firefox, Safari</td><td>Not run. Styles for them are written but have never been seen. <code>linear()</code> easing needs Safari 17.2 or later.</td></tr>
               <tr><td>Linux, Windows</td><td>Not built for GPUI.</td></tr>

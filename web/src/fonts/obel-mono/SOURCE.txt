@@ -1,0 +1,10 @@
+Obel Mono 1.001
+Source: https://typographic.systems/download/ObelMono-1.001.zip
+Designer: Cody Collier / Typographic Systems
+License: SIL Open Font License 1.1; see OFL.txt and AUTHORS.txt.
+
+Unmodified variable fonts (unmasked family).
+
+SHA-256 of the bundled files:
+5ebebd359433b458d9b1c4098813ef4c838767f9462b79198f7121dc7c9d7974  ObelMono-Italic-VF.woff2
+9769065278369f8b9d61953e93911070bee0c77363d63f25181b1b9c89eff826  ObelMono-VF.woff2

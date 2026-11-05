@@ -1,9 +1,9 @@
 //! The theme global, density tokens and the color helpers components share.
 
 use crate::generated::{
-    SizeTokens, ThemeColors, DARK, LIGHT, SIZE_COMPACT, SIZE_REGULAR, SURFACE_SHADOW,
+    SizeTokens, ThemeColors, DARK, FONT_MONO, LIGHT, SIZE_COMPACT, SIZE_REGULAR, SURFACE_SHADOW,
 };
-use gpui::{point, px, App, BoxShadow, FocusHandle, Global, Hsla, Pixels, Rgba, Window, WindowAppearance};
+use gpui::{point, px, App, BoxShadow, FocusHandle, Font, Global, Hsla, Pixels, Rgba, SharedString, Window, WindowAppearance};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Mode {
@@ -29,6 +29,8 @@ impl Density {
 
 pub struct Theme {
     pub mode: Mode,
+    /// Typeface for code, keyboard hints and numeric readouts. Loaded by `init`.
+    pub mono_font: SharedString,
     /// Skip springs and animation. Read from the system at `init`.
     pub reduced_motion: bool,
     /// Whether the last input was the keyboard. Focus rings only show then.
@@ -79,7 +81,7 @@ pub(crate) fn init(cx: &mut App) {
         WindowAppearance::Dark | WindowAppearance::VibrantDark => Mode::Dark,
         WindowAppearance::Light | WindowAppearance::VibrantLight => Mode::Light,
     };
-    cx.set_global(Theme { mode, reduced_motion: system_reduced_motion(), keyboard_input: false, modal: None });
+    cx.set_global(Theme { mode, mono_font: FONT_MONO.into(), reduced_motion: system_reduced_motion(), keyboard_input: false, modal: None });
 }
 
 #[cfg(target_os = "macos")]
@@ -123,8 +125,12 @@ pub fn cap_nudge(ascent: f32, descent: f32, cap_height: f32) -> f32 {
 /// text stays crisp.
 pub fn cap_offset(window: &Window, font_size: Pixels) -> Pixels {
     let font = window.text_style().font();
+    cap_offset_for_font(window, font_size, &font)
+}
+
+pub(crate) fn cap_offset_for_font(window: &Window, font_size: Pixels, font: &Font) -> Pixels {
     let text = window.text_system();
-    let id = text.resolve_font(&font);
+    let id = text.resolve_font(font);
     let nudge = cap_nudge(
         f32::from(text.ascent(id, font_size)),
         f32::from(text.descent(id, font_size)).abs(),

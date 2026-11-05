@@ -34,6 +34,7 @@ pub mod text_effects;
 pub mod text_field;
 pub mod theme;
 pub mod tooltip;
+mod typography;
 pub mod world;
 
 pub use accordion::Accordion;
@@ -68,6 +69,7 @@ pub use table::{Align, Table};
 pub use tabs::{Tab, Tabs};
 pub use text_field::{TextField, TextFieldEvent};
 pub use theme::{Density, Mode, Theme};
+pub use generated::FONT_MONO;
 pub use tooltip::tooltip;
 
 use gpui::{actions, App, KeyBinding};
@@ -76,8 +78,9 @@ actions!(fluidither, [FocusNext, FocusPrevious]);
 
 const MOST_TAB_STOPS: usize = 256;
 
-/// Call once at startup: sets the theme from the system and makes Tab move focus.
+/// Call once at startup: loads Obel Mono, sets the theme and makes Tab move focus.
 pub fn init(cx: &mut App) {
+    typography::init(cx);
     theme::init(cx);
     cx.bind_keys([
         KeyBinding::new("tab", FocusNext, None),

@@ -453,7 +453,7 @@ impl Kbd {
 impl RenderOnce for Kbd {
     fn render(self, _: &mut Window, cx: &mut App) -> impl IntoElement {
         let colors = Theme::get(cx).colors();
-        div().flex_none().px(px(5.)).rounded(px(RADIUS_PILL)).bg(colors.soft).text_color(colors.ink_soft).text_size(px(11.)).line_height(px(16.)).child(self.keys)
+        div().flex_none().px(px(5.)).rounded(px(RADIUS_PILL)).bg(colors.soft).text_color(colors.ink_soft).font_family(Theme::get(cx).mono_font.clone()).text_size(px(11.)).line_height(px(16.)).child(self.keys)
     }
 }
 

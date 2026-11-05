@@ -12,12 +12,14 @@ const types = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.svg': 'image/svg+xml',
+  '.woff2': 'font/woff2',
 };
 
 export const contentSecurityPolicy = [
   "default-src 'none'",
   "script-src 'self'",
   "style-src 'self'",
+  "font-src 'self'",
   "img-src 'self'",
   "base-uri 'none'",
   "form-action 'none'",

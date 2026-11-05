@@ -12,7 +12,7 @@ targets to the same cells.
 
 ```toml
 [dependencies]
-fluidither = "0.2"
+fluidither = "0.3"
 gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
 ```
 
@@ -54,6 +54,19 @@ fn main() {
 }
 ```
 
+## Typography
+
+`fluidither::init(cx)` registers the bundled Obel Mono roman and italic fonts.
+Stats, counts, numeric table columns, copy fields and keyboard hints use it; prose and
+controls inherit your app's font. Use `.font_family(fluidither::FONT_MONO)` for custom code
+or short display text. Set `cx.global_mut::<Theme>().mono_font` to another loaded family
+to customize the components, then refresh the window.
+
+The original, unmasked fonts cover nine weights from 100–900. GPUI 0.2.2 selects named
+faces without varying font axes, so the crate bundles the original static OTFs and picks
+the nearest weight (560 selects SemiBold). These add about 3.6 MiB to the crate and require
+no system font installation or network request.
+
 ## Support
 
 Tested on macOS on Apple Silicon with Rust 1.98.1. Linux and Windows have not been built.
@@ -69,4 +82,5 @@ crate alone for anything that must be accessible.
 
 ## License
 
-MIT
+MIT for the library. Obel Mono by Typographic Systems is bundled under SIL OFL 1.1;
+see `src/fonts/obel-mono/OFL.txt` and `AUTHORS.txt`.

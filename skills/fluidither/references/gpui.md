@@ -39,6 +39,18 @@ or `Density::Compact`.
 The main colors are `paper`, `ink`, `ink_soft`, `line`, `edge`, `focus`, `soft`, `wash` and
 `surfaces[0]` to `surfaces[3]`, with `red`, `orange`, `green`, `blue`, `violet` and `pink`.
 
+## Typography
+
+`fluidither::init(cx)` loads the bundled Obel Mono roman and italic static OTFs, with
+nine weights from 100–900. GPUI selects the nearest named weight (560 selects SemiBold).
+Stats, counts, numeric table columns, copy fields and keyboard hints use
+`Theme::mono_font`, initially `fluidither::FONT_MONO`. Set it to another loaded family and
+refresh the window to customize those components. Use `.font_family(fluidither::FONT_MONO)`
+for custom code or short display text. Prose and controls inherit the app's font.
+
+The fonts are bundled under SIL OFL 1.1 with their license and attribution. No installation
+or network access is needed. The ordinary family is used, with secret masking off.
+
 ## Elements
 
 Add these directly as children. They keep their own state, keyed by id, unless you pass the

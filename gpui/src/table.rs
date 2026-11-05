@@ -4,7 +4,7 @@
 
 use crate::generated::{DITHER_HOVER_CELL, DITHER_HOVER_INK, WEIGHT_STRONG};
 use crate::paint::checker;
-use crate::theme::{cap_offset, fade, Density, Theme};
+use crate::theme::{cap_offset, cap_offset_for_font, fade, Density, Theme};
 use gpui::{div, prelude::*, px, App, ElementId, FontWeight, IntoElement, RenderOnce, SharedString, Window};
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
@@ -60,6 +60,10 @@ impl RenderOnce for Table {
         let tokens = self.density.tokens();
         let height = px(tokens.control);
         let nudge = cap_offset(window, px(tokens.font_size));
+        let mono_family = Theme::get(cx).mono_font.clone();
+        let mut mono = window.text_style().font();
+        mono.family = mono_family.clone();
+        let mono_nudge = cap_offset_for_font(window, px(tokens.font_size), &mono);
         let state = window.use_keyed_state(self.id.clone(), cx, |_, _| TableState::default());
         let hovered = state.read(cx).hovered;
         let columns = self.columns;
@@ -68,12 +72,12 @@ impl RenderOnce for Table {
         let cell = |text: SharedString, align: Align| {
             div()
                 .relative()
-                .top(nudge)
+                .top(if align == Align::End { mono_nudge } else { nudge })
                 .flex()
                 .flex_1()
                 .min_w_0()
                 .px(px(tokens.tab_pad))
-                .when(align == Align::End, |this| this.justify_end())
+                .when(align == Align::End, |this| this.justify_end().font_family(mono_family.clone()))
                 .child(text)
         };
         let head = div()

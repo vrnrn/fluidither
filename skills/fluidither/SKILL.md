@@ -35,7 +35,7 @@ Rerun either to add more or to update. With a bundler, run
 
 ```toml
 [dependencies]
-fluidither = "0.2"
+fluidither = "0.3"
 gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
 ```
 
@@ -52,9 +52,17 @@ Call `fluidither::init(cx)` once at startup.
 - **Motion with a job.** One highlight glides between items, and neighbours merge. Every
   animation should say something about what is happening.
 - **Pixel marks.** Ticks, dashes and arrows are small cell drawings from the tokens.
+- **Type with a grid.** Obel Mono for code, keys, numeric readouts and short display text;
+  system sans for prose and controls. Keep text on clear paper. On the web, add `typography`
+  and link its stylesheet to load the self-hosted fonts; include `font-src 'self'` in the CSP.
 - **Two densities.** `regular` and `compact`.
 
 ## Rules that keep work correct
+
+When editing the library website, keep the dice icon followed by the visible label
+**Randomize** in the top-left button. Keep **Documentation** in Obel Mono on the right.
+Preserve the button's `randomize` id and the existing R shortcut; don't replace visible
+action labels with icons alone.
 
 1. **Use tokens.** Web: `var(--fd-ink)`, `var(--fd-gap)`. GPUI: `Theme::get(cx).colors()`
    and `Density::tokens()`. Never hard-code a color or size that a token covers.

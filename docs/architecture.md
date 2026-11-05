@@ -9,7 +9,7 @@ tokens/world.json                       ├─► web/src/core/blue-noise.js, wo
                                         └─► gpui/src/generated.rs, blue-noise-64.bin
 ```
 
-Colors, sizes, springs, pixel glyphs and dither tables live in `tokens/`. The generated
+Colors, sizes, type families, springs, pixel glyphs and dither tables live in `tokens/`. The generated
 files are checked in, so people can copy `web/src` or depend on the crate without running
 anything. Never edit them by hand.
 
@@ -48,10 +48,14 @@ cell above its threshold gets ink, so the output is a flat grid of ink and paper
   the light DOM.
 - **Strict CSP.** The library works under `default-src 'none'`, `script-src 'self'`,
   `style-src 'self'` and `img-src 'self'`: no inline styles, no `<style>` tags and no `data:`
-  images. Styles set from JavaScript go through the CSSOM. The demo server sends this policy,
-  so a violation fails the browser tests.
+  images. Add `font-src 'self'` for Obel Mono. Styles set from JavaScript go through the
+  CSSOM. The demo server sends this policy, so a violation fails the browser tests.
 - **Load only what you use.** Each component is its own CSS file and, when it needs one, its
   own module.
+- **Self-hosted type.** `typography.css` registers Obel Mono from WOFF2 files next to the
+  components. `--fd-font-mono` selects it for code, keys and numbers, with local fallbacks
+  when the stylesheet is omitted. Fonts need `font-src 'self'` in the CSP. The CLI copies
+  the fonts, OFL license and attribution together when `typography` is requested.
 
 ## GPUI
 
@@ -61,6 +65,13 @@ long-lived object for system text input or subscriptions.
 
 Dithers are computed on the CPU, and springs are analytic, so a target can change mid-flight
 without a jump. Slow changes step on a timer, because any redraw repaints the whole window.
+
+`init` registers the same Obel Mono release as bundled static OTFs. GPUI 0.2.2 selects
+named faces without varying weight axes; all nine roman and italic weights are included.
+`Theme::mono_font` sets the family for code and numeric components; other text inherits
+the app's font.
+Numeric table cells measure their own font's cap height for alignment. Each package keeps
+the original font files and their SIL OFL license together under `src/fonts/obel-mono/`.
 
 ## Repository layout
 

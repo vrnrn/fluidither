@@ -7,6 +7,7 @@
   --fd-spring-glide-out: 140ms linear(0, 0.079, 0.236, 0.403, 0.551, 0.671, 0.764, 0.833, 0.883, 0.919, 0.944, 0.962, 0.974, 0.983, 0.988, 0.992, 0.995, 0.997, 0.998, 0.998, 1);
   --fd-spring-settle-out: 200ms linear(0, 0.079, 0.236, 0.403, 0.551, 0.671, 0.764, 0.833, 0.883, 0.919, 0.944, 0.962, 0.974, 0.983, 0.988, 0.992, 0.995, 0.997, 0.998, 0.998, 1);
   --fd-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --fd-font-mono: "Obel Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --fd-weight-regular: 400;
   --fd-weight-strong: 560;
   --fd-radius-control: 6px;
