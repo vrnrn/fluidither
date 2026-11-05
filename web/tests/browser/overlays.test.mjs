@@ -316,11 +316,12 @@ test('axe finds nothing with each overlay open', async (t) => {
     await check('combobox');
     await page.keyboard.press('Escape');
     await page.click('#open-command');
-    await page.waitForTimeout(250); // Contrast can only be judged after the fade-in.
+    // Judge contrast once the fade has reached full opacity, even on a busy runner.
+    await settles(() => page.$eval('#commands dialog', (dialog) => getComputedStyle(dialog).opacity), '1');
     await check('command');
     await page.keyboard.press('Escape');
     await page.click('#open-dialog');
-    await page.waitForTimeout(250);
+    await settles(() => page.$eval('#confirm', (dialog) => getComputedStyle(dialog).opacity), '1');
     await check('dialog');
   }
 });

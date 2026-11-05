@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { chromium } from 'playwright-core';
 import { createDemoServer } from '../../demo/serve.mjs';
+import { settles } from './settles.mjs';
 
 const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 
@@ -127,11 +128,11 @@ test('copy writes to the clipboard and says so', async (t) => {
 test('drawer slides in as a real modal and closes on Escape', async (t) => {
   const page = await open(t);
   await page.click('#open-drawer');
-  await page.waitForTimeout(400);
+  await settles(() => page.$eval('#drawer', (each) => Math.abs(each.getBoundingClientRect().right - innerWidth) < 1), true);
   const box = await page.$eval('#drawer', (each) => each.getBoundingClientRect().toJSON());
   assert.ok(Math.abs(box.right - 1000) < 1, JSON.stringify(box));
   await page.keyboard.press('Escape');
-  await page.waitForTimeout(300);
+  await settles(() => page.$eval('#drawer', (each) => !each.open && document.activeElement.id === 'open-drawer'), true);
   assert.equal(await page.$eval('#drawer', (each) => each.open), false);
   assert.equal(await page.evaluate(() => document.activeElement.id), 'open-drawer');
 });
