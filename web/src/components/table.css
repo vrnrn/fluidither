@@ -22,6 +22,7 @@
 }
 
 .fd-table [data-number] {
+  font-family: var(--fd-font-mono);
   text-align: end;
 }
 

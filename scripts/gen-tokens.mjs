@@ -230,6 +230,7 @@ write(
 :root {
 ${springVariables}
   --fd-font-sans: ${tokens.font.sans};
+  --fd-font-mono: ${JSON.stringify(tokens.font.mono.family)}, ${tokens.font.mono.fallbacks};
   --fd-weight-regular: ${tokens.weights.regular};
   --fd-weight-strong: ${tokens.weights.strong};
   --fd-radius-control: ${tokens.radii.control}px;
@@ -370,6 +371,8 @@ pub const RADIUS_PILL: f32 = ${float(tokens.radii.pill)};
 
 pub const WEIGHT_REGULAR: f32 = ${float(tokens.weights.regular)};
 pub const WEIGHT_STRONG: f32 = ${float(tokens.weights.strong)};
+
+pub const FONT_MONO: &str = ${JSON.stringify(tokens.font.mono.family)};
 
 pub const DITHER_CELL: f32 = ${float(tokens.dither.cell)};
 pub const DITHER_FPS: f32 = ${float(tokens.dither.fps)};

@@ -11,6 +11,21 @@ These steps assume a clone of the repository, because they use its generators an
 In a project that only copied `web/src`, don't edit the generated files. Override the
 `--fd-*` custom properties in your own stylesheet instead.
 
+## Change typography
+
+The sans and mono roles live in `tokens/tokens.json`. Keep Obel Mono for code, keys,
+numeric readouts and short display text; leave prose and ordinary controls in sans.
+`typography.css` loads the web fonts only when requested, with `font-src 'self'` in the CSP.
+Keep font files, OFL license, attribution and source hashes together when updating them.
+
+GPUI 0.2.2 selects static faces, so its package carries the original roman and italic OTFs.
+Run the `typography` example in a real window: it verifies the font metrics and that
+regular, strong, bold and italic resolve to distinct faces. A registered family name
+alone does not prove that the requested face is rendering.
+
+On the library website, keep the dice followed by **Randomize** at the top left, and
+**Documentation** in Obel Mono on the right. Preserve the R shortcut and visible labels.
+
 ## Add a dither field to both targets
 
 1. Add the name to `FIELDS` and a case to `toneAt` in `web/src/core/fields.js`.

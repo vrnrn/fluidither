@@ -78,7 +78,11 @@ npm run demo
 cargo run --release --manifest-path gpui/Cargo.toml --example gallery
 ```
 
-The `blocks`, `visuals` and `extras` examples show the rest. To remake the README images:
+The `blocks`, `visuals` and `extras` examples show the rest.
+The `typography` example shows the bundled Obel Mono fonts, weights, italics and numeric
+components in a real window. Use `FD_THEME=light` or `dark` to inspect either theme.
+
+To remake the README images:
 
 ```bash
 npm run images
@@ -90,11 +94,11 @@ Pushing a version tag publishes both packages. The release workflow checks that 
 matches every version number, runs the tests, then publishes the crate and the npm package.
 
 ```bash
-npm run version:set 0.2.0
+npm run version:set 0.3.0
 ```
 
 ```bash
-git commit -am "Release 0.2.0" && git tag v0.2.0 && git push origin main v0.2.0
+git commit -am "Release 0.3.0" && git tag v0.3.0 && git push origin main v0.3.0
 ```
 
 No token is stored in the repository. Each registry trusts the workflow by name, which is set

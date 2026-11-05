@@ -83,12 +83,26 @@ a {
   margin-inline: auto;
 }
 
-/* The tools sit on the wall's top right corner, so they don't push it off center. */
+/* Actions sit above the wall, aligned to its two corners. */
 .bar {
   position: absolute;
+  left: 0;
   right: 0;
   bottom: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   margin-bottom: var(--wall-gap);
+}
+
+.bar #randomize,
+.bar .documentation {
+  font-family: var(--fd-font-mono);
+}
+
+.bar #randomize {
+  height: 40px;
 }
 
 .foot {
@@ -381,7 +395,7 @@ a {
   margin: 0;
   overflow: auto;
   color: var(--fd-ink-soft);
-  font: 12px / 18px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font: 12px / 18px var(--fd-font-mono);
 }
 
 .tile fd-tabs {
@@ -474,10 +488,11 @@ a {
 
 .hero h1 {
   margin: 0;
-  font-size: 48px;
+  font-family: var(--fd-font-mono);
+  font-size: min(48px, 16cqw);
   font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   white-space: nowrap;
 }
 
@@ -504,7 +519,7 @@ a {
 .hero fd-copy .fd-input {
   flex: 1;
   min-width: 0;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--fd-font-mono);
   font-size: 14px;
 }
 
@@ -538,7 +553,7 @@ a {
 /* A 2x2 hero: the word runs the full width, with room for the points under it. */
 @container (min-width: 420px) and (min-height: 340px) {
   .hero h1 {
-    font-size: 19.4cqw;
+    font-size: 16cqw;
   }
 
   .hero-line {

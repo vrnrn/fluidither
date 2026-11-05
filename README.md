@@ -45,6 +45,8 @@ a proper interface.
 
 - **Dither instead of tint.** Hover states, dialog screens, chart shading and even the empty
   part of a slider are drawn in crisp cells that stay sharp at any size.
+- **Type with a grid.** Obel Mono gives code, keys and numbers an even rhythm beside the
+  dither cells. System sans carries the prose and everyday controls.
 - **Motion with a job.** One dithered highlight glides between items, and neighbours merge
   into one shape, so movement always says something.
 - **Springs instead of durations.** Motion keeps its speed when the target changes, things
@@ -62,6 +64,7 @@ a proper interface.
   gradient come to 4.2 KB gzipped.
 - **Happy under a strict CSP.** No inline styles and no `data:` images. It runs under
   `default-src 'none'`, with `script-src`, `style-src` and `img-src` set to `'self'`.
+  Add `font-src 'self'` when loading Obel Mono.
 - **Two targets, one look.** The GPUI crate and the web library share their tokens, and tests
   hold their dither output to the same cells.
 
@@ -148,13 +151,50 @@ import 'fluidither/components/tabs.js';
 
 Themes follow the system. Set `data-theme="light"` or `"dark"` on `<html>` to force one.
 
+### Typography
+
+[Obel Mono](https://typographic.systems/obel-mono), by Cody Collier at Typographic Systems,
+is the library's monospace voice. Its fixed character cells sit naturally beside the dither
+grid: use it for code, identifiers, keyboard hints, numeric readouts and short display text.
+Keep paragraphs and everyday controls in the system sans. Let spacing, size and weight carry
+the hierarchy; keep text on clear paper.
+
+On the web, load the font only when you want it:
+
+```bash
+npx fluidither add typography
+```
+
+```html
+<link rel="stylesheet" href="fluidither/tokens.css" />
+<link rel="stylesheet" href="fluidither/components/typography.css" />
+```
+
+With a bundler, import `fluidither/components/typography.css`. Use `.fd-mono` or
+`font-family: var(--fd-font-mono)` for your own text. Stats, counts, numeric table columns,
+copy fields and keyboard hints use the mono token already. Without the font stylesheet,
+they use a local monospace fallback. Override `--fd-font-mono` to choose another family.
+
+The original variable fonts cover weights 100–900 in roman and italic. They are self-hosted:
+add `font-src 'self'` to a strict CSP. Roman adds about 140 KiB, italic another 154 KiB only
+when used; these are separate from the component bundle sizes. The package includes the
+font's OFL license and attribution. GPUI loads its bundled fonts in `fluidither::init(cx)`;
+use `.font_family(fluidither::FONT_MONO)` for custom text, or set `Theme::mono_font` to
+customize component readouts.
+
+GPUI uses the original static faces, about 3.6 MiB, because its pinned text engine selects
+named weights. The web uses the variable fonts; both use the same Obel Mono 1.001 release.
+
+The ordinary Obel Mono family is bundled. Its optional secret-masking feature is off;
+font-based masking only changes appearance and never removes the underlying text.
+
 ### On GPUI
 
 The same look in a native Rust app. Add the crate, with `gpui` at the same version:
 
 ```toml
 [dependencies]
-fluidither = "0.2"
+fluidither = "0.3"
 gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
 ```
 
@@ -227,6 +267,10 @@ and GPUI code for each. For every attribute and method, see the
 [web](skills/fluidither/references/web.md) and [GPUI](skills/fluidither/references/gpui.md)
 references.
 
+On the [website](https://fluidither.vrnrn.com), the dice + **Randomize** button at the top left
+deals a new board of live components. **Documentation**, in Obel Mono at the top right,
+opens the reference. The **R** shortcut also randomizes when you are not typing in a field.
+
 ## Teach your coding agent
 
 fluidither comes with an agent skill: the rules, a reference for each target, recipes for
@@ -250,6 +294,8 @@ That puts it in `.agents/skills/fluidither`. For another location, such as
   with a faster exit.
 - **Pixel marks.** Ticks, dashes and arrows are small cell drawings from the tokens, so they
   match on both targets.
+- **A rhythm for text.** Obel Mono aligns code and numbers; system sans keeps prose easy
+  to read. Both sit on clear paper, with no dither competing with the letters.
 - **Two densities.** `regular` and `compact`, set on any element.
 
 [Architecture](docs/architecture.md) explains how one set of tokens reaches both targets, and
@@ -259,7 +305,7 @@ how the two engines are kept in step.
 
 | | Status |
 | --- | --- |
-| Chromium | Tested. 136 browser tests run under the strict CSP, with axe in both themes. |
+| Chromium | Tested. 140 browser tests run under the strict CSP, with axe in both themes. |
 | macOS on Apple Silicon | Tested with Rust 1.98.1 and `gpui` 0.2.2. |
 | Firefox, Safari | Not run. Styles for them are written but have never been seen. |
 | Linux, Windows | Not built for GPUI. |
@@ -267,7 +313,7 @@ how the two engines are kept in step.
 | Screen readers on GPUI | **Not supported.** `gpui` 0.2.2 has no accessibility API, so VoiceOver can't see these components. |
 | PDF previews | Not included. File cards show the type and size, because a preview needs a PDF renderer. |
 
-There are also 36 unit tests for the web and 81 Rust tests, including parity tests that compare
+There are also 37 unit tests for the web and 81 Rust tests, including parity tests that compare
 the two engines cell for cell. [Support](docs/support.md) has the full list of limits and the
 differences between the targets, and [Performance](docs/performance.md) has the measurements.
 
@@ -279,4 +325,5 @@ the demos, clone the repository and use `npm run demo`, or
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) for the library. Bundled Obel Mono fonts remain under
+[SIL OFL 1.1](web/src/fonts/obel-mono/OFL.txt).

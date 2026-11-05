@@ -1,6 +1,6 @@
 {
   "name": "fluidither",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "description": "Dithered, spring-driven web components with no runtime dependencies",
   "license": "MIT",
@@ -39,6 +39,7 @@
     "./tokens.css": "./src/tokens.css",
     "./components/*": "./src/components/*",
     "./core/*": "./src/core/*",
+    "./fonts/*": "./src/fonts/*",
     "./package.json": "./package.json"
   },
   "publishConfig": {

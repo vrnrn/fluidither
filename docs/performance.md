@@ -21,6 +21,11 @@ Pages load only what they use, so the sizes that matter are the ones for a singl
 
 The last figure counts shared code more than once. There are no runtime dependencies.
 
+These component sizes exclude the optional Obel Mono font files. Its original WOFF2s are
+143,092 bytes for roman and 157,596 bytes for italic; the browser fetches each only when
+used after loading `components/typography.css`. The 18 native static OTFs total 3,767,952
+bytes; GPUI 0.2.2 needs named faces to select different weights.
+
 ## Dither frame cost on GPUI
 
 ```bash

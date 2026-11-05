@@ -29,6 +29,10 @@ What has been tested, what hasn't, and where the two targets differ.
 - **Reduced motion:** read from macOS once at startup, and that path hasn't been exercised.
 - **Right-to-left text:** not handled.
 - **Font weight:** snaps instead of animating.
+- **Obel Mono:** the web uses variable WOFF2 fonts. GPUI 0.2.2 selects static faces, so
+  the native package includes all nine roman and italic weights and chooses the nearest
+  named weight. The native typography example checks face selection and font metrics in
+  a real macOS window. Obel Mono has not been rendered on Linux, Windows, Firefox or Safari.
 
 These inputs haven't been driven in a real window yet: a real drag on Compare, Marquee
 pausing on hover, the hue slider inside ColorPicker, and `Dissolve::on_view` scrolling into

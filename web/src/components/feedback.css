@@ -112,6 +112,7 @@
 }
 
 .fd-stat-value {
+  font-family: var(--fd-font-mono);
   font-size: 24px;
   font-weight: var(--fd-weight-strong);
   line-height: 30px;

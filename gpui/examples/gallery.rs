@@ -115,7 +115,7 @@ impl Render for Gallery {
                             .flex()
                             .items_center()
                             .justify_between()
-                            .child(div().text_size(px(20.)).font_weight(gpui::FontWeight(600.)).child("fluidither"))
+                            .child(div().font_family(fluidither::FONT_MONO).text_size(px(20.)).font_weight(gpui::FontWeight(600.)).child("fluidither"))
                             .child(
                                 Button::new("theme", "Switch theme")
                                     .look(Look::Outline)

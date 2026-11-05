@@ -1,0 +1,27 @@
+Obel Mono 1.001, unmodified static OTFs (unmasked family).
+Source: https://typographic.systems/download/ObelMono-1.001.zip
+Designer: Cody Collier / Typographic Systems
+License: SIL Open Font License 1.1; see OFL.txt and AUTHORS.txt.
+
+GPUI 0.2.2 selects named faces; it does not instantiate variable weight axes.
+These original static faces preserve weights 100-900 in roman and italic.
+
+SHA-256 of the bundled files:
+d183f2a98e92dc5d1f8588b8425e19f83b2bcb0231f114792f94981a349b462f  ObelMono-Black.otf
+9a844bdae83837d45beebf02bb3273537cbb48ca3eb6fcc0f93d5cc8134ab730  ObelMono-BlackItalic.otf
+36afce39eb61c8bcf524a097f4b467a1ec64dbf245afe5e228df36d1d77a4adf  ObelMono-Bold.otf
+141f3c7821c83486c9df579e6b66fc54b0a302f5bd4a24815d52a01be1ece88e  ObelMono-BoldItalic.otf
+2955acda30d0412a65917674c6d23519c1f67f1c6290016e7aba797e09b8a35e  ObelMono-ExtraBold.otf
+63620d3728790d7294c903590f2090a8c3c17f29df26b294c890ad0ffe4687de  ObelMono-ExtraBoldItalic.otf
+20ba423e5e0e8e5d835f81e7ca1acc8bb0e4744b4e56c7ae1a0cd81e6b7cd9d2  ObelMono-ExtraLight.otf
+b5a1901ced7c11095d4836092fefe62844c899bec1b72c05a2013a1e8b03bd31  ObelMono-ExtraLightItalic.otf
+bbc998315a005e2d55f1b9252744a54a9dace906663b3b43fdda053b4c304403  ObelMono-Italic.otf
+17ac62c0a75571645e2a5524ad62b97ed3bf05dadb5f8158d3f8829c1f7a0bfb  ObelMono-Light.otf
+c351437a90b6c1446256c11984b05ccd6a4f229602958725d9c2e45232c7c9ec  ObelMono-LightItalic.otf
+5ae7ba1ee2cdfbd8c059cd4b76aaf83b2fcb146842cea10403b8e231775c9954  ObelMono-Medium.otf
+bd2b85669071b88d81862ba249fbec5b668c7d1e0e9c9ffa0de7e4d48f211ff4  ObelMono-MediumItalic.otf
+a5e300ac110f988eb3e58b567d3b726acc0b15d97ad79f0004c3b56421070712  ObelMono-Regular.otf
+64858d876582f0e98bb8cca90cf7714cf1ef217b5eb738bc47a46ef2aafd26d6  ObelMono-SemiBold.otf
+138b9b536c195c417b76cf553361058367777e2f7271a5bcb649a97030ff7eba  ObelMono-SemiBoldItalic.otf
+a0945b54d3d0c9a03e0cae155f15ea2fced2b1a1867d03ef781b1d100a647548  ObelMono-Thin.otf
+7c89ac177061235b1713d75a86c2bc3940f6766272d5e742a8ff0792de196238  ObelMono-ThinItalic.otf

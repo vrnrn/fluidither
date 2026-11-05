@@ -46,6 +46,17 @@ import 'fluidither/components/tabs.css';
 import 'fluidither/components/tabs.js';
 ```
 
+## Typography
+
+Run `npx fluidither add typography` and link `fluidither/components/typography.css`, or import
+`fluidither/components/typography.css` with a bundler. This loads the self-hosted Obel Mono
+variable family for code, keyboard hints and numeric readouts. Use `.fd-mono` or
+`var(--fd-font-mono)` for your own text; keep prose in `var(--fd-font-sans)`.
+
+Add `font-src 'self'` to your CSP. Roman is about 140 KiB, italic another 154 KiB when used.
+Without the stylesheet, the mono token uses local fallback fonts. Override it to use another
+family. The fonts, license and attribution are copied together.
+
 ## Learn more
 
 - [Full README, with a complete example](https://github.com/vrnrn/fluidither#readme)
@@ -56,4 +67,5 @@ Tested in Chromium. Firefox and Safari have not been run.
 
 ## License
 
-MIT
+MIT for the library. Obel Mono by Typographic Systems is bundled under SIL OFL 1.1;
+see `src/fonts/obel-mono/OFL.txt` and `AUTHORS.txt`.
