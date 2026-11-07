@@ -2,8 +2,13 @@
 //! GPU, so nothing here proves how they look.
 
 use fluidither::fluid::joins;
-use fluidither::{Button, CheckGroup, Composer, ComposerEvent, HoverList, InputGroup, Questions, Reveal, Shimmer, Step, TextField, ThinkingSteps};
-use gpui::{div, prelude::*, AnyElement, Context, Render, TestAppContext, VisualTestContext, Window};
+use fluidither::{
+    Button, CheckGroup, Composer, ComposerEvent, HoverList, InputGroup, Questions, Reveal, Shimmer,
+    Step, TextField, ThinkingSteps,
+};
+use gpui::{
+    div, prelude::*, AnyElement, Context, Render, TestAppContext, VisualTestContext, Window,
+};
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::time::Duration;
@@ -14,11 +19,19 @@ struct Harness {
 
 impl Render for Harness {
     fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
-        div().size_full().flex().flex_col().items_start().child((self.build.clone())(cx))
+        div()
+            .size_full()
+            .flex()
+            .flex_col()
+            .items_start()
+            .child((self.build.clone())(cx))
     }
 }
 
-fn open<'a>(cx: &'a mut TestAppContext, build: impl Fn(&mut Context<Harness>) -> AnyElement + 'static) -> &'a mut VisualTestContext {
+fn open<'a>(
+    cx: &'a mut TestAppContext,
+    build: impl Fn(&mut Context<Harness>) -> AnyElement + 'static,
+) -> &'a mut VisualTestContext {
     cx.update(fluidither::init);
     let build: Rc<dyn Fn(&mut Context<Harness>) -> AnyElement> = Rc::new(build);
     let (_, cx) = cx.add_window_view(move |_, _| Harness { build });
@@ -29,8 +42,14 @@ fn open<'a>(cx: &'a mut TestAppContext, build: impl Fn(&mut Context<Harness>) ->
 
 #[test]
 fn checked_neighbours_join() {
-    assert_eq!(joins(&[true, true, false, true]), vec![(false, true), (true, false), (false, false), (false, false)]);
-    assert_eq!(joins(&[true, true, true]), vec![(false, true), (true, true), (true, false)]);
+    assert_eq!(
+        joins(&[true, true, false, true]),
+        vec![(false, true), (true, false), (false, false), (false, false)]
+    );
+    assert_eq!(
+        joins(&[true, true, true]),
+        vec![(false, true), (true, true), (true, false)]
+    );
 }
 
 #[gpui::test]
@@ -40,11 +59,20 @@ fn the_new_parts_lay_out(cx: &mut TestAppContext) {
         div()
             .child(HoverList::new("rows", 28.).row("One").row("Two"))
             .child(CheckGroup::new("fruit", ["Apple", "Pear"]).initial([0, 1]))
-            .child(ThinkingSteps::new("run", "Research").step("Read", Step::Done).step("Write", Step::Active).source("docs"))
+            .child(
+                ThinkingSteps::new("run", "Research")
+                    .step("Read", Step::Done)
+                    .step("Write", Step::Active)
+                    .source("docs"),
+            )
             .child(InputGroup::new().field("Name", field))
             .child(Reveal::new("rise", "Hello").delay(Duration::from_millis(10)))
             .child(Shimmer::new("thinking", ["Thinking", "Reading"]))
-            .child(div().debug_selector(|| "after".into()).child(Button::new("after", "After")))
+            .child(
+                div()
+                    .debug_selector(|| "after".into())
+                    .child(Button::new("after", "After")),
+            )
             .into_any_element()
     });
     assert!(cx.debug_bounds("after").is_some());
@@ -77,7 +105,8 @@ fn number_keys_answer_and_the_flow_finishes(cx: &mut TestAppContext) {
 #[gpui::test]
 fn tab_takes_the_suggestion_into_an_empty_box(cx: &mut TestAppContext) {
     cx.update(fluidither::init);
-    let (composer, cx) = cx.add_window_view(|_, cx| Composer::new(cx).suggestion("Why so stiff?", cx));
+    let (composer, cx) =
+        cx.add_window_view(|_, cx| Composer::new(cx).suggestion("Why so stiff?", cx));
     let sent: Rc<RefCell<Vec<String>>> = Rc::default();
     let log = sent.clone();
     cx.update(|_, cx| {

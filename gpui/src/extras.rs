@@ -14,7 +14,7 @@ use gpui::{
     canvas, div, fill, point, prelude::*, px, relative, size, AnyElement, App, Bounds, BoxShadow,
     Context, DispatchPhase, ElementId, Entity, EventEmitter, FocusHandle, Focusable, FontWeight, Hsla,
     IntoElement, KeyDownEvent, MouseButton, MouseMoveEvent, MouseUpEvent, ParentElement, Pixels, Render,
-    RenderOnce, Rgba, SharedString, Task, Timer, Window,
+    RenderOnce, Rgba, SharedString, Task, Window,
 };
 use std::rc::Rc;
 use std::time::{Duration, Instant};
@@ -398,7 +398,7 @@ impl RenderOnce for Marquee {
         let shift = state.update(cx, |state, cx| {
             if !reduced && state.timer.is_none() {
                 state.timer = Some(cx.spawn(async move |this, cx| loop {
-                    Timer::after(MARQUEE_STEP).await;
+                    cx.background_executor().timer(MARQUEE_STEP).await;
                     let moved = this.update(cx, |state, cx| {
                         if !state.paused {
                             cx.notify();
@@ -565,6 +565,8 @@ impl RenderOnce for Bloom {
             Tone::Pink => colors.pink,
         };
         let layer = |alpha: f32, blur: f32| BoxShadow {
+            #[cfg(feature = "pre")]
+            inset: false,
             color: Hsla::from(fade(color, alpha)),
             offset: point(px(0.), px(0.)),
             blur_radius: px(blur),

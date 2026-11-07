@@ -6,7 +6,10 @@
 
 use fluidither::scroll_area::bar_span;
 use fluidither::{Accordion, Badge, Banner, Card, Nav, Row, ScrollArea, Table, Tone};
-use gpui::{canvas, div, prelude::*, px, AnyElement, Context, Modifiers, Render, TestAppContext, VisualTestContext, Window};
+use gpui::{
+    canvas, div, prelude::*, px, AnyElement, Context, Modifiers, Render, TestAppContext,
+    VisualTestContext, Window,
+};
 use std::cell::{Cell, RefCell};
 use std::rc::Rc;
 
@@ -20,7 +23,10 @@ impl Render for Harness {
     }
 }
 
-fn open<'a>(cx: &'a mut TestAppContext, build: impl Fn() -> AnyElement + 'static) -> &'a mut VisualTestContext {
+fn open<'a>(
+    cx: &'a mut TestAppContext,
+    build: impl Fn() -> AnyElement + 'static,
+) -> &'a mut VisualTestContext {
     cx.update(fluidither::init);
     let build: Rc<dyn Fn() -> AnyElement> = Rc::new(build);
     let (_, cx) = cx.add_window_view(move |_, _| Harness { build });
@@ -34,11 +40,19 @@ type Paints = Rc<[Cell<u32>; 2]>;
 // A body that counts how often it is painted.
 fn counted(paints: &Paints, index: usize) -> impl IntoElement {
     let paints = paints.clone();
-    canvas(|_, _, _| (), move |_, _, _, _| paints[index].set(paints[index].get() + 1)).w(px(100.)).h(px(20.))
+    canvas(
+        |_, _, _| (),
+        move |_, _, _, _| paints[index].set(paints[index].get() + 1),
+    )
+    .w(px(100.))
+    .h(px(20.))
 }
 
 fn accordion(paints: &Paints, multiple: bool) -> AnyElement {
-    let built = Accordion::new("faq").section("First", counted(paints, 0)).section("Second", counted(paints, 1)).initial(0);
+    let built = Accordion::new("faq")
+        .section("First", counted(paints, 0))
+        .section("Second", counted(paints, 1))
+        .initial(0);
     (if multiple { built.multiple() } else { built }).into_any_element()
 }
 
@@ -109,9 +123,16 @@ fn nav_moves_with_keys_and_clicks_and_skips_disabled_rows(cx: &mut TestAppContex
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Nav::new("side", [Row::new("Overview"), Row::new("Billing").disabled(true), Row::new("Settings")])
-            .on_change(move |index, _, _| record.borrow_mut().push(index))
-            .into_any_element()
+        Nav::new(
+            "side",
+            [
+                Row::new("Overview"),
+                Row::new("Billing").disabled(true),
+                Row::new("Settings"),
+            ],
+        )
+        .on_change(move |index, _, _| record.borrow_mut().push(index))
+        .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
@@ -122,7 +143,11 @@ fn nav_moves_with_keys_and_clicks_and_skips_disabled_rows(cx: &mut TestAppContex
     cx.run_until_parked();
     let last = cx.debug_bounds("nav-2").expect("drawn").center();
     cx.simulate_click(last, Modifiers::default());
-    assert_eq!(*seen.borrow(), vec![2, 0, 2], "down, down wraps, then the click");
+    assert_eq!(
+        *seen.borrow(),
+        vec![2, 0, 2],
+        "down, down wraps, then the click"
+    );
 }
 
 #[test]
@@ -130,7 +155,11 @@ fn the_scroll_bar_tracks_position_and_hides_when_it_fits() {
     assert_eq!(bar_span(100.0, 100.0, 0.0), None);
     assert_eq!(bar_span(100.0, 400.0, 0.0), Some((0.0, 25.0)));
     assert_eq!(bar_span(100.0, 400.0, 300.0), Some((75.0, 25.0)));
-    assert_eq!(bar_span(100.0, 10_000.0, 0.0).map(|span| span.1), Some(24.0), "stays grabbable");
+    assert_eq!(
+        bar_span(100.0, 10_000.0, 0.0).map(|span| span.1),
+        Some(24.0),
+        "stays grabbable"
+    );
 }
 
 #[gpui::test]
@@ -138,9 +167,25 @@ fn everything_static_draws_without_trouble(cx: &mut TestAppContext) {
     let cx = open(cx, || {
         div()
             .child(Badge::new("Live").tone(Tone::Green))
-            .child(Banner::new("Hello").tone(Tone::Orange).action(div().child("Act")))
-            .child(Card::new().title("Title").text("Text").raised().child(div().child("More")))
-            .child(Table::new("table").column("Name").number_column("Amount").row(["A", "1"]).row(["B", "2"]))
+            .child(
+                Banner::new("Hello")
+                    .tone(Tone::Orange)
+                    .action(div().child("Act")),
+            )
+            .child(
+                Card::new()
+                    .title("Title")
+                    .text("Text")
+                    .raised()
+                    .child(div().child("More")),
+            )
+            .child(
+                Table::new("table")
+                    .column("Name")
+                    .number_column("Amount")
+                    .row(["A", "1"])
+                    .row(["B", "2"]),
+            )
             .child(ScrollArea::new("area").h(px(40.)).child(div().h(px(400.))))
             .into_any_element()
     });

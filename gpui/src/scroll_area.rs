@@ -73,7 +73,11 @@ impl RenderOnce for ScrollArea {
                     |_, _, _| (),
                     move |bounds: Bounds<gpui::Pixels>, _, window, _| {
                         let visible = f32::from(bounds.size.height);
-                        let content = visible + f32::from(painted.max_offset().height);
+                        #[cfg(feature = "zed")]
+                        let overflow = painted.max_offset().height;
+                        #[cfg(feature = "pre")]
+                        let overflow = painted.max_offset().y;
+                        let content = visible + f32::from(overflow);
                         let scrolled = -f32::from(painted.offset().y);
                         if let Some((top, length)) = bar_span(visible, content, scrolled) {
                             let origin = point(bounds.right() - px(BAR_WIDTH), bounds.top() + px(top));

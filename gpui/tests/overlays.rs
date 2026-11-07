@@ -23,11 +23,19 @@ struct Harness {
 
 impl Render for Harness {
     fn render(&mut self, _: &mut Window, _: &mut Context<Self>) -> impl IntoElement {
-        div().size_full().flex().flex_col().items_start().child((self.build)())
+        div()
+            .size_full()
+            .flex()
+            .flex_col()
+            .items_start()
+            .child((self.build)())
     }
 }
 
-fn open<'a>(cx: &'a mut TestAppContext, build: impl Fn() -> AnyElement + 'static) -> &'a mut VisualTestContext {
+fn open<'a>(
+    cx: &'a mut TestAppContext,
+    build: impl Fn() -> AnyElement + 'static,
+) -> &'a mut VisualTestContext {
     cx.update(fluidither::init);
     let build: Build = Rc::new(build);
     let (_, cx) = cx.add_window_view(move |_, _| Harness { build });
@@ -41,7 +49,12 @@ fn log<T: 'static>() -> Rc<RefCell<Vec<T>>> {
 }
 
 fn rows() -> Vec<Row> {
-    vec![Row::new("Rename"), Row::new("Duplicate"), Row::new("Archive").disabled(true), Row::new("Delete")]
+    vec![
+        Row::new("Rename"),
+        Row::new("Duplicate"),
+        Row::new("Archive").disabled(true),
+        Row::new("Delete"),
+    ]
 }
 
 #[test]
@@ -78,7 +91,9 @@ fn a_menu_opens_steps_and_picks_with_the_keyboard(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Menu::new("menu", "Actions", rows()).on_pick(move |index, _, _| record.borrow_mut().push(index)).into_any_element()
+        Menu::new("menu", "Actions", rows())
+            .on_pick(move |index, _, _| record.borrow_mut().push(index))
+            .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
@@ -95,7 +110,9 @@ fn escape_closes_a_menu_without_picking(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Menu::new("menu", "Actions", rows()).on_pick(move |index, _, _| record.borrow_mut().push(index)).into_any_element()
+        Menu::new("menu", "Actions", rows())
+            .on_pick(move |index, _, _| record.borrow_mut().push(index))
+            .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
@@ -115,7 +132,9 @@ fn clicking_rows_works_and_skips_disabled_ones(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Menu::new("menu", "Actions", rows()).on_pick(move |index, _, _| record.borrow_mut().push(index)).into_any_element()
+        Menu::new("menu", "Actions", rows())
+            .on_pick(move |index, _, _| record.borrow_mut().push(index))
+            .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
@@ -135,14 +154,19 @@ fn clicking_outside_closes_a_menu(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Menu::new("menu", "Actions", rows()).on_pick(move |index, _, _| record.borrow_mut().push(index)).into_any_element()
+        Menu::new("menu", "Actions", rows())
+            .on_pick(move |index, _, _| record.borrow_mut().push(index))
+            .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
     cx.simulate_keystrokes("down");
     cx.run_until_parked();
     let row = cx.debug_bounds("row-0").expect("drawn").center();
-    cx.simulate_click(gpui::point(gpui::px(900.), gpui::px(700.)), Modifiers::default());
+    cx.simulate_click(
+        gpui::point(gpui::px(900.), gpui::px(700.)),
+        Modifiers::default(),
+    );
     cx.run_until_parked();
     cx.simulate_click(row, Modifiers::default());
     cx.run_until_parked();
@@ -155,7 +179,10 @@ fn a_select_opens_on_its_choice_and_typing_jumps(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Select::new("select", ["Apple", "Banana", "Pear"]).initial(2).on_change(move |index, _, _| record.borrow_mut().push(index)).into_any_element()
+        Select::new("select", ["Apple", "Banana", "Pear"])
+            .initial(2)
+            .on_change(move |index, _, _| record.borrow_mut().push(index))
+            .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
@@ -184,7 +211,9 @@ impl Render for DialogHarness {
         div()
             .size_full()
             .track_focus(&self.focus)
-            .child(Button::new("behind", "Behind").on_click(move |_, _, _| *behind.borrow_mut() += 1))
+            .child(
+                Button::new("behind", "Behind").on_click(move |_, _, _| *behind.borrow_mut() += 1),
+            )
             .child(
                 Dialog::new("dialog", self.open)
                     .title("Sure?")
@@ -201,7 +230,14 @@ impl Render for DialogHarness {
     }
 }
 
-fn open_dialog(cx: &mut TestAppContext) -> (Entity<DialogHarness>, Rc<RefCell<u32>>, Rc<RefCell<u32>>, &mut VisualTestContext) {
+fn open_dialog(
+    cx: &mut TestAppContext,
+) -> (
+    Entity<DialogHarness>,
+    Rc<RefCell<u32>>,
+    Rc<RefCell<u32>>,
+    &mut VisualTestContext,
+) {
     cx.update(fluidither::init);
     let closes = Rc::new(RefCell::new(0));
     let behind = Rc::new(RefCell::new(0));
@@ -238,7 +274,10 @@ fn tab_stays_inside_a_dialog_and_the_page_behind_is_blocked(cx: &mut TestAppCont
         cx.simulate_keystrokes("enter");
     }
     assert_eq!(*behind.borrow(), 0, "Enter never reached the button behind");
-    cx.simulate_click(gpui::point(gpui::px(10.), gpui::px(10.)), Modifiers::default());
+    cx.simulate_click(
+        gpui::point(gpui::px(10.), gpui::px(10.)),
+        Modifiers::default(),
+    );
     cx.run_until_parked();
     assert_eq!(*behind.borrow(), 0, "the click hit the backdrop");
 }
@@ -264,10 +303,16 @@ fn focus_returns_when_a_dialog_closes(cx: &mut TestAppContext) {
         cx.notify();
     });
     cx.run_until_parked();
-    assert!(!cx.update(|window, _| page.is_focused(window)), "the dialog took focus");
+    assert!(
+        !cx.update(|window, _| page.is_focused(window)),
+        "the dialog took focus"
+    );
     cx.simulate_keystrokes("escape");
     cx.run_until_parked();
-    assert!(cx.update(|window, _| page.is_focused(window)), "focus came back");
+    assert!(
+        cx.update(|window, _| page.is_focused(window)),
+        "focus came back"
+    );
     cx.update(|_, cx| assert!(fluidither::Theme::get(cx).modal.is_none()));
 }
 
@@ -292,7 +337,10 @@ fn a_combobox_filters_and_chooses(cx: &mut TestAppContext) {
     let record = events.clone();
     cx.update(|window, cx| {
         window.activate_window();
-        cx.subscribe(&combo, move |_, event, _| record.borrow_mut().push(event.clone())).detach();
+        cx.subscribe(&combo, move |_, event, _| {
+            record.borrow_mut().push(event.clone())
+        })
+        .detach();
         let handle = combo.read(cx).focus_handle(cx);
         window.focus(&handle);
     });
@@ -349,7 +397,10 @@ fn the_command_menu_searches_and_picks(cx: &mut TestAppContext) {
     let record = events.clone();
     cx.update(|window, cx| {
         window.activate_window();
-        cx.subscribe(&menu, move |_, event, _| record.borrow_mut().push(event.clone())).detach();
+        cx.subscribe(&menu, move |_, event, _| {
+            record.borrow_mut().push(event.clone())
+        })
+        .detach();
         menu.update(cx, |menu, cx| menu.show(cx));
     });
     cx.run_until_parked();

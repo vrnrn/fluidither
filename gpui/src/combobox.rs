@@ -6,8 +6,9 @@ use crate::dialog::Dialog;
 use crate::list::{matching, rows_element, step, surface, Mark, Panel, Row};
 use crate::text_field::{TextField, TextFieldEvent};
 use crate::theme::{Density, Theme};
+use crate::compat::Corner;
 use gpui::{
-    anchored, deferred, div, point, prelude::*, px, Context, Corner, Entity, EventEmitter,
+    anchored, deferred, div, point, prelude::*, px, Context, Entity, EventEmitter,
     FocusHandle, Focusable, IntoElement, KeyDownEvent, Render, SharedString, Window,
 };
 use std::rc::Rc;

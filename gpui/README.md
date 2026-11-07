@@ -19,6 +19,19 @@ gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
 Building needs no Metal toolchain, because shaders compile at startup. The first build compiles
 GPUI itself, which took about 10 minutes on an M1 Pro.
 
+### On gpui-pre
+
+Apps built on `gpui-pre` 0.3.9 (including patched forks of it) turn off the
+default `zed` feature and choose `pre`:
+
+```toml
+fluidither = { version = "0.3", default-features = false, features = ["pre"] }
+```
+
+`fluidither::init` installs the theme and Tab focus handling. An app that owns
+its own theme and focus can call `fluidither::load_fonts` instead and use the
+components, springs and dither functions directly.
+
 ## Use it
 
 ```rust

@@ -129,11 +129,11 @@ impl RenderOnce for Dialog {
                     let previous = window.focused(cx);
                     state.update(cx, |state, _| state.restore = previous);
                     cx.global_mut::<Theme>().modal = Some(modal);
-                    window.focus(&start);
+                    window.focus(&start, #[cfg(feature = "pre")] cx);
                 } else {
                     cx.global_mut::<Theme>().modal = None;
                     if let Some(previous) = state.update(cx, |state, _| state.restore.take()) {
-                        window.focus(&previous);
+                        window.focus(&previous, #[cfg(feature = "pre")] cx);
                     }
                 }
             });

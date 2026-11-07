@@ -10,7 +10,7 @@ use crate::theme::{fade, Theme};
 use gpui::{
     canvas, div, fill, point, prelude::*, px, relative, size, App, Bounds, Context, Corners,
     ElementId, FontWeight, Hsla, IntoElement, RenderImage, RenderOnce, Rgba, SharedString, Task,
-    Timer, Window,
+    Window,
 };
 use std::sync::Arc;
 use std::time::Duration;
@@ -35,7 +35,7 @@ impl Ticker {
             return;
         }
         self.timer = Some(cx.spawn(async move |this, cx| loop {
-            Timer::after(every).await;
+            cx.background_executor().timer(every).await;
             let ticked = this.update(cx, |this, cx| {
                 this.count = this.count.wrapping_add(1);
                 cx.notify();
@@ -279,7 +279,7 @@ impl RenderOnce for Sparkline {
             move |bounds, _, window, cx| {
                 let (image, retired) = painted.update(cx, |state, _| (state.image.clone(), std::mem::take(&mut state.retired)));
                 if let Some(image) = image {
-                    window.paint_image(bounds, Corners::default(), image, 0, false).ok();
+                    crate::compat::paint_image(window, bounds, Corners::default(), image).ok();
                 }
                 for image in retired {
                     window.drop_image(image).ok();

@@ -57,6 +57,8 @@ impl Theme {
     pub fn shadow(&self, level: usize) -> Vec<BoxShadow> {
         let colors = self.colors();
         let ring = BoxShadow {
+            #[cfg(feature = "pre")]
+            inset: false,
             color: Hsla::from(colors.line),
             offset: point(px(0.), px(0.)),
             blur_radius: px(0.),
@@ -67,6 +69,8 @@ impl Theme {
             return vec![ring];
         }
         let drop = BoxShadow {
+            #[cfg(feature = "pre")]
+            inset: false,
             color: Hsla::from(colors.shadow),
             offset: point(px(0.), px(y)),
             blur_radius: px(blur),
