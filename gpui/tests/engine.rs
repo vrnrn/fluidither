@@ -91,3 +91,18 @@ fn the_halftone_screen_holds_every_rank_once() {
     sorted.dedup();
     assert_eq!(sorted.len(), 64);
 }
+
+#[test]
+fn glyph_shimmer_lights_the_core_dithers_its_edge_and_rests_outside() {
+    use fluidither::dither::{shimmer_lit, shimmer_sweep};
+    // At t such that the band centre is at x = 0.5.
+    let t = 1.6 * (0.5 + 0.45) / (1.0 + 2.0 * 0.45);
+    assert!((shimmer_sweep(0.5, t) - 1.0).abs() < 1e-9);
+    // The core lights every glyph.
+    assert!((0..16).all(|i| shimmer_lit(0.5, i, t)));
+    // Well outside the spread nothing is lit.
+    assert!((0..16).all(|i| !shimmer_lit(0.0, i, t)));
+    // Partway out, some glyphs are lit and some are not: an ordered edge.
+    let lit = (0..16).filter(|&i| shimmer_lit(0.5 + 0.45 * 0.5, i, t)).count();
+    assert!(lit > 0 && lit < 16, "{lit}");
+}
