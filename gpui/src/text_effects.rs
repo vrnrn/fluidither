@@ -6,7 +6,7 @@ use crate::dither_gradient::DitherGradient;
 use crate::generated::SETTLE;
 use crate::spring::{Spring, LONGEST_STEP};
 use crate::theme::Theme;
-use gpui::{canvas, div, fill, point, prelude::*, px, size, AnyElement, App, Bounds, Context, ElementId, IntoElement, Pixels, RenderOnce, Rgba, SharedString, Task, Timer, Window};
+use gpui::{canvas, div, fill, point, prelude::*, px, size, AnyElement, App, Bounds, Context, ElementId, IntoElement, Pixels, RenderOnce, Rgba, SharedString, Task, Window};
 use std::rc::Rc;
 use std::time::{Duration, Instant};
 
@@ -51,7 +51,7 @@ impl Run {
             return;
         }
         self.timer = Some(cx.spawn(async move |this, cx| loop {
-            Timer::after(every).await;
+            cx.background_executor().timer(every).await;
             let running = this.update(cx, |run, cx| {
                 run.ticks += 1;
                 cx.notify();

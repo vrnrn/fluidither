@@ -3,7 +3,8 @@
 
 use fluidither::{Button, Tab, Tabs};
 use gpui::{
-    div, point, prelude::*, px, Context, Modifiers, Render, TestAppContext, VisualTestContext, Window,
+    div, point, prelude::*, px, Context, Modifiers, Render, TestAppContext, VisualTestContext,
+    Window,
 };
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -47,7 +48,11 @@ fn arrow_keys_select_and_skip_disabled_tabs(cx: &mut TestAppContext) {
     cx.run_until_parked();
     cx.simulate_keystrokes("right");
     cx.simulate_keystrokes("right");
-    assert_eq!(*changes.borrow(), vec![1, 3], "skips the disabled third tab");
+    assert_eq!(
+        *changes.borrow(),
+        vec![1, 3],
+        "skips the disabled third tab"
+    );
 }
 
 #[gpui::test]
@@ -90,14 +95,20 @@ fn modified_arrows_are_left_alone(cx: &mut TestAppContext) {
 fn clicking_selects_a_tab_but_not_a_disabled_one(cx: &mut TestAppContext) {
     let (changes, cx) = open_tabs(cx);
     let center = |cx: &mut VisualTestContext, name: &'static str| {
-        cx.debug_bounds(name).unwrap_or_else(|| panic!("{name} was not drawn")).center()
+        cx.debug_bounds(name)
+            .unwrap_or_else(|| panic!("{name} was not drawn"))
+            .center()
     };
     for name in ["tab-1", "tab-2", "tab-3"] {
         let position = center(cx, name);
         cx.simulate_click(position, Modifiers::default());
         cx.run_until_parked();
     }
-    assert_eq!(*changes.borrow(), vec![1, 3], "the disabled tab never fires");
+    assert_eq!(
+        *changes.borrow(),
+        vec![1, 3],
+        "the disabled tab never fires"
+    );
 }
 
 struct ButtonHarness {
@@ -120,11 +131,19 @@ impl Render for ButtonHarness {
     }
 }
 
-fn open_button(cx: &mut TestAppContext, disabled: bool, loading: bool) -> (Rc<RefCell<u32>>, &mut VisualTestContext) {
+fn open_button(
+    cx: &mut TestAppContext,
+    disabled: bool,
+    loading: bool,
+) -> (Rc<RefCell<u32>>, &mut VisualTestContext) {
     cx.update(fluidither::init);
     let clicks = Rc::new(RefCell::new(0));
     let harness = clicks.clone();
-    let (_, cx) = cx.add_window_view(move |_, _| ButtonHarness { clicks: harness, disabled, loading });
+    let (_, cx) = cx.add_window_view(move |_, _| ButtonHarness {
+        clicks: harness,
+        disabled,
+        loading,
+    });
     cx.update(|window, _| window.activate_window());
     cx.run_until_parked();
     (clicks, cx)

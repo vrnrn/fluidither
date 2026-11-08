@@ -6,8 +6,9 @@ use crate::dates::{month_grid, Date};
 use crate::generated::{DITHER_HOVER_CELL, DITHER_HOVER_INK, GLYPH_ARROW, RADIUS_CONTROL, RADIUS_PILL, WEIGHT_STRONG};
 use crate::paint::{checker, focus_ring, glyph};
 use crate::theme::{cap_offset, fade, Density, Theme};
+use crate::compat::Corner;
 use gpui::{
-    anchored, deferred, div, point, prelude::*, px, App, Bounds, Corner, ElementId, Entity, FocusHandle,
+    anchored, deferred, div, point, prelude::*, px, App, Bounds, ElementId, Entity, FocusHandle,
     FontWeight, IntoElement, KeyDownEvent, MouseButton, Pixels, RenderOnce, Window,
 };
 use std::rc::Rc;

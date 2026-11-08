@@ -490,7 +490,16 @@ impl Render for TextField {
                                 let area = Bounds::new(point(left + from, top), size(to - from, line_height));
                                 window.paint_quad(fill(area, selection_ink));
                             }
-                            line.paint(point(left, top + nudge), line_height, window, cx).ok();
+                            line.paint(
+                                point(left, top + nudge),
+                                line_height,
+                                #[cfg(feature = "pre")]
+                                gpui::TextAlign::Left,
+                                #[cfg(feature = "pre")]
+                                None,
+                                window,
+                                cx,
+                            ).ok();
                             if focused && selection.is_empty() {
                                 let x = if typed { line.x_for_index(caret) } else { px(0.) };
                                 let bar = Bounds::new(point(left + x, top), size(px(CARET_WIDTH), line_height));

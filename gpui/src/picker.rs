@@ -5,8 +5,9 @@ use crate::generated::{GLYPH_ARROW, RADIUS_CONTROL, WEIGHT_STRONG};
 use crate::list::{rows_element, step, surface, Mark, Panel, Row, Typeahead, MOST_ROWS};
 use crate::paint::{focus_ring, glyph};
 use crate::theme::{cap_offset, Density, Theme};
+use crate::compat::Corner;
 use gpui::{
-    anchored, canvas, deferred, div, point, prelude::*, px, App, Bounds, Corner, ElementId, Entity,
+    anchored, canvas, deferred, div, point, prelude::*, px, App, Bounds, ElementId, Entity,
     FocusHandle, FontWeight, IntoElement, KeyDownEvent, MouseButton, Pixels, RenderOnce,
     SharedString, Window,
 };

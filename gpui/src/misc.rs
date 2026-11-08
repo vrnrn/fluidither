@@ -8,7 +8,7 @@ use crate::paint::{checker, focus_ring};
 use crate::theme::{fade, Density, Theme};
 use gpui::{
     div, prelude::*, px, App, ClipboardItem, ElementId, Entity, FocusHandle, FontWeight, IntoElement,
-    KeyDownEvent, MouseButton, RenderOnce, Rgba, SharedString, Task, Timer, Window,
+    KeyDownEvent, MouseButton, RenderOnce, Rgba, SharedString, Task, Window,
 };
 use std::rc::Rc;
 use std::time::Duration;
@@ -267,7 +267,7 @@ impl RenderOnce for CopyField {
                 state.update(cx, |state, cx| {
                     state.copied = true;
                     state.reset = Some(cx.spawn(async move |this, cx| {
-                        Timer::after(Duration::from_millis(1500)).await;
+                        cx.background_executor().timer(Duration::from_millis(1500)).await;
                         this.update(cx, |state, cx| {
                             state.copied = false;
                             cx.notify();

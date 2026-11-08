@@ -96,7 +96,7 @@ impl RenderOnce for Chart {
             move |bounds, _, window, cx| {
                 let (image, retired) = painted.update(cx, |state, _| (state.image.clone(), std::mem::take(&mut state.retired)));
                 if let Some(image) = image {
-                    window.paint_image(bounds, Corners::default(), image, 0, false).ok();
+                    crate::compat::paint_image(window, bounds, Corners::default(), image).ok();
                 }
                 for image in retired {
                     window.drop_image(image).ok();

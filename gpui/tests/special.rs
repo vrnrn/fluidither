@@ -3,7 +3,10 @@
 
 use fluidither::calendar::key_move;
 use fluidither::{Calendar, Date, DatePicker, Dots, Swatches};
-use gpui::{div, prelude::*, rgb, AnyElement, Context, Modifiers, Render, Rgba, TestAppContext, VisualTestContext, Window};
+use gpui::{
+    div, prelude::*, rgb, AnyElement, Context, Modifiers, Render, Rgba, TestAppContext,
+    VisualTestContext, Window,
+};
 use std::cell::RefCell;
 use std::rc::Rc;
 
@@ -13,11 +16,19 @@ struct Harness {
 
 impl Render for Harness {
     fn render(&mut self, _: &mut Window, _: &mut Context<Self>) -> impl IntoElement {
-        div().size_full().flex().flex_col().items_start().child((self.build)())
+        div()
+            .size_full()
+            .flex()
+            .flex_col()
+            .items_start()
+            .child((self.build)())
     }
 }
 
-fn open<'a>(cx: &'a mut TestAppContext, build: impl Fn() -> AnyElement + 'static) -> &'a mut VisualTestContext {
+fn open<'a>(
+    cx: &'a mut TestAppContext,
+    build: impl Fn() -> AnyElement + 'static,
+) -> &'a mut VisualTestContext {
     cx.update(fluidither::init);
     let build: Rc<dyn Fn() -> AnyElement> = Rc::new(build);
     let (_, cx) = cx.add_window_view(move |_, _| Harness { build });
@@ -26,7 +37,11 @@ fn open<'a>(cx: &'a mut TestAppContext, build: impl Fn() -> AnyElement + 'static
     cx
 }
 
-const DAY: Date = Date { year: 2026, month: 10, day: 14 };
+const DAY: Date = Date {
+    year: 2026,
+    month: 10,
+    day: 14,
+};
 
 #[test]
 fn keys_map_to_the_right_days() {
@@ -44,7 +59,9 @@ fn the_keyboard_chooses_a_day(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Calendar::new("calendar", DAY).on_change(move |date, _, _| record.borrow_mut().push(date.iso())).into_any_element()
+        Calendar::new("calendar", DAY)
+            .on_change(move |date, _, _| record.borrow_mut().push(date.iso()))
+            .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
@@ -62,7 +79,9 @@ fn clicking_a_day_chooses_it_and_arrows_turn_the_month(cx: &mut TestAppContext) 
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Calendar::new("calendar", DAY).on_change(move |date, _, _| record.borrow_mut().push(date.iso())).into_any_element()
+        Calendar::new("calendar", DAY)
+            .on_change(move |date, _, _| record.borrow_mut().push(date.iso()))
+            .into_any_element()
     });
     let day = cx.debug_bounds("day-2026-10-20").expect("drawn").center();
     cx.simulate_click(day, Modifiers::default());
@@ -70,7 +89,10 @@ fn clicking_a_day_chooses_it_and_arrows_turn_the_month(cx: &mut TestAppContext) 
     let next = cx.debug_bounds("next-month").expect("drawn").center();
     cx.simulate_click(next, Modifiers::default());
     cx.run_until_parked();
-    let day = cx.debug_bounds("day-2026-11-03").expect("the next month is drawn").center();
+    let day = cx
+        .debug_bounds("day-2026-11-03")
+        .expect("the next month is drawn")
+        .center();
     cx.simulate_click(day, Modifiers::default());
     assert_eq!(*seen.borrow(), vec!["2026-10-20", "2026-11-03"]);
 }
@@ -81,18 +103,28 @@ fn a_date_picker_opens_picks_and_closes(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        DatePicker::new("due", DAY).initial(DAY).on_change(move |date, _, _| record.borrow_mut().push(date.iso())).into_any_element()
+        DatePicker::new("due", DAY)
+            .initial(DAY)
+            .on_change(move |date, _, _| record.borrow_mut().push(date.iso()))
+            .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
     cx.simulate_keystrokes("enter");
     cx.run_until_parked();
-    let day = cx.debug_bounds("day-2026-10-21").expect("the calendar opened").center();
+    let day = cx
+        .debug_bounds("day-2026-10-21")
+        .expect("the calendar opened")
+        .center();
     cx.simulate_click(day, Modifiers::default());
     assert_eq!(*seen.borrow(), vec!["2026-10-21"]);
     cx.run_until_parked();
     cx.simulate_click(day, Modifiers::default());
-    assert_eq!(seen.borrow().len(), 1, "it closed, so nothing was left to click");
+    assert_eq!(
+        seen.borrow().len(),
+        1,
+        "it closed, so nothing was left to click"
+    );
 }
 
 fn colors() -> Vec<Rgba> {
@@ -105,7 +137,9 @@ fn swatches_move_with_arrows_and_clicks(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Swatches::new("accent", colors()).on_change(move |index, _, _| record.borrow_mut().push(index)).into_any_element()
+        Swatches::new("accent", colors())
+            .on_change(move |index, _, _| record.borrow_mut().push(index))
+            .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
@@ -122,7 +156,9 @@ fn dots_report_clicks(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Dots::new("slides", 3, 0).on_change(move |index, _, _| record.borrow_mut().push(index)).into_any_element()
+        Dots::new("slides", 3, 0)
+            .on_change(move |index, _, _| record.borrow_mut().push(index))
+            .into_any_element()
     });
     let spot = cx.debug_bounds("dot-2").expect("drawn").center();
     cx.simulate_click(spot, Modifiers::default());

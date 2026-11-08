@@ -433,6 +433,8 @@ impl RenderOnce for Tabs {
 
 fn ring(color: gpui::Rgba) -> gpui::BoxShadow {
     gpui::BoxShadow {
+        #[cfg(feature = "pre")]
+        inset: false,
         color: gpui::Hsla::from(color),
         offset: gpui::point(px(0.), px(0.)),
         blur_radius: px(0.),

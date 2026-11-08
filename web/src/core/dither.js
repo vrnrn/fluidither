@@ -33,6 +33,23 @@ const SHIMMER_SECONDS = 1.6;
 const SHIMMER_SPREAD = 0.45;
 const SHIMMER_VEIL = 0.42;
 
+/** How lit a glyph at `x` (0 to 1 across the line) is at time `t`; `shimmer_sweep` in GPUI. */
+export function shimmerSweep(x, t) {
+  const turn = t / SHIMMER_SECONDS;
+  const center = (turn - Math.floor(turn)) * (1 + 2 * SHIMMER_SPREAD) - SHIMMER_SPREAD;
+  return 1 - Math.min(Math.abs(x - center) / SHIMMER_SPREAD, 1);
+}
+
+const SHIMMER_ORDER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+
+/**
+ * A paperless text shimmer: whether the glyph at `x`, the `index`th on its line, is lit at
+ * time `t`. Lit glyphs take full ink, the rest soft ink. `shimmer_lit` in GPUI.
+ */
+export function shimmerLit(x, index, t) {
+  return shimmerSweep(x, t) > (SHIMMER_ORDER[index % 16] + 0.5) / 16;
+}
+
 /**
  * Fill `tones` with the veil for shimmering text at time `t`: thick everywhere but a clear
  * band that sweeps across. gpui/src/dither.rs is the same.

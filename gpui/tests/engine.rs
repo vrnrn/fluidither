@@ -59,16 +59,28 @@ fn cap_nudge_moves_capitals_to_the_middle_of_the_line() {
 #[test]
 fn sparkline_values_scale_to_their_own_range() {
     assert_eq!(normalized(&[10.0, 20.0, 15.0]), vec![0.0, 1.0, 0.5]);
-    assert_eq!(normalized(&[5.0, 5.0]), vec![0.0, 0.0], "a flat line stays finite");
+    assert_eq!(
+        normalized(&[5.0, 5.0]),
+        vec![0.0, 0.0],
+        "a flat line stays finite"
+    );
 }
 
 #[test]
 fn ink_follows_the_part_of_the_picture_that_matches_it() {
     let picture = image::GrayAlphaImage::from_raw(2, 1, vec![0, 255, 255, 255]).unwrap();
     assert_eq!(tones_from(&picture, 2, 1, false), vec![1.0, 0.0]);
-    assert_eq!(tones_from(&picture, 2, 1, true), vec![0.0, 1.0], "light ink follows the bright parts");
+    assert_eq!(
+        tones_from(&picture, 2, 1, true),
+        vec![0.0, 1.0],
+        "light ink follows the bright parts"
+    );
     let see_through = image::GrayAlphaImage::from_raw(1, 1, vec![0, 0]).unwrap();
-    assert_eq!(tones_from(&see_through, 1, 1, false), vec![0.0], "transparency stays paper");
+    assert_eq!(
+        tones_from(&see_through, 1, 1, false),
+        vec![0.0],
+        "transparency stays paper"
+    );
 }
 
 #[test]
@@ -78,4 +90,19 @@ fn the_halftone_screen_holds_every_rank_once() {
     sorted.sort_by(f64::total_cmp);
     sorted.dedup();
     assert_eq!(sorted.len(), 64);
+}
+
+#[test]
+fn glyph_shimmer_lights_the_core_dithers_its_edge_and_rests_outside() {
+    use fluidither::dither::{shimmer_lit, shimmer_sweep};
+    // At t such that the band centre is at x = 0.5.
+    let t = 1.6 * (0.5 + 0.45) / (1.0 + 2.0 * 0.45);
+    assert!((shimmer_sweep(0.5, t) - 1.0).abs() < 1e-9);
+    // The core lights every glyph.
+    assert!((0..16).all(|i| shimmer_lit(0.5, i, t)));
+    // Well outside the spread nothing is lit.
+    assert!((0..16).all(|i| !shimmer_lit(0.0, i, t)));
+    // Partway out, some glyphs are lit and some are not: an ordered edge.
+    let lit = (0..16).filter(|&i| shimmer_lit(0.5 + 0.45 * 0.5, i, t)).count();
+    assert!(lit > 0 && lit < 16, "{lit}");
 }

@@ -4,8 +4,8 @@
 use fluidither::slider::snap;
 use fluidither::{Checkbox, Checked, RadioGroup, Slider, Switch, TextField, TextFieldEvent};
 use gpui::{
-    div, point, prelude::*, px, AnyElement, Context, Entity, Focusable, Modifiers, Render, TestAppContext,
-    VisualTestContext, Window,
+    div, point, prelude::*, px, AnyElement, Context, Entity, Focusable, Modifiers, Render,
+    TestAppContext, VisualTestContext, Window,
 };
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -22,7 +22,10 @@ impl Render for Harness {
     }
 }
 
-fn open<'a>(cx: &'a mut TestAppContext, build: impl Fn() -> AnyElement + 'static) -> &'a mut VisualTestContext {
+fn open<'a>(
+    cx: &'a mut TestAppContext,
+    build: impl Fn() -> AnyElement + 'static,
+) -> &'a mut VisualTestContext {
     cx.update(fluidither::init);
     let build: Build = Rc::new(build);
     let (_, cx) = cx.add_window_view(move |_, _| Harness { build });
@@ -48,7 +51,10 @@ fn a_checkbox_toggles_with_the_mouse_and_with_space(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Checkbox::new("box").label("Tick").on_change(move |on, _, _| record.borrow_mut().push(on)).into_any_element()
+        Checkbox::new("box")
+            .label("Tick")
+            .on_change(move |on, _, _| record.borrow_mut().push(on))
+            .into_any_element()
     });
     click_corner(cx);
     click_corner(cx);
@@ -64,7 +70,10 @@ fn a_mixed_checkbox_asks_for_on(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Checkbox::new("box").checked(Checked::Mixed).on_change(move |on, _, _| record.borrow_mut().push(on)).into_any_element()
+        Checkbox::new("box")
+            .checked(Checked::Mixed)
+            .on_change(move |on, _, _| record.borrow_mut().push(on))
+            .into_any_element()
     });
     click_corner(cx);
     assert_eq!(*seen.borrow(), vec![true]);
@@ -77,8 +86,16 @@ fn disabled_toggles_ignore_input(cx: &mut TestAppContext) {
     let cx = open(cx, move || {
         let (box_log, switch_log) = (box_log.clone(), switch_log.clone());
         div()
-            .child(Checkbox::new("box").disabled(true).on_change(move |on, _, _| box_log.borrow_mut().push(on)))
-            .child(Switch::new("switch").disabled(true).on_change(move |on, _, _| switch_log.borrow_mut().push(on)))
+            .child(
+                Checkbox::new("box")
+                    .disabled(true)
+                    .on_change(move |on, _, _| box_log.borrow_mut().push(on)),
+            )
+            .child(
+                Switch::new("switch")
+                    .disabled(true)
+                    .on_change(move |on, _, _| switch_log.borrow_mut().push(on)),
+            )
             .into_any_element()
     });
     click_corner(cx);
@@ -94,7 +111,10 @@ fn a_switch_toggles_with_the_mouse_and_with_space(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Switch::new("switch").initial(true).on_change(move |on, _, _| record.borrow_mut().push(on)).into_any_element()
+        Switch::new("switch")
+            .initial(true)
+            .on_change(move |on, _, _| record.borrow_mut().push(on))
+            .into_any_element()
     });
     click_corner(cx);
     cx.simulate_keystrokes("tab");
@@ -109,7 +129,10 @@ fn radio_arrows_wrap_and_skip_disabled_options(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        RadioGroup::new("plan", ["A", "B", "C"]).disable(1).on_change(move |index, _, _| record.borrow_mut().push(index)).into_any_element()
+        RadioGroup::new("plan", ["A", "B", "C"])
+            .disable(1)
+            .on_change(move |index, _, _| record.borrow_mut().push(index))
+            .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
@@ -125,7 +148,10 @@ fn a_disabled_radio_option_cannot_be_clicked(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        RadioGroup::new("plan", ["A", "B", "C"]).disable(1).on_change(move |index, _, _| record.borrow_mut().push(index)).into_any_element()
+        RadioGroup::new("plan", ["A", "B", "C"])
+            .disable(1)
+            .on_change(move |index, _, _| record.borrow_mut().push(index))
+            .into_any_element()
     });
     for name in ["radio-1", "radio-2"] {
         let spot = cx.debug_bounds(name).expect("drawn").center();
@@ -150,7 +176,11 @@ fn slider_keys_step_jump_and_stop_at_the_ends(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Slider::new("volume").initial(50.0).step(5.0).on_change(move |value, _, _| record.borrow_mut().push(value)).into_any_element()
+        Slider::new("volume")
+            .initial(50.0)
+            .step(5.0)
+            .on_change(move |value, _, _| record.borrow_mut().push(value))
+            .into_any_element()
     });
     cx.simulate_keystrokes("tab");
     cx.run_until_parked();
@@ -166,10 +196,16 @@ fn clicking_a_slider_moves_it_there(cx: &mut TestAppContext) {
     let record = seen.clone();
     let cx = open(cx, move || {
         let record = record.clone();
-        Slider::new("volume").on_change(move |value, _, _| record.borrow_mut().push(value)).into_any_element()
+        Slider::new("volume")
+            .on_change(move |value, _, _| record.borrow_mut().push(value))
+            .into_any_element()
     });
     let width = f32::from(cx.window_bounds_width());
-    cx.simulate_mouse_down(point(px(width / 2.0), px(14.)), gpui::MouseButton::Left, Modifiers::default());
+    cx.simulate_mouse_down(
+        point(px(width / 2.0), px(14.)),
+        gpui::MouseButton::Left,
+        Modifiers::default(),
+    );
     cx.run_until_parked();
     let value = *seen.borrow().last().expect("the click set a value");
     assert!((value - 50.0).abs() <= 1.0, "{value}");
@@ -198,7 +234,11 @@ impl Render for FieldHarness {
 fn open_field<'a>(
     cx: &'a mut TestAppContext,
     start: &'static str,
-) -> (Entity<TextField>, Rc<RefCell<Vec<TextFieldEvent>>>, &'a mut VisualTestContext) {
+) -> (
+    Entity<TextField>,
+    Rc<RefCell<Vec<TextFieldEvent>>>,
+    &'a mut VisualTestContext,
+) {
     cx.update(fluidither::init);
     let events = log::<TextFieldEvent>();
     let (field, cx) = cx.add_window_view(|_, cx| {
@@ -209,7 +249,10 @@ fn open_field<'a>(
     let record = events.clone();
     cx.update(|window, cx| {
         window.activate_window();
-        cx.subscribe(&field, move |_, event, _| record.borrow_mut().push(event.clone())).detach();
+        cx.subscribe(&field, move |_, event, _| {
+            record.borrow_mut().push(event.clone())
+        })
+        .detach();
         let handle = field.read(cx).focus_handle(cx);
         window.focus(&handle);
     });
@@ -228,7 +271,10 @@ fn typing_inserts_at_the_caret(cx: &mut TestAppContext) {
     cx.simulate_keystrokes("left");
     cx.simulate_input("l");
     assert_eq!(text(&field, cx), "hello");
-    assert_eq!(events.borrow().last(), Some(&TextFieldEvent::Changed("hello".into())));
+    assert_eq!(
+        events.borrow().last(),
+        Some(&TextFieldEvent::Changed("hello".into()))
+    );
 }
 
 #[gpui::test]
@@ -291,7 +337,10 @@ fn select_all_copy_cut_and_paste_use_the_clipboard(cx: &mut TestAppContext) {
 fn enter_submits(cx: &mut TestAppContext) {
     let (_, events, cx) = open_field(cx, "done");
     cx.simulate_keystrokes("enter");
-    assert_eq!(events.borrow().last(), Some(&TextFieldEvent::Submitted("done".into())));
+    assert_eq!(
+        events.borrow().last(),
+        Some(&TextFieldEvent::Submitted("done".into()))
+    );
 }
 
 #[gpui::test]

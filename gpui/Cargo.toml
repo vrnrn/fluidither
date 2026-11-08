@@ -12,9 +12,18 @@ keywords = ["gpui", "ui", "components", "dither", "spring"]
 categories = ["gui"]
 include = ["src/**", "Cargo.toml", "README.md", "LICENSE"]
 
+[features]
+default = ["zed"]
+# Builds against crates.io gpui. Shaders compile at app start, so building
+# needs no Metal toolchain.
+zed = ["dep:gpui"]
+# Builds against the gpui-pre API instead, for apps that carry their own GPUI
+# (such as a patched fork). Turn off default features when choosing it.
+pre = ["dep:gpui_pre"]
+
 [dependencies]
-# Shaders compile at app start, so building needs no Metal toolchain.
-gpui = { version = "=0.2.2", features = ["runtime_shaders"] }
+gpui = { version = "=0.2.2", features = ["runtime_shaders"], optional = true }
+gpui_pre = { package = "gpui-pre", version = "=0.3.9", default-features = false, optional = true }
 image = "0.25"
 unicode-segmentation = "1"
 

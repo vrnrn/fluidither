@@ -1,12 +1,21 @@
 //! Dithered, spring-driven components for GPUI. See the repository README for
 //! what is covered so far and what is not.
 
+#[cfg(all(feature = "zed", feature = "pre"))]
+compile_error!("choose one GPUI: the default `zed` feature, or `pre` with default features off");
+#[cfg(not(any(feature = "zed", feature = "pre")))]
+compile_error!("choose a GPUI: the default `zed` feature, or `pre`");
+// Every module names `gpui`, whichever crate provides it.
+#[cfg(feature = "pre")]
+extern crate gpui_pre as gpui;
+
 pub mod accordion;
 pub mod button;
 pub mod calendar;
 pub mod chart;
 pub mod charts;
 pub mod choice;
+pub mod compat;
 pub mod combobox;
 pub mod dates;
 pub mod dialog;
@@ -78,6 +87,12 @@ actions!(fluidither, [FocusNext, FocusPrevious]);
 
 const MOST_TAB_STOPS: usize = 256;
 
+/// Loads the bundled Obel Mono faces and nothing else, for apps that own their
+/// theme and focus handling and use fluidither's pieces inside their own.
+pub fn load_fonts(cx: &mut App) {
+    typography::init(cx);
+}
+
 /// Call once at startup: loads Obel Mono, sets the theme and makes Tab move focus.
 pub fn init(cx: &mut App) {
     typography::init(cx);
@@ -104,9 +119,9 @@ fn move_focus(cx: &mut App, forwards: bool) {
                 // behind an open dialog.
                 for _ in 0..MOST_TAB_STOPS {
                     if forwards {
-                        window.focus_next();
+                        window.focus_next(#[cfg(feature = "pre")] cx);
                     } else {
-                        window.focus_prev();
+                        window.focus_prev(#[cfg(feature = "pre")] cx);
                     }
                     if modal.as_ref().is_none_or(|modal| modal.contains_focused(window, cx)) {
                         break;

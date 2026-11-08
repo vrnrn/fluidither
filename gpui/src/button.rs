@@ -9,7 +9,7 @@ use crate::spring::{Spring, LONGEST_STEP};
 use crate::theme::{cap_offset, fade, mix, Density, Theme};
 use gpui::{
     div, prelude::*, px, App, ClickEvent, Context, ElementId, FocusHandle, FontWeight, IntoElement,
-    KeyDownEvent, MouseButton, RenderOnce, Rgba, SharedString, Task, Timer, Window,
+    KeyDownEvent, MouseButton, RenderOnce, Rgba, SharedString, Task, Window,
 };
 use std::rc::Rc;
 use std::time::{Duration, Instant};
@@ -114,7 +114,7 @@ impl ButtonState {
         } else if self.counter.is_none() {
             self.counter = Some(cx.spawn(async move |this, cx| {
                 loop {
-                    Timer::after(COUNT_STEP).await;
+                    cx.background_executor().timer(COUNT_STEP).await;
                     let stepped = this.update(cx, |this, cx| {
                         this.count = this.count % 3 + 1;
                         cx.notify();
@@ -253,6 +253,8 @@ impl RenderOnce for Button {
             .when(active, |this| this.cursor_pointer())
             .when(show_ring, |this| {
                 this.shadow(vec![gpui::BoxShadow {
+                    #[cfg(feature = "pre")]
+                    inset: false,
                     color: gpui::Hsla::from(colors.focus),
                     offset: gpui::point(px(0.), px(0.)),
                     blur_radius: px(0.),

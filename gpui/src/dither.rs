@@ -153,6 +153,27 @@ const SHIMMER_SECONDS: f64 = 1.6;
 const SHIMMER_SPREAD: f64 = 0.45;
 const SHIMMER_VEIL: f64 = 0.42;
 
+/// How lit a glyph at `x` (0 to 1 across the line) is at time `t`: 1 at the
+/// shimmer's centre, falling to 0 at its spread. The same sweep as
+/// `fill_shimmer`, without a veil.
+pub fn shimmer_sweep(x: f64, t: f64) -> f64 {
+    let turn = t / SHIMMER_SECONDS;
+    let center = (turn - turn.floor()) * (1.0 + 2.0 * SHIMMER_SPREAD) - SHIMMER_SPREAD;
+    1.0 - ((x - center).abs() / SHIMMER_SPREAD).min(1.0)
+}
+
+/// A paperless shimmer for text over any background, translucent included:
+/// whether the glyph at `x`, the `index`th on its line, is lit at time `t`.
+/// The band's core lights every glyph, its edges light glyphs in Bayer
+/// order so the edge prints as a dither, and outside it glyphs rest unlit.
+/// Callers paint lit glyphs in full ink and the rest in soft ink. Unlike
+/// `Shimmer`, it needs no paper colour and paints no cells.
+pub fn shimmer_lit(x: f64, index: usize, t: f64) -> bool {
+    const ORDER: [u8; 16] = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+    let threshold = (f64::from(ORDER[index % 16]) + 0.5) / 16.0;
+    shimmer_sweep(x, t) > threshold
+}
+
 /// Fill `tones` with the veil for shimmering text at time `t`: thick everywhere but a clear
 /// band that sweeps across. `web/src/core/dither.js` is the same.
 pub fn fill_shimmer(tones: &mut [f64], width: usize, height: usize, t: f64) {

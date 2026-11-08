@@ -2,12 +2,14 @@
 
 use fluidither::charts::{chart_cells, ChartKind};
 use fluidither::dates::{month_grid, Date};
-use fluidither::text_effects::scrambled;
-use fluidither::world::{fill_globe, fill_map};
+use fluidither::dither::{
+    dither_tones, fill_gradient, fill_shimmer, fill_sparkline, grain, Gradient, Matrix, Shape,
+};
 use fluidither::fields::{fill_field, wave, Field};
-use fluidither::dither::{dither_tones, fill_gradient, fill_shimmer, fill_sparkline, grain, Gradient, Matrix, Shape};
 use fluidither::generated::{SpringConfig, GLIDE, GLIDE_OUT, QUICK, QUICK_OUT, SETTLE, SETTLE_OUT};
 use fluidither::spring::{step_spring, Spring};
+use fluidither::text_effects::scrambled;
+use fluidither::world::{fill_globe, fill_map};
 use serde_json::Value;
 
 fn fixture(name: &str) -> Value {
@@ -30,9 +32,17 @@ fn gradient(value: &Value) -> Gradient {
     let center = (number("centerX"), number("centerY"));
     Gradient {
         shape: match value["mode"].as_u64().unwrap() {
-            0 => Shape::Linear { angle: number("angle") },
-            1 => Shape::Radial { center, radius: number("radius") },
-            _ => Shape::Conic { center, angle: number("angle") },
+            0 => Shape::Linear {
+                angle: number("angle"),
+            },
+            1 => Shape::Radial {
+                center,
+                radius: number("radius"),
+            },
+            _ => Shape::Conic {
+                center,
+                angle: number("angle"),
+            },
         },
         from: number("from"),
         to: number("to"),
@@ -86,11 +96,29 @@ fn sparkline_cells_match_javascript_exactly() {
     let case = &fixture["sparkline"];
     let width = case["width"].as_u64().unwrap() as usize;
     let height = case["height"].as_u64().unwrap() as usize;
-    let values: Vec<f64> = case["values"].as_array().unwrap().iter().map(|value| value.as_f64().unwrap()).collect();
+    let values: Vec<f64> = case["values"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|value| value.as_f64().unwrap())
+        .collect();
     let mut tones = vec![0.0; width * height];
     let mut cells = vec![0u32; width * height];
-    fill_sparkline(&mut tones, width, height, &values, case["fade"].as_f64().unwrap());
-    dither_tones(&tones, width, height, matrix(case["matrix"].as_str().unwrap()).map(), &[0, 1], &mut cells);
+    fill_sparkline(
+        &mut tones,
+        width,
+        height,
+        &values,
+        case["fade"].as_f64().unwrap(),
+    );
+    dither_tones(
+        &tones,
+        width,
+        height,
+        matrix(case["matrix"].as_str().unwrap()).map(),
+        &[0, 1],
+        &mut cells,
+    );
     assert_eq!(hash_cells(&cells), case["hash"].as_u64().unwrap());
 }
 
@@ -100,7 +128,11 @@ fn noise_matches_javascript_to_the_bit() {
     for sample in fixture["noise"].as_array().unwrap() {
         let x = sample["x"].as_f64().unwrap();
         let y = sample["y"].as_f64().unwrap();
-        assert_eq!(grain(x, y), sample["value"].as_f64().unwrap(), "grain({x}, {y})");
+        assert_eq!(
+            grain(x, y),
+            sample["value"].as_f64().unwrap(),
+            "grain({x}, {y})"
+        );
     }
 }
 
@@ -112,8 +144,20 @@ fn shimmer_makes_the_same_cells_as_javascript() {
         let mut tones = vec![0.0; width * height];
         let mut cells = vec![0u32; width * height];
         fill_shimmer(&mut tones, width, height, case["t"].as_f64().unwrap());
-        dither_tones(&tones, width, height, Matrix::Bayer4.map(), &[0u32, 1], &mut cells);
-        assert_eq!(hash_cells(&cells), case["hash"].as_u64().unwrap(), "shimmer at {}", case["t"]);
+        dither_tones(
+            &tones,
+            width,
+            height,
+            Matrix::Bayer4.map(),
+            &[0u32, 1],
+            &mut cells,
+        );
+        assert_eq!(
+            hash_cells(&cells),
+            case["hash"].as_u64().unwrap(),
+            "shimmer at {}",
+            case["t"]
+        );
     }
 }
 
@@ -140,8 +184,14 @@ fn springs_trace_the_same_curve_as_javascript() {
             let target = if frame < 6 { 100.0 } else { -40.0 };
             (position, velocity) = step_spring(&config, position, velocity, target, 1.0 / 120.0);
             let expected = (point[0].as_f64().unwrap(), point[1].as_f64().unwrap());
-            assert!((position - expected.0).abs() < 1e-9, "{name} frame {frame} position");
-            assert!((velocity - expected.1).abs() < 1e-7, "{name} frame {frame} velocity");
+            assert!(
+                (position - expected.0).abs() < 1e-9,
+                "{name} frame {frame} position"
+            );
+            assert!(
+                (velocity - expected.1).abs() < 1e-7,
+                "{name} frame {frame} velocity"
+            );
         }
         let mut whole = Spring::new(config, 0.0);
         whole.target = 1.0;
@@ -149,7 +199,11 @@ fn springs_trace_the_same_curve_as_javascript() {
         while !whole.step(1.0 / 60.0) && frames < 600 {
             frames += 1;
         }
-        assert_eq!(frames, entry["framesToSettle"].as_u64().unwrap(), "{name} settle");
+        assert_eq!(
+            frames,
+            entry["framesToSettle"].as_u64().unwrap(),
+            "{name} settle"
+        );
     }
 }
 
@@ -197,16 +251,33 @@ fn every_field_matches_javascript_exactly() {
     assert!(!cases.is_empty());
     for case in cases {
         let name = case["kind"].as_str().unwrap();
-        let (width, height) = (case["width"].as_u64().unwrap() as usize, case["height"].as_u64().unwrap() as usize);
+        let (width, height) = (
+            case["width"].as_u64().unwrap() as usize,
+            case["height"].as_u64().unwrap() as usize,
+        );
         let t = case["t"].as_f64().unwrap();
         let mut tones = vec![0.0; width * height];
         let mut cells = vec![0u32; width * height];
         fill_field(&mut tones, width, height, field(name), t);
-        dither_tones(&tones, width, height, Matrix::Bayer4.map(), &[0, 1], &mut cells);
-        assert_eq!(hash_cells(&cells), case["hash"].as_u64().unwrap(), "{name} at {t}");
+        dither_tones(
+            &tones,
+            width,
+            height,
+            Matrix::Bayer4.map(),
+            &[0, 1],
+            &mut cells,
+        );
+        assert_eq!(
+            hash_cells(&cells),
+            case["hash"].as_u64().unwrap(),
+            "{name} at {t}"
+        );
     }
     for sample in fixture["waves"].as_array().unwrap() {
-        assert_eq!(wave(sample["t"].as_f64().unwrap()), sample["value"].as_f64().unwrap());
+        assert_eq!(
+            wave(sample["t"].as_f64().unwrap()),
+            sample["value"].as_f64().unwrap()
+        );
     }
 }
 
@@ -229,14 +300,33 @@ fn every_chart_matches_javascript_exactly() {
             .as_array()
             .unwrap()
             .iter()
-            .map(|list| list.as_array().unwrap().iter().map(|value| value.as_f64().unwrap()).collect())
+            .map(|list| {
+                list.as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|value| value.as_f64().unwrap())
+                    .collect()
+            })
             .collect();
-        let (width, height) = (case["width"].as_u64().unwrap() as usize, case["height"].as_u64().unwrap() as usize);
+        let (width, height) = (
+            case["width"].as_u64().unwrap() as usize,
+            case["height"].as_u64().unwrap() as usize,
+        );
         let mut cells = vec![0u8; width * height];
-        chart_cells(kind, &series, width, height, Matrix::Bayer4.map(), &mut cells);
+        chart_cells(
+            kind,
+            &series,
+            width,
+            height,
+            Matrix::Bayer4.map(),
+            &mut cells,
+        );
         let words: Vec<u32> = cells.iter().map(|cell| u32::from(*cell)).collect();
         assert_eq!(hash_cells(&words), case["hash"].as_u64().unwrap(), "{name}");
-        assert!(case["inked"].as_u64().unwrap() > 0, "{name} draws something");
+        assert!(
+            case["inked"].as_u64().unwrap() > 0,
+            "{name} draws something"
+        );
     }
 }
 
@@ -244,7 +334,11 @@ fn every_chart_matches_javascript_exactly() {
 fn scrambles_match_javascript_exactly() {
     let fixture = fixture("fields.json");
     for case in fixture["scramble"].as_array().unwrap() {
-        let shown = scrambled("Hello there, world", case["progress"].as_f64().unwrap(), case["seed"].as_u64().unwrap() as u32);
+        let shown = scrambled(
+            "Hello there, world",
+            case["progress"].as_f64().unwrap(),
+            case["seed"].as_u64().unwrap() as u32,
+        );
         assert_eq!(shown, case["text"].as_str().unwrap());
     }
 }
@@ -264,12 +358,24 @@ fn dates_match_javascript_exactly() {
         assert_eq!(Date::from_days(date.to_days()), date);
     }
     for case in fixture["months"].as_array().unwrap() {
-        let grid: Vec<String> = month_grid(case["year"].as_i64().unwrap() as i32, case["month"].as_u64().unwrap() as u32).iter().map(|date| date.iso()).collect();
-        let expected: Vec<&str> = case["grid"].as_array().unwrap().iter().map(|day| day.as_str().unwrap()).collect();
+        let grid: Vec<String> = month_grid(
+            case["year"].as_i64().unwrap() as i32,
+            case["month"].as_u64().unwrap() as u32,
+        )
+        .iter()
+        .map(|date| date.iso())
+        .collect();
+        let expected: Vec<&str> = case["grid"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|day| day.as_str().unwrap())
+            .collect();
         assert_eq!(grid, expected);
     }
     for case in fixture["shifts"].as_array().unwrap() {
-        let moved = parse(case["from"].as_str().unwrap()).plus_months(case["count"].as_i64().unwrap() as i32);
+        let moved = parse(case["from"].as_str().unwrap())
+            .plus_months(case["count"].as_i64().unwrap() as i32);
         assert_eq!(moved.iso(), case["to"].as_str().unwrap());
     }
 }
@@ -280,7 +386,10 @@ fn the_map_and_globe_match_javascript_exactly() {
     for case in fixture["world"].as_array().unwrap() {
         let name = case["kind"].as_str().unwrap();
         let turn = case["turn"].as_f64().unwrap();
-        let (width, height) = (case["width"].as_u64().unwrap() as usize, case["height"].as_u64().unwrap() as usize);
+        let (width, height) = (
+            case["width"].as_u64().unwrap() as usize,
+            case["height"].as_u64().unwrap() as usize,
+        );
         let mut tones = vec![0.0; width * height];
         let mut cells = vec![0u32; width * height];
         if name == "map" {
@@ -288,7 +397,18 @@ fn the_map_and_globe_match_javascript_exactly() {
         } else {
             fill_globe(&mut tones, width, height, turn);
         }
-        dither_tones(&tones, width, height, Matrix::Bayer4.map(), &[0, 1], &mut cells);
-        assert_eq!(hash_cells(&cells), case["hash"].as_u64().unwrap(), "{name} at {turn}");
+        dither_tones(
+            &tones,
+            width,
+            height,
+            Matrix::Bayer4.map(),
+            &[0, 1],
+            &mut cells,
+        );
+        assert_eq!(
+            hash_cells(&cells),
+            case["hash"].as_u64().unwrap(),
+            "{name} at {turn}"
+        );
     }
 }

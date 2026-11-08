@@ -16,7 +16,7 @@ use crate::theme::Theme;
 use gpui::{
     canvas, div, fill, point, prelude::*, px, size, App, Background, Bounds, ContentMask, Corners,
     ElementId, Entity, Global, Hsla, IntoElement, Pixels, RenderImage, RenderOnce, Rgba,
-    StyleRefinement, Styled, Timer, WeakEntity, Window,
+    StyleRefinement, Styled, WeakEntity, Window,
 };
 use image::{Frame, RgbaImage};
 use std::cell::RefCell;
@@ -207,7 +207,7 @@ fn tick_with_clock(state: &Entity<GradientState>, fps: f32, cx: &mut App) {
     clock.running = true;
     let interval = Duration::from_secs_f32(1.0 / fps);
     cx.spawn(async move |cx| loop {
-        Timer::after(interval).await;
+        cx.background_executor().timer(interval).await;
         let keep_going = cx
             .update(|cx| {
                 let watching = std::mem::take(&mut cx.global_mut::<DitherClock>().watching);
@@ -219,8 +219,8 @@ fn tick_with_clock(state: &Entity<GradientState>, fps: f32, cx: &mut App) {
                 clock.running = !alive.is_empty();
                 clock.watching = alive;
                 clock.running
-            })
-            .unwrap_or(false);
+            });
+        let keep_going = crate::compat::settled(keep_going, false);
         if !keep_going {
             break;
         }
@@ -388,9 +388,7 @@ impl RenderOnce for DitherGradient {
                     if let Some(image) = image {
                         let size_in_pixels = image.size(0).map(|side| px(side.0 as f32 / window.scale_factor()));
                         let image_bounds = Bounds::new(origin, size_in_pixels);
-                        window
-                            .paint_image(image_bounds, Corners::all(px(radius)), image, 0, false)
-                            .ok();
+                        crate::compat::paint_image(window, image_bounds, Corners::all(px(radius)), image).ok();
                     }
                     // Dropped after the replacement is in, or the atlas keeps every frame.
                     for image in retired {
